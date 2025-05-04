@@ -1,0 +1,319 @@
+# Javascript 컨벤션
+
+> https://github.com/airbnb/javascript?tab=readme-ov-file 참고
+
+## 소스파일 기본 
+- 소스파일의 이름은 알파벳 소문자, 하이픈( - ), 밑줄( _ ) 으로만 작성한다.
+- 소스파일의 확장자명은 .js/ts 으로 작성한다.
+- 소스파일의 인코딩은 UTF-8 으로 작성한다.
+- 탭을 이용한 들여쓰기는 하지 않는다.
+
+## 형식
+
+### 중괄호
+- 중괄호는 하나의 구문만을 포함하고 있더라도 모든 제어문(i.e. if, else, for, do, while..)에 사용되어야 한다.
+
+```javascript
+// bad
+if (someVeryLongCondition())
+  doSomething();
+
+// No
+for (let i = 0; i < foo.length; i++) bar(foo[i]);
+
+// Yes
+if (shortCondition()) {
+    foo();
+} 
+```
+- 중괄호의 사용은 Kernighan and Ritchie Style에 따른다.
+    - 여는 중괄호 전에는 줄을 바꾸지 않는다.
+    - 여는 중괄호 이후에 줄을 바꾼다.
+    - 닫는 중괄호 전에 줄을 바꾼다.
+    - 닫는 중괄호 이후에 줄을 바꾼다. 단, 닫는 중괄호 다음에 else, catch, while, 점, 세미콜론, 닫는 소괄호가 따라올 경우에는 줄을 바꾸지 않는다.
+```javascript
+class InnerClass {
+  constructor() {}
+
+  /** @param {number} foo */
+  method(foo) {
+    if (condition(foo)) {
+      try {
+        something();
+      } catch (err) {
+        recover();
+      }
+    }
+  }
+}
+```
+### 들여쓰기
+
+- 새로운 블록이 나타날 때 마다 두 칸의 공백(스페이스바)를 통해 들여쓴다.
+- 배열, 객체는 블록과 동일하게 들여쓴다.
+- 클래스
+    - 클래스 리터럴은 블록과 동일하게 들여쓴다.
+    - 클래스의 각 메소드와 닫는 중괄호 다음에는 세미콜론을 사용하지 않는다.
+    - 클래스의 상속 키워드로 @extends가 아닌 extends를 사용한다.
+- 함수 표현식을 작성할 대에는 함수를 이전 레벨보다 2칸 들여써 작성한다.
+- 점( . )을 이용하여 긴 메소드 체인을 작성할 때는 각 메소드마다 들여쓴다.
+```javascript
+// bad
+$('#items').find('.selected').highlight().end().find('.open').updateCount();
+
+// bad
+$('#items').
+  find('.selected').
+    highlight().
+    end().
+  find('.open').
+    updateCount();
+
+// good
+$('#items')
+  .find('.selected')
+    .highlight()
+    .end()
+  .find('.open')
+    .updateCount();
+
+// bad
+const leds = stage.selectAll('.led').data(data).enter().append('svg:svg').classed('led', true)
+    .attr('width', (radius + margin) * 2).append('svg:g')
+    .attr('transform', `translate(${radius + margin},${radius + margin})`)
+    .call(tron.led);
+
+// good
+const leds = stage.selectAll('.led')
+    .data(data)
+  .enter().append('svg:svg')
+    .classed('led', true)
+    .attr('width', (radius + margin) * 2)
+  .append('svg:g')
+    .attr('transform', `translate(${radius + margin},${radius + margin})`)
+    .call(tron.led);
+
+// good
+const leds = stage.selectAll('.led').data(data);
+```
+
+### 공백
+- 한 줄이 80자를 넘기지 않도록 한다.
+- 줄 공백 (Vertical Whitespace)
+    - 줄 공백은 아래의 사항에서 나타날 수 있다.
+        - 각 구문 사이
+        - 클래스나 객체 리터럴 내의 연속적으로 작성된 메소드 사이
+        - 오브젝트 리터럴 내의 연속적으로 작성된 속성 사이에서는 선택적으로 빈 줄을 사용할 수 있다. 이는, 논리적 그룹을 만드는데 사용된다.
+        - 클래스나 객체 리터럴 내의 첫 메소드 전이나 마지막 메소드 다음에 빈 줄을 선택적으로 사용할 수 있다.
+- 줄 공백으로 2줄 이상 연속으로 사용하지 않는다.
+
+```javascript
+// bad
+if (foo) {
+  return bar;
+}
+return baz;
+
+// good
+if (foo) {
+  return bar;
+}
+
+return baz;
+
+// bad
+const obj = {
+  foo() {
+  },
+  bar() {
+  },
+};
+return obj;
+
+// good
+const obj = {
+  foo() {
+  },
+
+  bar() {
+  },
+};
+
+return obj;
+
+// bad
+const arr = [
+  function foo() {
+  },
+  function bar() {
+  },
+];
+return arr;
+
+// good
+const arr = [
+  function foo() {
+  },
+
+  function bar() {
+  },
+];
+
+return arr;
+```
+
+## 변수
+- 한 줄에 하나의 변수를 선언한다
+```javascript
+// bad
+let a = 1, b = 3;
+
+// good
+let a = 1;
+let b = 2;
+```
+- 지역 변수는 그 변수를 포함하는 블록 시작에서 선언하지 않고, 사용 범위를 최소화하기 위해 사용되는 지점과 가장 가까운 곳에서 선언한다.
+- 변수의 선언은 const를 사용한다. mutable한 경우만 let을 사용하고 var는 사용하지 않는다
+
+## 배열
+- 배열을 선언할 때는 Array 생성자가 아닌 리터럴 구문을 사용한다.
+- 배열에 값을 넣을 때는 Array.push를 사용한다.
+- 배열을 복사할 때는 배열의 spread 연산자를 사용한다.
+
+## 객체
+- 오브젝트를 선언할 때는 Object 생성자가 아닌 리터럴 구문을 사용한다.
+- 예약어를 키로 사용하지 않는다. 대신, 동의어를 사용한다.
+
+## 클래스
+- 상속의 사용은 최대한 피하며, 반드시 필요한 경우에만 사용한다
+- prototype을 조작하지 않고 class를 사용한다
+```javascript
+// bad
+function Queue(contents = []) {
+  this._queue = [...contents];
+}
+Queue.prototype.pop = function() {
+  const value = this._queue[0];
+  this._queue.splice(0, 1);
+  return value;
+}
+
+// good
+class Queue {
+  constructor(contents = []) {
+    this._queue = [...contents];
+  }
+  pop() {
+    const value = this._queue[0];
+    this._queue.splice(0, 1);
+    return value;
+  }
+}
+```
+
+## 화살표 함수
+- 함수 바디가 하나의 식으로 구성된 경우, 중괄호와 return문을 생략할 수 있다.
+중괄호를 생략하지 않을 경우, return문을 포함시켜야 한다.
+```javascript
+// good
+[1, 2, 3].map(number => `A string containing the ${number}.`);
+
+// bad
+[1, 2, 3].map(number => {
+  const nextNumber = number + 1;
+  `A string containing the ${nextNumber}.`;
+});
+
+// good
+[1, 2, 3].map(number => {
+  const nextNumber = number + 1;
+  return `A string containing the ${nextNumber}.`;
+});
+```
+- 식이 여러 줄에 걸쳐있을 경우에 가독성을 위해 소괄호로 감싸 사용한다.
+    - 함수의 인수가 하나인 경우 소괄호를 생략할 수 있다.
+```javascript
+// bad
+[1, 2, 3].map(number => 'As time went by, the string containing the ' +
+  `${number} became much longer. So we needed to break it over multiple ` +
+  'lines.'
+);
+
+// good
+[1, 2, 3].map(number => (
+  `As time went by, the string containing the ${number} became much ` +
+  'longer. So we needed to break it over multiple lines.'
+));
+
+// good
+[1, 2, 3].map(x => x * x);
+
+// good
+[1, 2, 3].reduce((y, x) => x + y);
+```
+
+## 문자열
+- 문자열을 선언할 때는 작은 따옴표( ' )를 사용한다.
+문자열 내에 작은 따옴표가 포함될 경우 템플릿 리터럴( ` ` )을 사용한다.
+- 동적으로 문자열을 생성할 경우에는 문자열 연결이 아닌 템플릿 리터럴을 사용한다.
+- 80글자 이상의 긴 문자열을 여러 줄에 걸쳐 쓰기 위해서는 템플릿 리터럴을 사용한다
+- eval()은 금지한다
+
+## 제어문
+- 일반적인 for문 보다는 for-of를 사용한다.
+하지만, 가능하다면 map(), reduce()와 같은 고급 함수를 사용한다
+- 스위치문의 다음 case 구문이 실행되어야 한다면 주석으로 이를 남긴다. default문은 항상 마지막에 위치한다
+- this키워드는 클래스 생성자와 메소드, 혹은 그 안에서 선언된 화살표 함수 내에서만 사용한다.
+
+## 네이밍
+- 단일 글자로 이름을 짓지 않고 이름을 통해 쓰임새를 알 수 있도록 한다.
+- 이름의 맨 앞이나 맨 뒤쪽에 밑줄( _ )을 이용해 private를 표현한다
+- 가독성을 위해 약어는 모두 대문자 혹은 모두 소문자로 표기한다.
+- export되는 파일 내의 모든 상수는 모두 대문자로 표기한다.
+
+## 파일 및 패키지 
+- 파일의 이름은 소문자로 표기한다.
+- 파일의 이름은 default export의 이름과 일치해야한다.
+```javascript
+// file 1 contents
+class CheckBox {
+  // ...
+}
+export default CheckBox;
+
+// file 2 contents
+export default function fortyTwo() { return 42; }
+
+// file 3 contents
+export default function insideDirectory() {}
+
+// in some other file
+// bad
+import CheckBox from './checkBox'; // PascalCase import/export, camelCase filename
+import FortyTwo from './FortyTwo'; // PascalCase import/filename, camelCase export
+import InsideDirectory from './InsideDirectory'; // PascalCase import/filename, camelCase export
+
+// bad
+import CheckBox from './check_box'; // PascalCase import/export, snake_case filename
+import forty_two from './forty_two'; // snake_case import/filename, camelCase export
+import inside_directory from './inside_directory'; // snake_case import, camelCase export
+import index from './inside_directory/index'; // requiring the index file explicitly
+import insideDirectory from './insideDirectory/index'; // requiring the index file explicitly
+
+// good
+import CheckBox from './CheckBox'; // PascalCase export/import/filename
+import fortyTwo from './fortyTwo'; // camelCase export/import/filename
+import insideDirectory from './insideDirectory'; // camelCase export/import/directory name/implicit "index"
+// ^ supports both insideDirectory.js and insideDirectory/index.js
+```
+
+## 변수
+
+- 변수의 이름은 lowerCamelCase로 표기한다. 단, export되는 파일 내의 상수는 예외.
+- 변수의 이름은 알파벳으로 시작해야한다
+
+## 클래스 
+- 클래스나 생성자의 이름은 PascalCase로 표기한다.
+- 클래스의 이름은 명사 또는 명사구문으로 표기한다.
+- 인터페이스의 경우 명사 대신 형용사 또는 형용사구문으로 표기할 수 있다.
+- 클래스를 export할 때는 PascalCase로 표기한다.
