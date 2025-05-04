@@ -1,11 +1,18 @@
 import http from 'http';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { DocumentNode } from 'graphql';
 import depthLimit from 'graphql-depth-limit';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import {
+    ApolloServerPluginLandingPageLocalDefault,
+    ApolloServerPluginLandingPageProductionDefault,
+} from '@apollo/server/plugin/landingPage/default';
+import { expressMiddleware } from '@apollo/server/express4';
 import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // const typeDefs = mergeTypeDefs([
 //   queries,
@@ -33,16 +40,18 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
 
   const app = express();
   const httpServer = http.createServer(app);
+  // docker env 주입
+  const projectType = process.env.NODE_ENV;
 
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
-    // csrf 보호
     csrfPrevention: true,
-    // 캐시 최대 크기 제한
-    cache: 'bounded',
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
+      projectType === 'production' 
+        ? ApolloServerPluginLandingPageProductionDefault()
+        : ApolloServerPluginLandingPageLocalDefault({ embed: false }),
     ],
     introspection: true,
     formatError: (err) => {
@@ -54,10 +63,19 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
 
   await apolloServer.start();
 
+  app.get('/', (req: Request, res: Response) => {
+    res.send('Welcome GraphQL, Use /graphql endpoint.');
+  });
+
   app.use(
     '/graphql',
     cors<cors.CorsRequest>(),
     express.json({ limit: '50mb' }),
+    // 안정화 버전을 설치하자..
+    // npm은 무조건 최신 버전 챙기지 말고 충돌 없는 버전으로
+    // npm install express@4.17.3
+    // npm install -D @types/express@4.17.13
+    expressMiddleware(apolloServer)
   )
 
   const port = 4000;
