@@ -9,6 +9,21 @@
 - npx prisma studio
     - 관계도 확인
 
-- 해당 모델 Graphql 예제 만들기
+- 해당 모델 Graphql 로 api 생성
 
 ![model](images/model.webp)
+
+- Query
+    - getMember(name)
+    - getOrder(name, orderStatus)
+    - getOrderItem(order)
+    - getItem(name)
+    - getItem(category)
+    - getCategory()
+    - getDelivery(order)
+- Mutation
+    - setMember(inputMember)
+    - setOrder(inputOrder)
+    - setItem(inputItem)
+    - setCategory(inputCategory)
+    - setOrderStatus(inputOrderStatus)
