@@ -32,9 +32,10 @@
 
 # Todo
 
-1. schema.prirma 엔티티 생성, prisma client 까지 생성
+1. ~~schema.prirma 엔티티 생성, prisma client 까지 생성~~
     - `npx prisma migrate dev` 실행하여 DB 스키마 생성 및 Client 자동 생성
     - `npx prisma studio`를 이용해 모델 간 관계 및 데이터 확인
+    - prisma studio를 이용한 테스트 까지 완료
 2. graphql schema 생성
     - 각 모델에 대한 type, input, Query, Mutation 작성
 3. resolvers 개발
