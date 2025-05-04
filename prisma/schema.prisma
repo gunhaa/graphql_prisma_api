@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -14,7 +8,57 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id Int @default(autoincrement()) @id
-  user_name String
+model Member {
+  id         Int  @default(autoincrement())  @id  @map("member_id")
+  email      String  @unique
+  name       String?
+  password   String
+  address    String?
+  orders     Order[]
+  createdAt  DateTime  @default(now()) @map("created_at")
+}
+
+model Order {
+  id             Int  @id  @default(autoincrement())  @map("order_id")
+  orderItems     OrderItem[]  
+  buyerId        Int  @map("buyer_id")  
+  buyer          Member  @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  delivery       Delivery?  @relation
+  createdAt      DateTime  @default(now()) @map("created_at")
+}
+
+model Delivery {
+  id            Int  @id  @default(autoincrement())  @map("delivery_id")
+  orderId       Int  @map("order_id")  @unique
+  order         Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  address       String
+  deiveryStatus DeliveryStatus
+  createdAt     DateTime  @default(now()) @map("created_at")
+}
+
+model OrderItem {
+  id          Int  @id  @default(autoincrement())  @map("order_item_id")
+  orderId     Int  @map("order_id")
+  order       Order  @relation(fields: [orderId], references: [id])
+  itemId      Int  @map("item_id")
+  item        Item  @relation(fields: [itemId], references: [id])
+  orderPrice  Int
+  count       Int
+  createdAt   DateTime  @default(now()) @map("created_at")
+}
+
+model Item {
+  id             Int  @id  @default(autoincrement())  @map("item_id")
+  orderItems     OrderItem[]
+  name           String
+  price          Int
+  stockQuantity  Int  @default(100)
+  categories     String
+  createdAt      DateTime  @default(now()) @map("created_at")
+}
+
+enum DeliveryStatus {
+  PENDING
+  SHIPPED
+  CANCELLED
 }
