@@ -1,16 +1,11 @@
-
-
-
-import { ApolloServer } from 'apollo-server-express';
-import {
-  ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageLocalDefault,
-} from 'apollo-server-core';
 import http from 'http';
 import express from 'express';
 import { DocumentNode } from 'graphql';
 import depthLimit from 'graphql-depth-limit';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
+import { ApolloServer } from '@apollo/server';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import cors from 'cors';
 
 // const typeDefs = mergeTypeDefs([
 //   queries,
@@ -34,8 +29,8 @@ import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 // ]);
 
 
-
 const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
+
   const app = express();
   const httpServer = http.createServer(app);
 
@@ -48,7 +43,6 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     cache: 'bounded',
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
     ],
     introspection: true,
     formatError: (err) => {
@@ -59,11 +53,12 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
   });
 
   await apolloServer.start();
-  apolloServer.applyMiddleware({
-    // 타입 충돌 문제
-    app: app as any,
-    path: '/graphql',
-  });
+
+  app.use(
+    '/graphql',
+    cors<cors.CorsRequest>(),
+    express.json({ limit: '50mb' }),
+  )
 
   const port = 4000;
   app.listen(port, () => {
