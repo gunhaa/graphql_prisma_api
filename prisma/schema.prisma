@@ -52,7 +52,7 @@ model Item {
   name           String
   price          Int
   stockQuantity  Int  @default(100)
-  categories     String
+  category       String
   createdAt      DateTime  @default(now()) @map("created_at")
 }
 

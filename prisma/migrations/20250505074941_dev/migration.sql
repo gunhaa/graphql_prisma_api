@@ -50,7 +50,7 @@ CREATE TABLE `Item` (
     `name` VARCHAR(191) NOT NULL,
     `price` INTEGER NOT NULL,
     `stockQuantity` INTEGER NOT NULL DEFAULT 100,
-    `categories` VARCHAR(191) NOT NULL,
+    `category` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`item_id`)
