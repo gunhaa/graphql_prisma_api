@@ -7,7 +7,7 @@ import {
     MinLength,
 } from "class-validator";
 
-export class CreateMemberDto {
+export class JoinMemberDto {
 
     @IsEmail()
     @IsNotEmpty()

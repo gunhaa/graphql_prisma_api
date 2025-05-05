@@ -1,5 +1,5 @@
 import { Member } from "@prisma/client";
-import { CreateMemberDto } from "../entities/dtos/createMemberDto";
+import { JoinMemberDto } from "../entities/dtos/joinMemberDto";
 import { validateOrReject } from "class-validator";
 import prismaClient from "../../../prisma/prismaClient";
 
@@ -11,24 +11,24 @@ export const memberResolver = {
       Mutation: {
         joinMember: async ( 
           _parent: void, 
-          args: { input: CreateMemberDto }
+          args: { input: JoinMemberDto }
         ): Promise<Member> => {
-          const createMemberDto = new CreateMemberDto(
+          const joinMemberDto = new JoinMemberDto(
             args.input.email,
             args.input.name,
             args.input.password,
             args.input.address
           );
     
-          await validateOrReject(createMemberDto);
+          await validateOrReject(joinMemberDto);
     
           // 멤버 생성 값 반환
           return await prismaClient.member.create({
             data: {
-              email: createMemberDto.email,
-              name: createMemberDto.name,
-              password: createMemberDto.password,
-              address: createMemberDto.address,
+              email: joinMemberDto.email,
+              name: joinMemberDto.name,
+              password: joinMemberDto.password,
+              address: joinMemberDto.address,
               createdAt: new Date(),
             }
           });
