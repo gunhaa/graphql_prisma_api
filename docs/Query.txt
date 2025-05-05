@@ -1,0 +1,13 @@
+query Query {
+  getMembers {
+    id
+    name
+    email
+    address
+    password 
+    orders {
+      id
+    }
+    createdAt
+  }
+}
