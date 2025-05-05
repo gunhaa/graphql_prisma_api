@@ -2,7 +2,6 @@ import http from 'http';
 import express, { Request, Response } from 'express';
 import { DocumentNode } from 'graphql';
 import depthLimit from 'graphql-depth-limit';
-import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import {
@@ -12,28 +11,9 @@ import {
 import { expressMiddleware } from '@apollo/server/express4';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { GraphQLFormattedError } from "graphql";
+
 dotenv.config();
-
-// const typeDefs = mergeTypeDefs([
-//   queries,
-//   mutations,
-//   enums,
-//   equipments.typeDefs,
-//   supplies.typeDefs,
-//   givens.typeDefs,
-//   tools.typeDefs,
-//   softwares.typeDefs,
-//   people.typeDefs,
-// ]);
-
-// const resolvers = mergeResolvers([
-//   equipments.resolvers,
-//   supplies.resolvers,
-//   givens.resolvers,
-//   tools.resolvers,
-//   softwares.resolvers,
-//   people.resolvers,
-// ]);
 
 
 const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
@@ -42,6 +22,11 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
   const httpServer = http.createServer(app);
   // env 주입
   const projectType = process.env.NODE_ENV;
+
+  const graphqlErrorHandling = (err: GraphQLFormattedError) => {
+    console.error(err);
+    return err;
+  };
 
   const apolloServer = new ApolloServer({
     typeDefs,
@@ -54,10 +39,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
         : ApolloServerPluginLandingPageLocalDefault({ embed: false }),
     ],
     introspection: true,
-    formatError: (err) => {
-      console.log(err);
-      return err;
-    },
+    formatError: graphqlErrorHandling,
     validationRules: [depthLimit(7)],
   });
 

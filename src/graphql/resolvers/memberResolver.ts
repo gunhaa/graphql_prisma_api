@@ -5,7 +5,7 @@ import prismaClient from "../../../prisma/prismaClient";
 
 export const memberResolver = {
     Query: {
-        getMembers : (_: void , args: any) => prismaClient.member.findMany()
+        getMembers : async (_: void , args: any) => await prismaClient.member.findMany()
       },
     
       Mutation: {

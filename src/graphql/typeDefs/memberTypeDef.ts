@@ -18,10 +18,10 @@ export const memberTypeDef = gql`
   }
 
   type Mutation {
-    joinMember(input: MemberCreateInput!): Member
+    joinMember(input: MemberJoinInput!): Member
   }
 
-  input MemberCreateInput {
+  input MemberJoinInput {
     email: String!
     name: String
     password: String!
