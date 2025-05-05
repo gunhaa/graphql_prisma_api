@@ -14,6 +14,8 @@
 
 ![model](images/model.webp)
 
+- 초기화 `rm -rf prisma/migrations && npx prisma migrate reset`
+
 - Query
     - getMember(name)
     - getOrder(name, orderStatus)

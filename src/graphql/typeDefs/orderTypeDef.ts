@@ -6,7 +6,7 @@ export const orderTypeDef = gql`
   type Order {
     id: ID!
     buyer: Member
-    orderItem: String!
+    orderItems: [OrderItem]
     delivery: Delivery
     createdAt: DateTime
   }
