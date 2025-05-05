@@ -18,7 +18,7 @@ export const memberTypeDef = gql`
   }
 
   type Mutation {
-    setMember(input: MemberCreateInput!): Member
+    joinMember(input: MemberCreateInput!): Member
   }
 
   input MemberCreateInput {

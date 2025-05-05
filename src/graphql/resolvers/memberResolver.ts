@@ -3,14 +3,13 @@ import { CreateMemberDto } from "../entities/dtos/createMemberDto";
 import { validateOrReject } from "class-validator";
 import prismaClient from "../../../prisma/prismaClient";
 
-
 export const memberResolver = {
     Query: {
         getMembers : (_: void , args: any) => prismaClient.member.findMany()
       },
     
       Mutation: {
-        setMember: async ( 
+        joinMember: async ( 
           _parent: void, 
           args: { input: CreateMemberDto }
         ): Promise<Member> => {
