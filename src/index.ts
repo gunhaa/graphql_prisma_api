@@ -3,32 +3,36 @@ import { gql } from "graphql-tag";
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 
 const typeDefsRaw = gql`
-  type Book {
-    title: String
-    author: String
+
+  scalar DateTime
+
+  type Member {
+    id: ID!
+    email: String!
+    name: String
+    password: String!
+    address: String
+    orders: [Order]
+    createdAt: DateTime
   }
 
+  type Order {
+    id: ID!
+    buyer: Member
+    delivery: String
+    createdAt: DateTime
+  }
+  
   type Query {
-    books: [Book]
+    members: [Member]
   }
 `
 
 const resolversRaw = {
   Query : {
-    books : () => books
+    members : () => 
   }
 }
-
-const books = [
-  {
-    title: 'dooli',
-    author: 'gunha',
-  },
-  {
-    title: 'pig',
-    author: 'insoo',
-  }
-]
 
 const typeDefs = mergeTypeDefs([
   typeDefsRaw,

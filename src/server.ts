@@ -40,7 +40,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
 
   const app = express();
   const httpServer = http.createServer(app);
-  // docker env 주입
+  // env 주입
   const projectType = process.env.NODE_ENV;
 
   const apolloServer = new ApolloServer({
@@ -63,10 +63,6 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
 
   await apolloServer.start();
 
-  app.get('/', (req: Request, res: Response) => {
-    res.send('Welcome GraphQL, Use /graphql endpoint.');
-  });
-
   app.use(
     '/graphql',
     cors<cors.CorsRequest>(),
@@ -77,6 +73,10 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     // npm install -D @types/express@4.17.13
     expressMiddleware(apolloServer)
   )
+
+  app.all('*', (req: Request, res: Response) => {
+    res.send('Welcome GraphQL, Use /graphql endpoint.');
+  });
 
   const port = 4000;
   app.listen(port, () => {
