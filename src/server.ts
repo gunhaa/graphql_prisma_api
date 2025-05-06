@@ -12,6 +12,7 @@ import { expressMiddleware } from '@apollo/server/express4';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { GraphQLFormattedError } from "graphql";
+import { createLoaders } from './graphql/context/context';
 
 dotenv.config();
 
@@ -53,7 +54,11 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     // npm은 무조건 최신 버전 챙기지 말고 충돌 없는 버전으로
     // npm install express@4.17.3
     // npm install -D @types/express@4.17.13
-    expressMiddleware(apolloServer)
+    expressMiddleware(apolloServer, {
+      context: async ({ req }) => ({
+        loaders: createLoaders(),
+      })
+    })
   )
 
   app.all('*', (_: Request, res: Response) => {

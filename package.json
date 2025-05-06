@@ -34,6 +34,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "dataloader": "^2.2.3",
     "dotenv": "^16.5.0",
     "express": "^4.17.3",
     "graphql": "^16.11.0",
