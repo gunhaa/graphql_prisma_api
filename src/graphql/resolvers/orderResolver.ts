@@ -1,7 +1,8 @@
-import { Item, Member, Order } from "@prisma/client";
+import { Order, Delivery } from "@prisma/client";
 import prismaClient from "../../../prisma/prismaClient";
 import { PlaceOrderDto } from "../entities/dtos/placeOrderDto";
 import { GraphQLError } from "graphql";
+import { DeliveryStatusEnum } from "../enums/deliveryStatusEnum";
 
 export const orderResolver = {
   Query: {
@@ -39,7 +40,7 @@ export const orderResolver = {
       // 주문을 만들어내야 이후 동작이 가능하다
       // 하나의 트랜잭션으로 묶어서 동작해야 한다
       const result = await prismaClient.$transaction(async (tx) => {
-        const createOrder = await tx.order.create({
+        const createOrder: Order = await tx.order.create({
           data: {
             buyer: {
               connect: { id: findMember.id },
@@ -48,16 +49,19 @@ export const orderResolver = {
           },
         });
 
-        const createDelivery = await tx.delivery.create({
+        const createDelivery: Delivery = await tx.delivery.create({
           data: {
             order: {
               connect: { id: createOrder.id },
             },
             address: placeOrderDto.address,
-            deiveryStatus: "PENDING",
+            deiveryStatus: DeliveryStatusEnum.PENDING,
             createdAt: new Date(),
           },
         });
+
+
+        // createOrder.
 
         for (const orderItemDto of placeOrderDto.orderItems) {
           if (typeof orderItemDto.count !== "number") {

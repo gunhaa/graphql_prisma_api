@@ -7,10 +7,18 @@ query Query {
     password 
     orders {
       id
+      buyer {
+        name
+      }
+      delivery {
+        address
+      }
+      createdAt
     }
     createdAt
   }
 }
+
 
 query Query {
   getItems {

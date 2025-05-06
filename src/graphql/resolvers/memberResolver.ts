@@ -34,7 +34,6 @@ export const memberResolver = {
         args.input.address
       );
 
-      // 멤버 생성 값 반환
       return await prismaClient.member.create({
         data: {
           email: joinMemberDto.email,
