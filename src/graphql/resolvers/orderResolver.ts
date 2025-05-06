@@ -1,4 +1,4 @@
-import { Member, Order } from "@prisma/client"
+import { Item, Member, Order } from "@prisma/client"
 import prismaClient from "../../../prisma/prismaClient"
 import { PlaceOrderDto } from "../entities/dtos/placeOrderDto"
 import { GraphQLError } from "graphql";
@@ -13,11 +13,11 @@ export const orderResolver = {
             _parent: void,
             args: { input: PlaceOrderDto }
             // 수정 필요
-        ): Promise<void> => {
+        ): Promise<Order> => {
             const placeOrderDto = new PlaceOrderDto(
                 args.input.email,
                 args.input.address,
-                args.input.orderItem,
+                args.input.orderItems,
             );
             
             const findMember = await prismaClient.member.findUnique({
@@ -32,16 +32,57 @@ export const orderResolver = {
                         code: "UNVALID_EMAIL_INPUT"
                     }
                 })
-            }
+            };
+
+            // Order - Delivery - OrderItem 순으로 만들어낸다
+            // 주문을 만들어내야 이후 동작이 가능하다
+            const createOrder = await prismaClient.order.create({
+                data: {
+                    buyer: {
+                        connect: { id: findMember.id }, 
+                    },
+                    createdAt: new Date(),
+                }
+            });
+
+            await prismaClient.delivery.create({
+                data: {
+                    order : {
+                        connect: { id: createOrder.id }
+                    },
+                    address: placeOrderDto.address,
+                    deiveryStatus: "PENDING",
+                    createdAt: new Date(),
+                }
+            });
 
             // item의 id값을 이용해 orderItem 테이블도 추가시킨다
+            for (const orderItemDto of placeOrderDto.orderItems) {
+                if (typeof orderItemDto.count !== 'number') {
+                    throw new GraphQLError("숫자가 아닙니다.", {
+                        extensions: { code: "BAD_TYPE_INPUT" }
+                    });
+                }
             
+                const findItem = await prismaClient.item.findUnique({
+                    where: { id: Number(orderItemDto.itemId) }
+                });
+            
+                if (!findItem) {
+                    throw new GraphQLError("Item not found");
+                }
+            
+                await prismaClient.orderItem.create({
+                    data: {
+                        item: { connect: { id: findItem.id } },
+                        order: { connect: { id: createOrder.id } },
+                        orderPrice: orderItemDto.count * findItem.price,
+                        count: orderItemDto.count,
+                    }
+                });
+            }
 
-            // const order = await prismaClient.order.create({
-            //     data: {
-
-            //     }
-            // })
+            return createOrder;
         }
     }
 }

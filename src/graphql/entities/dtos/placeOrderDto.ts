@@ -1,3 +1,4 @@
+import { OrderItemDto } from "./orderItemDto";
 
 export class PlaceOrderDto {
     
@@ -5,11 +6,11 @@ export class PlaceOrderDto {
     
     address!: string;
 
-    orderItem!: string[];
+    orderItems!: OrderItemDto[];
 
-    constructor(email: string, address: string, orderItem: string[]){
+    constructor(email: string, address: string, orderItems: OrderItemDto[]){
         this.email = email;
         this.address = address;
-        this.orderItem = orderItem;
+        this.orderItems = orderItems;
     }
 }

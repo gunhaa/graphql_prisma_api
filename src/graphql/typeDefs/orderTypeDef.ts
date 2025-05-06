@@ -36,6 +36,11 @@ export const orderTypeDef = gql`
   input PlaceOrderInput {
     email: String!
     address: String!
-    orderItem: String!
+    orderItems: [OrderItemDto!]!
+  }
+
+  input OrderItemDto {
+    itemId: ID!
+    count: Int!
   }
 `
