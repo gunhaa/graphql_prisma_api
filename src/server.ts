@@ -56,7 +56,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     expressMiddleware(apolloServer)
   )
 
-  app.all('*', (req: Request, res: Response) => {
+  app.all('*', (_: Request, res: Response) => {
     res.send('Welcome GraphQL, Use /graphql endpoint.');
   });
 

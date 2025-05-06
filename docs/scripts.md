@@ -1,0 +1,9 @@
+- npx prisma migrate dev
+    - generated, migration 만들어냄
+    - schema.prisma를 통해 생성
+    - migrate는 generate를 포함한다
+- npx prisma generate
+    - prisma client 생성
+- npx prisma studio
+    - 관계도 확인
+- 초기화 `rm -rf prisma/migrations && npx prisma migrate reset`

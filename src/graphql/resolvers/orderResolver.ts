@@ -29,12 +29,12 @@ export const orderResolver = {
             if (!findMember){
                 throw new GraphQLError("존재하지 않는 이메일 입니다", {
                     extensions: {
-                        code: "BAD_EMAIL_INPUT"
+                        code: "UNVALID_EMAIL_INPUT"
                     }
                 })
             }
 
-            // orderItem을 이용해 Item을 찾는 로직 실행 추가
+            // item의 id값을 이용해 orderItem 테이블도 추가시킨다
             
 
             // const order = await prismaClient.order.create({

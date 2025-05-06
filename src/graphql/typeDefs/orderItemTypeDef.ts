@@ -15,15 +15,4 @@ export const orderItemTypeDef = gql`
     type Query {
         getOrderItems: [OrderItem]
     }
-    
-    type Mutation {
-        registerOrderItemInput(input: RegisterOrderItemInput!): OrderItem
-    }
-    
-    input RegisterOrderItemInput {
-        orderId: ID!
-        itemId: ID! 
-        orderPrice: Int!
-        count: Int!
-    }
 `
