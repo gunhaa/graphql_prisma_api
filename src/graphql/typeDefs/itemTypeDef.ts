@@ -14,13 +14,13 @@ export const itemTypeDef = gql`
     }
 
     type Query {
-        getitems: [Item]
+        getItems: [Item]
     }
-    
+
     type Mutation {
         registerItem(input: RegisterItemInput!): Item
     }
-    
+
     input RegisterItemInput {
         name: String!
         price: Int!

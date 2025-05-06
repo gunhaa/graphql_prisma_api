@@ -20,8 +20,6 @@ export const memberResolver = {
             args.input.address
           );
     
-          await validateOrReject(joinMemberDto);
-    
           // 멤버 생성 값 반환
           return await prismaClient.member.create({
             data: {

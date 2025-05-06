@@ -6,12 +6,14 @@ import { orderTypeDef } from "./graphql/typeDefs/orderTypeDef";
 import { orderResolver } from "./graphql/resolvers/orderResolver";
 import { itemResolver } from "./graphql/resolvers/itemResolver";
 import { itemTypeDef } from "./graphql/typeDefs/itemTypeDef";
+import { orderItemTypeDef } from "./graphql/typeDefs/orderItemTypeDef";
 
 
 const typeDefs = mergeTypeDefs([
   memberTypeDef,
   orderTypeDef,
   itemTypeDef,
+  orderItemTypeDef,
 ]);
 
 const resolvers = mergeResolvers([

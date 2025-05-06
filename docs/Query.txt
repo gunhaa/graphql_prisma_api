@@ -11,3 +11,19 @@ query Query {
     createdAt
   }
 }
+
+mutation Mutation {
+  joinMember (
+    input:  {
+      email: "example1@example.com"
+      name: "example1"
+      password: "example1"
+      address: "example1 Address"
+    }
+  ){
+   email
+   name
+   password
+   address
+  }
+}

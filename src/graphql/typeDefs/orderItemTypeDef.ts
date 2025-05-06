@@ -21,5 +21,9 @@ export const orderItemTypeDef = gql`
     }
     
     input RegisterOrderItemInput {
+        orderId: ID!
+        itemId: ID! 
+        orderPrice: Int!
+        count: Int!
     }
 `
