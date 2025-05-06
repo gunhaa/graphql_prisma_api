@@ -62,7 +62,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
 
   const port = 4000;
   app.listen(port, () => {
-    console.log(`Server on! Port : ${port}`);
+    console.log(`Server on! Port : localhost:${port}/graphql`);
   });
 }
 

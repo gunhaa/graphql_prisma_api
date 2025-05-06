@@ -1,7 +1,6 @@
 import { Item } from "@prisma/client";
 import prismaClient from "../../../prisma/prismaClient";
 import { RegisterItemDto } from "../entities/dtos/registerItemDto";
-import { validateOrReject } from "class-validator";
 
 export const itemResolver = {
     Query: {
@@ -19,8 +18,6 @@ export const itemResolver = {
                 args.input.stockQuantity,
                 args.input.category,
             )
-
-            await validateOrReject(registerItemDto);
 
             // 같은 가격, 아이템이라도 새롭게 추가 될 수 있으니 중복 검사는 생략
 

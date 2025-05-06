@@ -12,6 +12,17 @@ query Query {
   }
 }
 
+query Query {
+  getItems {
+    id
+    name
+    price
+    stockQuantity
+    category
+    createdAt
+  }
+}
+
 mutation Mutation {
   joinMember (
     input:  {
@@ -25,5 +36,19 @@ mutation Mutation {
    name
    password
    address
+  }
+}
+
+mutation Mutation {
+  registerItem (
+    input:  {
+      name: "item3"
+      price: 30000
+      category: "category3"
+    }
+  ){
+    name
+    price
+    category
   }
 }
