@@ -61,14 +61,14 @@ mutation Mutation {
   }
 }
 
-mutation Mutation {
+mutation PlaceOrder {
   placeOrder (
     input:  {
-      address: "배송지3"
+      address: "배송지4"
       email: "example1@example.com"
       orderItems:  [
-        { itemId: 1, count: 1 },
-        { itemId: 2, count: 1 }
+        { itemId: 1, stockQuantity: 10 },
+        { itemId: 2, stockQuantity: 10 }
       ]
     }
   ){
@@ -78,6 +78,5 @@ mutation Mutation {
     delivery {
       address
     }
-  
   }
 }

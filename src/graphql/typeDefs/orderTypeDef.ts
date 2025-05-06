@@ -41,6 +41,6 @@ export const orderTypeDef = gql`
 
   input OrderItemDto {
     itemId: ID!
-    count: Int!
+    stockQuantity: Int!
   }
 `

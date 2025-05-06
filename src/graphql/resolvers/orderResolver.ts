@@ -60,17 +60,15 @@ export const orderResolver = {
           },
         });
 
-
-        // createOrder.
-
         for (const orderItemDto of placeOrderDto.orderItems) {
-          if (typeof orderItemDto.count !== "number") {
+          if (typeof orderItemDto.stockQuantity !== "number") {
             throw new GraphQLError("숫자가 아닙니다.", {
               extensions: { code: "BAD_TYPE_INPUT" },
             });
           }
 
           const findItem = await tx.item.findUnique({
+            select: { id: true, stockQuantity: true, price: true },
             where: { id: Number(orderItemDto.itemId) },
           });
 
@@ -78,12 +76,25 @@ export const orderResolver = {
             throw new GraphQLError("Item not found");
           }
 
+          if(findItem.stockQuantity - orderItemDto.stockQuantity < 0){
+            throw new GraphQLError("재고보다 많은 주문 요청 입니다.", {
+              extensions: { code: "OVER_ORDER_INPUT" },
+            });
+          }
+
+          const updatedItem = await tx.item.update({
+            where: { id: findItem.id }, 
+            data: {
+              stockQuantity: findItem.stockQuantity - orderItemDto.stockQuantity
+            },
+          });
+
           await tx.orderItem.create({
             data: {
-              item: { connect: { id: findItem.id } },
+              item: { connect: { id: updatedItem.id } },
               order: { connect: { id: createOrder.id } },
-              orderPrice: orderItemDto.count * findItem.price,
-              count: orderItemDto.count,
+              orderPrice: orderItemDto.stockQuantity * updatedItem.price,
+              count: orderItemDto.stockQuantity,
             },
           });
         }
