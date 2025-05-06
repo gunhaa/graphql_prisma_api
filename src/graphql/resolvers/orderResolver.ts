@@ -37,6 +37,7 @@ export const orderResolver = {
 
       // Order - Delivery - OrderItem 순으로 만들어낸다
       // 주문을 만들어내야 이후 동작이 가능하다
+      // 하나의 트랜잭션으로 묶어서 동작해야 한다
       const result = await prismaClient.$transaction(async (tx) => {
         const createOrder = await tx.order.create({
           data: {
@@ -47,7 +48,7 @@ export const orderResolver = {
           },
         });
 
-        await tx.delivery.create({
+        const createDelivery = await tx.delivery.create({
           data: {
             order: {
               connect: { id: createOrder.id },

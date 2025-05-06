@@ -52,3 +52,24 @@ mutation Mutation {
     category
   }
 }
+
+mutation Mutation {
+  placeOrder (
+    input:  {
+      address: "배송지3"
+      email: "example1@example.com"
+      orderItems:  [
+        { itemId: 1, count: 1 },
+        { itemId: 2, count: 1 }
+      ]
+    }
+  ){
+    buyer {
+      name
+    }
+    delivery {
+      address
+    }
+  
+  }
+}
