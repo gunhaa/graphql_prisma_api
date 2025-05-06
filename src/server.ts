@@ -51,7 +51,6 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     cors<cors.CorsRequest>(),
     express.json({ limit: '50mb' }),
     // 안정화 버전을 설치하자..
-    // npm은 무조건 최신 버전 챙기지 말고 충돌 없는 버전으로
     // npm install express@4.17.3
     // npm install -D @types/express@4.17.13
     expressMiddleware(apolloServer, {
@@ -67,7 +66,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
 
   const port = 4000;
   app.listen(port, () => {
-    console.log(`Server on! Port : https://localhost:${port}/graphql`);
+    console.log(`Server on! Port : http://localhost:${port}/graphql`);
   });
 }
 

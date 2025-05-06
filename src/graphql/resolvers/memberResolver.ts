@@ -6,6 +6,9 @@ import { GraphQLError } from "graphql";
 export const memberResolver = {
   Query: {
     getMembers: async (_: void, args: any) => await prismaClient.member.findMany(),
+  },
+
+  Member: {
     orders: (parent: Member | null, args:any, context:any): Promise<Order[]> => {
 
       if(!parent){
@@ -15,7 +18,6 @@ export const memberResolver = {
           },
         });
       }
-
       return context.loaders.ordersLoader.load(parent.id);
     }
   },

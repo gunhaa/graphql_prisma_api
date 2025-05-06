@@ -15,6 +15,7 @@ export const memberTypeDef = gql`
 
   type Query {
     getMembers: [Member]
+    orders: [Order]
   }
 
   type Mutation {

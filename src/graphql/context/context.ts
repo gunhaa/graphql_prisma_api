@@ -1,7 +1,5 @@
-import { orderLoader } from '../loaders/orderLoader';
+import { ordersLoader } from '../loaders/ordersLoader';
 
 export const createLoaders = () => ({
-  loaders: {
-    orderLoader,
-  },
+    ordersLoader: ordersLoader(),
 });
