@@ -1,8 +1,8 @@
 import { Order, Delivery, OrderItem } from "@prisma/client";
 import prismaClient from "../../../prisma/prismaClient";
-import { PlaceOrderDto } from "../entities/dtos/placeOrderDto";
+import { PlaceOrderDto } from "./dto";
 import { GraphQLError } from "graphql";
-import { DeliveryStatusEnum } from "../enums/deliveryStatusEnum";
+import { DeliveryStatusEnum } from "../delivery/enum";
 
 export const orderResolver = {
   Query: {

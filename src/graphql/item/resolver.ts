@@ -1,6 +1,6 @@
 import { Item } from "@prisma/client";
 import prismaClient from "../../../prisma/prismaClient";
-import { RegisterItemDto } from "../entities/dtos/registerItemDto";
+import { RegisterItemDto } from "./dto";
 
 export const itemResolver = {
     Query: {
