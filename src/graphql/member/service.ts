@@ -4,8 +4,9 @@ import prismaClient from "../../../prisma/prismaClient";
 import { JoinMemberDto } from "./dto";
 
 class MemberService {
+
   async getMembers(): Promise<Member[]> {
-    return await prismaClient.member.findMany();
+    return prismaClient.member.findMany();
   }
 
   async getOrders(parent: Member | null, context: any): Promise<Order[]> {
@@ -19,26 +20,26 @@ class MemberService {
         }
       );
     }
-    return await context.loaders.ordersLoader.load(parent.id);
+    return context.loaders.ordersLoader.load(parent.id);
   }
 
   async joinMember(input: JoinMemberDto): Promise<Member> {
     const joinMemberDto = new JoinMemberDto(
-        input.email,
-        input.name,
-        input.password,
-        input.address
-      );
+      input.email,
+      input.name,
+      input.password,
+      input.address
+    );
 
-      return await prismaClient.member.create({
-        data: {
-          email: joinMemberDto.email,
-          name: joinMemberDto.name,
-          password: joinMemberDto.password,
-          address: joinMemberDto.address,
-          createdAt: new Date(),
-        },
-      });
+    return prismaClient.member.create({
+      data: {
+        email: joinMemberDto.email,
+        name: joinMemberDto.name,
+        password: joinMemberDto.password,
+        address: joinMemberDto.address,
+        createdAt: new Date(),
+      },
+    });
   }
 }
 

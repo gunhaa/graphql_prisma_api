@@ -4,7 +4,7 @@ import { RegisterItemDto } from "./dto";
 
 class ItemService {
   async getItems(): Promise<Item[]> {
-    return await prismaClient.item.findMany();
+    return prismaClient.item.findMany();
   }
 
   async registerItem(input: RegisterItemDto): Promise<Item> {
@@ -17,7 +17,7 @@ class ItemService {
 
     // 같은 가격, 아이템이라도 새롭게 추가 될 수 있으니 중복 검사는 생략
 
-    return await prismaClient.item.create({
+    return prismaClient.item.create({
       data: {
         name: registerItemDto.name,
         price: registerItemDto.price,

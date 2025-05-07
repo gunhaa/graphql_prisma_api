@@ -3,10 +3,13 @@ import prismaClient from "../../../prisma/prismaClient";
 import { PlaceOrderDto } from "./dto";
 import { GraphQLError } from "graphql";
 import { DeliveryStatusEnum } from "../delivery/enum";
+import orderService from "./service";
 
 export const orderResolver = {
   Query: {
-    getOrders: async (_: void, args: any) => await prismaClient.order.findMany(),
+    getOrders: (): Promise<Order[]> => {
+      return orderService.getOrders();
+    },
   },
 
   Order: {
