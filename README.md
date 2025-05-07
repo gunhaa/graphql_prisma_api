@@ -29,7 +29,7 @@
     - ~~연관 필드 얻어오기~~
     - ~~N+1 문제 해결(DataLoader)~~
 4. 서비스 레이어로 분리
-    - 폴더 구조 js스럽게 변경하기
+    - ~~폴더 구조 js스럽게 변경하기~~
 5. 테스트 생성
 6. input 값을 validation 하는 validator 클래스 구현
 7. order transaction, lock 을 이용한 critical section mutex로 구현하기
