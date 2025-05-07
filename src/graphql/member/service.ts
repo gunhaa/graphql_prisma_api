@@ -9,17 +9,18 @@ class MemberService {
     return prismaClient.member.findMany();
   }
 
-  async getOrders(parent: Member | null, context: any): Promise<Order[]> {
-    if (!parent) {
-      throw new GraphQLError(
-        "orders 필드는 Member 타입의 하위 필드로 조회할 수 있습니다.",
-        {
-          extensions: {
-            code: "FIELD_RESOLUTION_ERROR",
-          },
-        }
-      );
-    }
+  async getOrders(parent: Member, context: any): Promise<Order[]> {
+    // console.log('parent: '+ parent);
+    // if (!parent) {
+    //   throw new GraphQLError(
+    //     "orders 필드는 Member 타입의 하위 필드로 조회할 수 있습니다.",
+    //     {
+    //       extensions: {
+    //         code: "FIELD_RESOLUTION_ERROR",
+    //       },
+    //     }
+    //   );
+    // }
     return context.loaders.ordersLoader.load(parent.id);
   }
 

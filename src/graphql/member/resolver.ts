@@ -11,7 +11,7 @@ export const memberResolver = {
 
   Member: {
     orders: (
-      parent: Member | null,
+      parent: Member,
       _: any,
       context: any
     ): Promise<Order[]> => {
