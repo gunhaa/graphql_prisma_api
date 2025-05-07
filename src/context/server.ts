@@ -12,7 +12,7 @@ import { expressMiddleware } from '@apollo/server/express4';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { GraphQLFormattedError } from "graphql";
-import { createLoaders } from './context';
+import { createLoaders } from './loaders';
 
 dotenv.config();
 
