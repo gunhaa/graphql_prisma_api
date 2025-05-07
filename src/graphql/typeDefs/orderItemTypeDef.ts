@@ -6,7 +6,7 @@ export const orderItemTypeDef = gql`
     type OrderItem {
         id: ID!
         order: Order
-        Item: Item
+        item: Item
         orderPrice: Int
         count: Int
         createdAt: DateTime

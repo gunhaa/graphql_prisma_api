@@ -27,6 +27,7 @@ export const orderTypeDef = gql`
 
   type Query {
     getOrders: [Order]
+    orderItems: [OrderItem]
   }
 
   type Mutation {

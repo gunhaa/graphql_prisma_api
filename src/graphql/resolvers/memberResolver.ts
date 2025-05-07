@@ -12,7 +12,7 @@ export const memberResolver = {
     orders: (parent: Member | null, args:any, context:any): Promise<Order[]> => {
 
       if(!parent){
-        throw new GraphQLError("orders 필드는 Member 타입의 하위 필드로만 조회할 수 있습니다.", {
+        throw new GraphQLError("orders 필드는 Member 타입의 하위 필드로 조회할 수 있습니다.", {
           extensions: {
             code: "FIELD_RESOLUTION_ERROR",
           },

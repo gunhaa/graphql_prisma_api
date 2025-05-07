@@ -1,4 +1,4 @@
-import { Order, Delivery } from "@prisma/client";
+import { Order, Delivery, OrderItem } from "@prisma/client";
 import prismaClient from "../../../prisma/prismaClient";
 import { PlaceOrderDto } from "../entities/dtos/placeOrderDto";
 import { GraphQLError } from "graphql";
@@ -6,8 +6,20 @@ import { DeliveryStatusEnum } from "../enums/deliveryStatusEnum";
 
 export const orderResolver = {
   Query: {
-    getOrders: async (_: void, args: any) =>
-      await prismaClient.order.findMany(),
+    getOrders: async (_: void, args: any) => await prismaClient.order.findMany(),
+  },
+
+  Order: {
+    orderItems: (parent: Order | null, args: any, context: any): Promise<OrderItem[]> => {
+      if(!parent) {
+        throw new GraphQLError("orderItems 명령은 Order의 하위 필드로 조회 할 수 있습니다.", {
+          extensions: {
+            code: "FIELD_RESOLUTION_ERROR"
+          }
+        });
+      }
+      return context.loaders.orderItemsLoader.load(parent.id);
+    }
   },
 
   Mutation: {
