@@ -6,7 +6,15 @@ query Query {
     address
     password 
     orders {
-      id
+      orderItems {
+        item {
+          name
+          stockQuantity
+          category
+        }
+        count
+        orderPrice        
+      }
       buyer {
         name
       }
@@ -18,6 +26,7 @@ query Query {
     createdAt
   }
 }
+
 
 
 query Query {

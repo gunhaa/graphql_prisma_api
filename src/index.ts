@@ -1,12 +1,12 @@
-import { startApolloServer } from "./server"
+import { startApolloServer } from "./context/server"
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
-import { memberResolver } from "./graphql/resolvers/memberResolver";
-import { memberTypeDef } from "./graphql/typeDefs/memberTypeDef";
-import { orderTypeDef } from "./graphql/typeDefs/orderTypeDef";
-import { orderResolver } from "./graphql/resolvers/orderResolver";
-import { itemResolver } from "./graphql/resolvers/itemResolver";
-import { itemTypeDef } from "./graphql/typeDefs/itemTypeDef";
-import { orderItemTypeDef } from "./graphql/typeDefs/orderItemTypeDef";
+import { memberResolver } from "./graphql/member/resolver";
+import { memberTypeDef } from "./graphql/member/typeDefs";
+import { orderTypeDef } from "./graphql/order/typeDefs";
+import { orderResolver } from "./graphql/order/resolver";
+import { itemResolver } from "./graphql/item/resolver";
+import { itemTypeDef } from "./graphql/item/typeDefs";
+import { orderItemTypeDef } from "./graphql/orderItem/typeDefs";
 
 
 const typeDefs = mergeTypeDefs([
