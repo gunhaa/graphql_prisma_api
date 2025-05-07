@@ -1,9 +1,9 @@
 export class OrderItemDto {
     itemId!: string;
-    stockQuantity!: number;
+    orderQuantity!: number;
 
-    constructor(itemId: string, stockQuantity: number) {
+    constructor(itemId: string, orderQuantity: number) {
         this.itemId = itemId;
-        this.stockQuantity = stockQuantity;
+        this.orderQuantity = orderQuantity;
     }
 }

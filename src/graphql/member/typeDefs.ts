@@ -1,6 +1,6 @@
 import { gql } from "graphql-tag";
 
-export const memberTypeDef = gql`
+export const memberTypeDefs = gql`
   scalar DateTime
 
   type Member {

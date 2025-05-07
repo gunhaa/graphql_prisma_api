@@ -1,6 +1,6 @@
 import { gql } from "graphql-tag";
 
-export const orderTypeDef = gql`
+export const orderTypeDefs = gql`
   scalar DateTime
 
   type Order {
@@ -9,20 +9,6 @@ export const orderTypeDef = gql`
     orderItems: [OrderItem]
     delivery: Delivery
     createdAt: DateTime
-  }
-
-  type Delivery {
-    id: ID!
-    order: Order
-    address: String
-    deliveryStatus: DeliveryStatus
-    createdAt: DateTime
-  }
-  
-  enum DeliveryStatus {
-    PENDING
-    SHIPPED
-    CANCELLED
   }
 
   type Query {
@@ -42,6 +28,9 @@ export const orderTypeDef = gql`
 
   input OrderItemDto {
     itemId: ID!
-    stockQuantity: Int!
+    """
+    주문량
+    """
+    orderQuantity: Int!
   }
 `

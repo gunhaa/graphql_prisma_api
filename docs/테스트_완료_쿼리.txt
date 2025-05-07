@@ -52,7 +52,7 @@ mutation Mutation {
    email
    name
    password
-   address
+   address 0
   }
 }
 

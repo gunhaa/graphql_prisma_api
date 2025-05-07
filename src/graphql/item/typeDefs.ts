@@ -1,6 +1,6 @@
 import { gql } from "graphql-tag";
 
-export const itemTypeDef = gql`
+export const itemTypeDefs = gql`
   scalar DateTime
 
   type Item {

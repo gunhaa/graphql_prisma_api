@@ -73,7 +73,7 @@ export const orderResolver = {
         });
 
         for (const orderItemDto of placeOrderDto.orderItems) {
-          if (typeof orderItemDto.stockQuantity !== "number") {
+          if (typeof orderItemDto.orderQuantity !== "number") {
             throw new GraphQLError("숫자가 아닙니다.", {
               extensions: { code: "BAD_TYPE_INPUT" },
             });
@@ -88,7 +88,7 @@ export const orderResolver = {
             throw new GraphQLError("Item not found");
           }
 
-          if(findItem.stockQuantity - orderItemDto.stockQuantity < 0){
+          if(findItem.stockQuantity - orderItemDto.orderQuantity < 0){
             throw new GraphQLError("재고보다 많은 주문 요청 입니다.", {
               extensions: { code: "OVER_ORDER_INPUT" },
             });
@@ -97,7 +97,7 @@ export const orderResolver = {
           const updatedItem = await tx.item.update({
             where: { id: findItem.id }, 
             data: {
-              stockQuantity: findItem.stockQuantity - orderItemDto.stockQuantity
+              stockQuantity: findItem.stockQuantity - orderItemDto.orderQuantity
             },
           });
 
@@ -105,8 +105,8 @@ export const orderResolver = {
             data: {
               item: { connect: { id: updatedItem.id } },
               order: { connect: { id: createOrder.id } },
-              orderPrice: orderItemDto.stockQuantity * updatedItem.price,
-              count: orderItemDto.stockQuantity,
+              orderPrice: orderItemDto.orderQuantity * updatedItem.price,
+              count: orderItemDto.orderQuantity,
             },
           });
         }
