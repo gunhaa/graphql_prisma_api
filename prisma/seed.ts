@@ -13,7 +13,7 @@ async function main() {
   const members: Member[] = [];
   const items: Item[] = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 1; i < 11; i++) {
     const joinMember: Member = await memberService.joinMember(
       new JoinMemberDto(
         `example${i}@email.com`,
@@ -34,12 +34,13 @@ async function main() {
   }
 
   // 1 ~ 10
-  const randomInt = (): number => Math.floor(Math.random() * 10) + 1;
+  const randomItem = (): number => Math.floor(Math.random() * 10) + 1;
+  const randomQuantity = (): number => Math.floor(Math.random() * 20) + 1;
 
   for (const member of members) {
     const orderItems: OrderItemDto[] = [];
     for (let i = 0; i < 2; i++) {
-      const orderItem = new OrderItemDto(String(randomInt()), randomInt());
+      const orderItem = new OrderItemDto(String(randomItem()), randomQuantity());
       orderItems.push(orderItem);
     }
   

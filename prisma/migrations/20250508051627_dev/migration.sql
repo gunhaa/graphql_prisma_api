@@ -25,7 +25,7 @@ CREATE TABLE `Delivery` (
     `delivery_id` INTEGER NOT NULL AUTO_INCREMENT,
     `order_id` INTEGER NOT NULL,
     `address` VARCHAR(191) NOT NULL,
-    `deiveryStatus` ENUM('PENDING', 'SHIPPED', 'CANCELLED') NOT NULL,
+    `delivery_status` ENUM('PENDING', 'SHIPPED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `Delivery_order_id_key`(`order_id`),

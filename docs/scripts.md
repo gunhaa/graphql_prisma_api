@@ -1,4 +1,4 @@
-- npx prisma migrate dev
+- npx prisma migrate dev --name dev
     - generated, migration 만들어냄
     - schema.prisma를 통해 생성
     - migrate는 generate를 포함한다
