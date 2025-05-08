@@ -10,7 +10,7 @@ export const orderResolver = {
   },
 
   Order: {
-    orderItems: (parent: Order | null, _: any, context: any): Promise<OrderItem[]> => {
+    orderItems: (parent: Order, _: any, context: any): Promise<OrderItem[]> => {
       return orderService.getOrderItems(parent, context);
     }
   },

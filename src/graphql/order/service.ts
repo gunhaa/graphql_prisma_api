@@ -9,19 +9,20 @@ class OrderService {
   }
 
   async getOrderItems(
-    parent: Order | null,
+    parent: Order,
     context: any
   ): Promise<OrderItem[]> {
-    if (!parent) {
-      throw new GraphQLError(
-        "orderItems 명령은 Order의 하위 필드로 조회 할 수 있습니다.",
-        {
-          extensions: {
-            code: "FIELD_RESOLUTION_ERROR",
-          },
-        }
-      );
-    }
+    // parent가 없다면 리졸버가 실행되지 않는다
+    // if (!parent) {
+    //   throw new GraphQLError(
+    //     "orderItems 명령은 Order의 하위 필드로 조회 할 수 있습니다.",
+    //     {
+    //       extensions: {
+    //         code: "FIELD_RESOLUTION_ERROR",
+    //       },
+    //     }
+    //   );
+    // }
     return context.loaders.orderItemsLoader.load(parent.id);
   }
 

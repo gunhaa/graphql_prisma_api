@@ -2,6 +2,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "./ERD"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -27,12 +32,12 @@ model Order {
 }
 
 model Delivery {
-  id            Int  @id  @default(autoincrement())  @map("delivery_id")
-  orderId       Int  @map("order_id")  @unique
-  order         Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  address       String
-  deiveryStatus DeliveryStatus
-  createdAt     DateTime  @default(now()) @map("created_at")
+  id             Int  @id  @default(autoincrement())  @map("delivery_id")
+  orderId        Int  @map("order_id")  @unique
+  order          Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  address        String
+  deliveryStatus DeliveryStatus @default(PENDING)  @map("delivery_status")
+  createdAt      DateTime  @default(now()) @map("created_at")
 }
 
 model OrderItem {
