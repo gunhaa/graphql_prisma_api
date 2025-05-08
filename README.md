@@ -14,7 +14,7 @@
 
 ## 완성 ERD
 
-- prisma-erd-generator 이용
+- prisma-erd-generator 사용
 
 ![model2](prisma/erd/ERD.svg)
 
@@ -40,6 +40,8 @@
 4. ~~서비스 레이어로 분리~~
     - ~~폴더 구조 js스럽게 변경하기~~
 5. 테스트 생성
-    - seed.ts에서 seed값 생성할때, service로 생성하여 테스트를 일부 대신하는 것으로 구현
+    - ~~seed.ts 생성~~
+    - dev, test db 분리
+    - 테스트 생성
 6. input 값을 validation 하는 validator 클래스 구현
 7. order transaction, lock 을 이용한 critical section mutex로 구현하기

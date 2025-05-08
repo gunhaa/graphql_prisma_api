@@ -1,4 +1,4 @@
-import { Delivery, DeliveryStatus, Order, OrderItem } from "@prisma/client";
+import { Delivery, DeliveryStatus, Member, Order, OrderItem } from "@prisma/client";
 import prismaClient from "../../../prisma/prismaClient";
 import { GraphQLError } from "graphql";
 import { PlaceOrderDto } from "./placeOrder.dto";

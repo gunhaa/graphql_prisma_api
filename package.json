@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node ./src/index.ts",
-    "deprecated": "nodemon -q --watch 'src/**/*.ts' --exec node --loader ts-node/esm ./src/index.ts"
+    "test": "jest"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
