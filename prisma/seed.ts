@@ -14,7 +14,7 @@ async function main() {
   const items: Item[] = [];
 
   for (let i = 0; i < 10; i++) {
-    const joinMember = await memberService.joinMember(
+    const joinMember: Member = await memberService.joinMember(
       new JoinMemberDto(
         `example${i}@email.com`,
         `name${i}`,
@@ -27,7 +27,7 @@ async function main() {
     const price = i * 1000;
     const stockQuantity = i * 100;
     const categoryNum = i % 2;
-    const registerItem = await itemService.registerItem(
+    const registerItem: Item = await itemService.registerItem(
       new RegisterItemDto(`item${i}`, price, stockQuantity, `category${categoryNum}`)
     );
     items.push(registerItem);
@@ -36,15 +36,15 @@ async function main() {
   // 1 ~ 10
   const randomInt = (): number => Math.floor(Math.random() * 10) + 1;
 
-  members.forEach( async (member) => {
+  for (const member of members) {
     const orderItems: OrderItemDto[] = [];
-    for(let i = 0; i < 2; i++){
+    for (let i = 0; i < 2; i++) {
       const orderItem = new OrderItemDto(String(randomInt()), randomInt());
       orderItems.push(orderItem);
     }
-
-    orderService.placeOrder(new PlaceOrderDto(member.email, member.address as string, orderItems));
-  });
+  
+    await orderService.placeOrder(new PlaceOrderDto(member.email, member.address as string, orderItems));
+  }
 
   console.log('seed success');
 }
