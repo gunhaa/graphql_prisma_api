@@ -1,5 +1,4 @@
 import { Member, Order } from "@prisma/client";
-import { GraphQLError } from "graphql";
 import prismaClient from "../../../prisma/prismaClient";
 import { JoinMemberDto } from "./dto";
 

@@ -67,7 +67,7 @@ class OrderService {
             connect: { id: createOrder.id },
           },
           address: placeOrderDto.address,
-          deiveryStatus: DeliveryStatus.PENDING,
+          deliveryStatus: DeliveryStatus.PENDING,
           createdAt: new Date(),
         },
       });
