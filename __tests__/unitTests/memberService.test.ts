@@ -28,16 +28,8 @@ describe("Member Query, Mutation test ", () => {
     expect(result.length).toBe(10);
   });
 
-  it("orders resolver는 parent로 받은 member의 주문 목록을 반환해야 한다", async () => {
-    const parentMember: Member = {
-      id: 1,
-      name: "John",
-      email: "john@example.com",
-      address: "123 St",
-      password: "secret",
-      createdAt: new Date(),
-    };
-
+  it('orders resolver는 DataLoader를 사용해 멤버별 주문을 배치 조회해야 한다', async () => {
+    
     const mockOrders: Order[] = [
       { id: 1, buyerId: 1, createdAt: new Date("2100-10-10") },
       { id: 2, buyerId: 1, createdAt: new Date("2100-10-10") },
