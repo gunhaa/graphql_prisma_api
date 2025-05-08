@@ -1,6 +1,6 @@
 export class OrderItemDto {
-    itemId!: string;
-    orderQuantity!: number;
+    readonly itemId!: string;
+    readonly orderQuantity!: number;
 
     constructor(itemId: string, orderQuantity: number) {
         this.itemId = itemId;

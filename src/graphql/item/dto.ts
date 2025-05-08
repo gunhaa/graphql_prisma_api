@@ -1,13 +1,13 @@
 
 export class RegisterItemDto {
 
-    name!: string;
+    readonly name!: string;
 
-    price!: number;
+    readonly price!: number;
 
-    stockQuantity: number;
+    readonly stockQuantity: number;
 
-    category!: string;
+    readonly category!: string;
 
     constructor(name: string, price: number, stockQuantity:number | undefined, category: string){
         this.name = name;

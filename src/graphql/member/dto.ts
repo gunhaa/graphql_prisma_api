@@ -2,13 +2,13 @@
 
 export class JoinMemberDto {
 
-    email!: string;
+    readonly email!: string;
 
-    name: string | null;
+    readonly name: string | null;
 
-    password!: string;
+    readonly password!: string;
 
-    address!: string;
+    readonly address!: string;
 
     constructor(email: string, name: string | null, password: string, address: string){
         this.email = email;
