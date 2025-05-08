@@ -3,8 +3,9 @@ import { memberResolver } from "../../src/graphql/member/resolver";
 import { createLoaders } from "../../src/context/loaders";
 import { prismaMock } from "../../prisma/prismaMock";
 import { Member, Order } from "@prisma/client";
+import { JoinMemberDto } from "../../src/graphql/member/dto";
 
-describe("Member Query, Mutation test ", () => {
+describe("MemberService의 메서드 테스트", () => {
   it("getMembers()는 모든 멤버를 반환해야 한다", async () => {
     const mockMembers: Member[] = [];
 
@@ -29,7 +30,7 @@ describe("Member Query, Mutation test ", () => {
   });
 
   it('orders resolver는 DataLoader를 사용해 멤버별 주문을 배치 조회해야 한다', async () => {
-    
+
     const mockOrders: Order[] = [
       { id: 1, buyerId: 1, createdAt: new Date("2100-10-10") },
       { id: 2, buyerId: 1, createdAt: new Date("2100-10-10") },
@@ -59,5 +60,25 @@ describe("Member Query, Mutation test ", () => {
 
     expect(result1).toEqual([{ ...mockOrders[0] }, { ...mockOrders[1] }]);
     expect(result2).toEqual([{ ...mockOrders[2] }]);
+  });
+
+  it('joinMember는 생성된 member를 반환하고, 문제 없이 생성되어야 한다', async () => {
+    const mockMember: Member = {
+      id: 1, 
+      email: 'example1@example.com',
+      address: 'address: 1',
+      name: 'example name1',
+      password: 'password1',
+      createdAt: new Date('2100-10-10'),
+    };
+
+    prismaMock.member.create.mockResolvedValue(mockMember);
+
+    const createMember = await memberService.joinMember(new JoinMemberDto(mockMember.email, mockMember.name, mockMember.password, mockMember.address as string));
+
+    expect(createMember).toEqual({
+      ...mockMember,
+      createdAt: new Date('2100-10-10'),
+    });
   });
 });
