@@ -1,5 +1,11 @@
 
-# prisma , graphql example api
+## GraphQL - Prisma - TypeScript 기반 주문 API
+
+- Node.js 환경에서 동작하는 주문 처리 API
+- Prisma ORM, GraphQL, TypeScript를 중심으로 구성
+- GitHub Issue 탭을 활용한 이슈 관리
+- trunk-based branching 전략 적용
+
 
 ## ERD 기획
 - 해당 모델 Graphql 로 api 생성
