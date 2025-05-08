@@ -1,15 +1,14 @@
 
 # prisma , graphql example api
 
-
+## ERD 기획
 - 해당 모델 Graphql 로 api 생성
     - 일부 스펙변경, 자기 참조 Category 테이블, Item 종류 테이블 제거
-
-## ERD 기획
-
 ![model1](images/model.webp)
 
 ## 완성 ERD
+
+- prisma-erd-generator 이용
 
 ![model2](prisma/erd/ERD.svg)
 
