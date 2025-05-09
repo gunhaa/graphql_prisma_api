@@ -1,8 +1,8 @@
-import memberService from "../../src/graphql/member/service";
-import { createLoaders } from "../../src/context/loaders";
-import { prismaMock } from "../../prisma/prismaMock";
-import { Member, Order } from "@prisma/client";
-import { JoinMemberDto } from "../../src/graphql/member/dto";
+import memberService from '../../src/graphql/member/service';
+import { createLoaders } from '../../src/context/loaders';
+import { prismaMock } from '../../prisma/prismaMock';
+import { Member, Order } from '@prisma/client';
+import { JoinMemberDto } from '../../src/graphql/member/dto';
 
 describe('member schema 관련 테스트', () => {
   it('getMembers()는 모든 멤버를 반환해야 한다', async () => {
