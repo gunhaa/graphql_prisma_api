@@ -64,6 +64,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     res.send('Welcome GraphQL, Use /graphql endpoint.');
   });
 
+  // docker 사용시 env 주입
   const port = 4000;
   app.listen(port, () => {
     console.log(`Server on! Port : http://localhost:${port}/graphql`);

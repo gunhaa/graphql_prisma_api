@@ -28,7 +28,7 @@ describe('member schema test', () => {
     expect(result.length).toBe(10);
   });
 
-  it('orders resolver는 DataLoader를 사용해 멤버별 주문을 배치 조회해야 하며, load는 두번, 쿼리는 한번 나가야 한다', async () => {
+  it('해당 테스트는 getOrders()의 내부동작을 재현한다. DataLoader를 사용해 멤버별 주문을 배치 조회해야 하며, load는 두번, 쿼리는 한번 나가야 한다', async () => {
 
     const mockOrders: Order[] = [
       { id: 1, buyerId: 1, createdAt: new Date("2100-10-10") },
