@@ -98,7 +98,6 @@ describe("member schema test", () => {
       createdAt: new Date("2100-10-10"),
     };
 
-
     prismaMock.member.create.mockResolvedValue(validEmailMember);
 
     const createMember = await memberService.joinMember(
@@ -138,13 +137,33 @@ describe("member schema test", () => {
         );
         expect(e.extensions.code).toBe("INVALID_EMAIL_FORMAT");
       });
-
-
   });
 
   it("joinMember.validator의 검증으로 8~20자의 영문자와 숫자를 포함하지 않은 비밀번호는 에러가 발생해야 한다.", async () => {
+    const validPassword = "asdfqwer1234";
+    const validPasswordMember: Member = {
+      id: 1,
+      email: "example1@example1.com",
+      address: "address: 1",
+      name: "name1",
+      password: validPassword,
+      createdAt: new Date("2100-10-10"),
+    };
 
-    const unvalidPassword = "aaa";
+    prismaMock.member.create.mockResolvedValue(validPasswordMember);
+
+    const createMember = await memberService.joinMember(
+      new JoinMemberDto(
+        validPasswordMember.email,
+        validPasswordMember.name,
+        validPasswordMember.password,
+        validPasswordMember.address as string
+      )
+    );
+
+    expect(createMember).toEqual(validPasswordMember);
+
+    const unvalidPassword = "aa";
     const unvalidPasswordMember: Member = {
       id: 1,
       email: "example1@example1.com",
@@ -155,24 +174,128 @@ describe("member schema test", () => {
     };
 
     await memberService
-    .joinMember(
-      new JoinMemberDto(
-        unvalidPasswordMember.email,
-        unvalidPasswordMember.name,
-        unvalidPasswordMember.password,
-        unvalidPasswordMember.address as string
+      .joinMember(
+        new JoinMemberDto(
+          unvalidPasswordMember.email,
+          unvalidPasswordMember.name,
+          unvalidPasswordMember.password,
+          unvalidPasswordMember.address as string
+        )
       )
-    )
-    .catch((e) => {
-      expect(e).toBeInstanceOf(GraphQLError);
-      expect(e.message).toBe(
-        "비밀번호 형식이 올바르지 않습니다. 8~20자의 영문자와 숫자를 포함해야 합니다."
-      );
-      expect(e.extensions.code).toBe("INVALID_PASSWORD_FORMAT");
-    });
+      .catch((e) => {
+        expect(e).toBeInstanceOf(GraphQLError);
+        expect(e.message).toBe(
+          "비밀번호 형식이 올바르지 않습니다. 8~20자의 영문자와 숫자를 포함해야 합니다."
+        );
+        expect(e.extensions.code).toBe("INVALID_PASSWORD_FORMAT");
+      });
   });
 
-  it("joinMember.validator의 검증으로 20글자 이상의 이름은 에러가 발생해야 한다.", async () => {});
+  it("joinMember.validator의 검증으로 20글자를 초과하는 이름은 에러가 발생해야 한다.", async () => {
+    const validName = "my_name_is_example";
+    const validNameMember: Member = {
+      id: 1,
+      email: "example1@example1.com",
+      address: "address: 1",
+      name: validName,
+      password: "password1",
+      createdAt: new Date("2100-10-10"),
+    };
 
-  it("joinMember.validator의 검증으로 100글자 이상의 주소는 에러가 발생해야 한다.", async () => {});
+    prismaMock.member.create.mockResolvedValue(validNameMember);
+
+    const createMember = await memberService.joinMember(
+      new JoinMemberDto(
+        validNameMember.email,
+        validNameMember.name,
+        validNameMember.password,
+        validNameMember.address as string
+      )
+    );
+
+    expect(createMember).toEqual(validNameMember);
+
+    const invalidName = 'n'.repeat(21);
+    expect(invalidName.length).toBe(21);
+
+    const invalidNameMember: Member = {
+      id: 1,
+      email: "example1@example1.com",
+      address: "address: 1",
+      name: "name1",
+      password: "password1",
+      createdAt: new Date("2100-10-10"),
+    };
+
+    await memberService
+      .joinMember(
+        new JoinMemberDto(
+          invalidNameMember.email,
+          invalidNameMember.name,
+          invalidNameMember.password,
+          invalidNameMember.address as string
+        )
+      )
+      .catch((e) => {
+        expect(e).toBeInstanceOf(GraphQLError);
+        expect(e.message).toBe(
+          "이름의 길이가 올바르지 않습니다. 20자 이하의 이름으로 입력해주세요."
+        );
+        expect(e.extensions.code).toBe("INVALID_NAME_LENGTH");
+      });
+  });
+
+  it("joinMember.validator의 검증으로 100글자 이상의 주소는 에러가 발생해야 한다.", async () => {
+    const validAddress = "address: 1";
+    const validAddressMember: Member = {
+      id: 1,
+      email: "example1@example1.com",
+      address: validAddress,
+      name: "name1",
+      password: "password1",
+      createdAt: new Date("2100-10-10"),
+    };
+
+    prismaMock.member.create.mockResolvedValue(validAddressMember);
+
+    const createMember = await memberService.joinMember(
+      new JoinMemberDto(
+        validAddressMember.email,
+        validAddressMember.name,
+        validAddressMember.password,
+        validAddressMember.address as string
+      )
+    );
+
+    expect(createMember).toEqual(validAddressMember);
+
+    const invalidAddress = 'a'.repeat(101);
+    expect(invalidAddress.length).toBe(101);
+
+    const invalidAddressMember: Member = {
+      id: 1,
+      email: "example1@example1.com",
+      address: invalidAddress,
+      name: "name1",
+      password: "password1",
+      createdAt: new Date("2100-10-10"),
+    };
+
+    await memberService
+      .joinMember(
+        new JoinMemberDto(
+          invalidAddressMember.email,
+          invalidAddressMember.name,
+          invalidAddressMember.password,
+          invalidAddressMember.address as string
+        )
+      )
+      .catch((e) => {
+        expect(e).toBeInstanceOf(GraphQLError);
+        expect(e.message).toBe(
+          "주소의 길이가 올바르지 않습니다. 100자 이하의 주소를 입력해주세요."
+        );
+        expect(e.extensions.code).toBe("INVALID_ADDRESS_LENGTH");
+      });
+  });
 });
