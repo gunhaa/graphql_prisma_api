@@ -3,9 +3,10 @@ import { prismaMock } from "../../prisma/mocks/prismaMock";
 import orderService from "../../src/graphql/order/service";
 import { PlaceOrderDto } from "../../src/graphql/order/placeOrder.dto";
 import { mockDelivery, mockItem1, mockItem2, mockMember, mockOrder, mockOrderItems, mockOrderItemsDto, mockOrderResult, mockResultItem1, mockResultItem2 } from "../../prisma/mocks/testMockData";
+import { GraphQLError } from "graphql";
 
-describe("order schema test", () => {
-  it("getOrders()는 모든 Order를 반환해야 한다", async () => {
+describe('order schema test', () => {
+  it('getOrders()는 모든 Order를 반환해야 한다', async () => {
     const mockOrders: Order[] = [];
 
     for (let i = 1; i <= 10; i++) {
@@ -25,7 +26,7 @@ describe("order schema test", () => {
     expect(result.length).toBe(10);
   });
 
-  it("placeOrder는 생성된 Order를 반환하고, 내부 쿼리가 예측 가능하게 생성되어야 한다", async () => {
+  it('placeOrder는 생성된 Order를 반환하고, tx 내부 쿼리가 예측 가능하게 생성되어야 한다', async () => {
     prismaMock.member.findUnique.mockResolvedValue(mockMember);
 
     const tx = {
@@ -100,5 +101,19 @@ describe("order schema test", () => {
     );
 
     expect(mockOrderResult).toEqual(createOrder);
+  });
+
+  it('존재하지 않는 이메일은 에러가 발생해야 한다.', async () => {
+    prismaMock.member.findUnique.mockResolvedValue(null);
+  
+    await orderService
+      .placeOrder(
+        new PlaceOrderDto(mockMember.email, mockDelivery.address, mockOrderItemsDto)
+      )
+      .catch((e) => {
+        expect(e).toBeInstanceOf(GraphQLError);
+        expect(e.message).toBe('존재하지 않는 이메일 입니다');
+        expect(e.extensions.code).toBe('UNVALID_EMAIL_INPUT');
+      });
   });
 });
