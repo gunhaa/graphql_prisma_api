@@ -27,7 +27,7 @@
         - ~~joinMember(input: JoinMemberInput)~~
         - ~~placeOrder(input: PlaceOrderInput)~~
         - ~~registerItem(input: RegisterItemInput)~~
-- 인증이 필요한 API(+인증 관리)
+- 인증이 필요한 API(jwt 인증 관리)
     - login(input: LoginMemberInput)
     - getMyOrdersByMember()
     - registerItemByAdmin()

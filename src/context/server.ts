@@ -58,7 +58,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
         loaders: createLoaders(),
       })
     })
-  )
+  );
 
   app.all('*', (_: Request, res: Response) => {
     res.send('Welcome GraphQL, Use /graphql endpoint.');

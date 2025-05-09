@@ -4,8 +4,8 @@ import { prismaMock } from '../../prisma/prismaMock';
 import { Member, Order } from '@prisma/client';
 import { JoinMemberDto } from '../../src/graphql/member/dto';
 
-describe('member schema 관련 테스트', () => {
-  it('getMembers()는 모든 멤버를 반환해야 한다', async () => {
+describe('member schema test', () => {
+  it('getMembers()는 모든 Member를 반환해야 한다', async () => {
     const mockMembers: Member[] = [];
 
     for (let i = 0; i < 10; i++) {
@@ -28,7 +28,7 @@ describe('member schema 관련 테스트', () => {
     expect(result.length).toBe(10);
   });
 
-  it('orders resolver는 DataLoader를 사용해 멤버별 주문을 배치 조회해야 한다', async () => {
+  it('orders resolver는 DataLoader를 사용해 멤버별 주문을 배치 조회해야 하며, load는 두번, 쿼리는 한번 나가야 한다', async () => {
 
     const mockOrders: Order[] = [
       { id: 1, buyerId: 1, createdAt: new Date("2100-10-10") },
@@ -37,7 +37,6 @@ describe('member schema 관련 테스트', () => {
     ];
 
     prismaMock.order.findMany.mockResolvedValue(mockOrders);
-    memberService.getOrders = jest.fn().mockResolvedValue(mockOrders);
 
     const context = createLoaders();
 

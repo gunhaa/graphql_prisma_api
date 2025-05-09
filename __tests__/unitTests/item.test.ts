@@ -3,7 +3,7 @@ import { prismaMock } from "../../prisma/prismaMock";
 import itemService from "../../src/graphql/item/service";
 import { RegisterItemDto } from "../../src/graphql/item/dto";
 
-describe("item schema 관련 테스트", () => {
+describe("item schema test", () => {
   it("getItems()는 모든 아이템을 반환해야 한다", async () => {
     const mockItems: Item[] = [];
     for (let i = 1; i <= 10; i++) {
