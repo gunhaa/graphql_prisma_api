@@ -87,51 +87,92 @@ describe("member schema test", () => {
     });
   });
 
-  it("joinMember.validator의 검증으로 올바르지 않은 이메일, 비밀번호는 에러가 발생해야 한다.", async () => {
-    const unvalidEmail = 'aaa';
+  it("joinMember.validator의 검증으로 올바르지 않은 이메일은 에러가 발생해야 한다.", async () => {
+    const validEmail = "wh8299@gmail.com";
+    const validEmailMember: Member = {
+      id: 1,
+      email: validEmail,
+      address: "address: 1",
+      name: "name1",
+      password: "password1",
+      createdAt: new Date("2100-10-10"),
+    };
+
+
+    prismaMock.member.create.mockResolvedValue(validEmailMember);
+
+    const createMember = await memberService.joinMember(
+      new JoinMemberDto(
+        validEmailMember.email,
+        validEmailMember.name,
+        validEmailMember.password,
+        validEmailMember.address as string
+      )
+    );
+
+    expect(createMember).toEqual(validEmailMember);
+
+    const unvalidEmail = "aaa";
     const unvalidEmailMember: Member = {
       id: 1,
       email: unvalidEmail,
-      address: 'address: 1',
-      name: 'name1',
-      password: 'password1',
-      createdAt: new Date('2100-10-10'),
+      address: "address: 1",
+      name: "name1",
+      password: "password1",
+      createdAt: new Date("2100-10-10"),
     };
 
-    const unvalidPassword = 'aaa';
+    await memberService
+      .joinMember(
+        new JoinMemberDto(
+          unvalidEmailMember.email,
+          unvalidEmailMember.name,
+          unvalidEmailMember.password,
+          unvalidEmailMember.address as string
+        )
+      )
+      .catch((e) => {
+        expect(e).toBeInstanceOf(GraphQLError);
+        expect(e.message).toBe(
+          "이메일 형식이 올바르지 않습니다. '@'를 포함한 유효한 이메일을 입력해주세요."
+        );
+        expect(e.extensions.code).toBe("INVALID_EMAIL_FORMAT");
+      });
+
+
+  });
+
+  it("joinMember.validator의 검증으로 8~20자의 영문자와 숫자를 포함하지 않은 비밀번호는 에러가 발생해야 한다.", async () => {
+
+    const unvalidPassword = "aaa";
     const unvalidPasswordMember: Member = {
       id: 1,
-      email: 'example1@example1.com',
-      address: 'address: 1',
-      name: 'name1',
+      email: "example1@example1.com",
+      address: "address: 1",
+      name: "name1",
       password: unvalidPassword,
-      createdAt: new Date('2100-10-10'),
+      createdAt: new Date("2100-10-10"),
     };
 
-    await memberService.joinMember(
-      new JoinMemberDto(
-        unvalidEmailMember.email,
-        unvalidEmailMember.name,
-        unvalidEmailMember.password,
-        unvalidEmailMember.address as string
-      )
-    ).catch((e) => {
-      expect(e).toBeInstanceOf(GraphQLError);
-      expect(e.message).toBe('이메일 형식이 올바르지 않습니다. \'@\'를 포함한 유효한 이메일을 입력해주세요.');
-      expect(e.extensions.code).toBe('INVALID_EMAIL_FORMAT');
-    });
-
-    await memberService.joinMember(
+    await memberService
+    .joinMember(
       new JoinMemberDto(
         unvalidPasswordMember.email,
         unvalidPasswordMember.name,
         unvalidPasswordMember.password,
         unvalidPasswordMember.address as string
       )
-    ).catch((e) => {
+    )
+    .catch((e) => {
       expect(e).toBeInstanceOf(GraphQLError);
-      expect(e.message).toBe('비밀번호 형식이 올바르지 않습니다. 8~20자의 영문자와 숫자를 포함해야 합니다.');
-      expect(e.extensions.code).toBe('INVALID_PASSWORD_FORMAT');
+      expect(e.message).toBe(
+        "비밀번호 형식이 올바르지 않습니다. 8~20자의 영문자와 숫자를 포함해야 합니다."
+      );
+      expect(e.extensions.code).toBe("INVALID_PASSWORD_FORMAT");
     });
   });
+
+  it("joinMember.validator의 검증으로 20글자 이상의 이름은 에러가 발생해야 한다.", async () => {});
+
+  it("joinMember.validator의 검증으로 100글자 이상의 주소는 에러가 발생해야 한다.", async () => {});
 });

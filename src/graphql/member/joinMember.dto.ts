@@ -1,4 +1,4 @@
-
+import memberService from './service';
 
 export class JoinMemberDto {
 
@@ -9,10 +9,10 @@ export class JoinMemberDto {
     readonly password!: string;
 
     readonly address!: string;
-
+    
     constructor(email: string, name: string | null, password: string, address: string){
         this.email = email;
-        this.name = name;
+        this.name = name ?? memberService.generateRandomName();
         this.password = password;
         this.address = address;
     }

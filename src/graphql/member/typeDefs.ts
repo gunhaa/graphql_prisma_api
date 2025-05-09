@@ -11,6 +11,8 @@ export const memberTypeDefs = gql`
     email: String!
     """
     이름은 선택 사항입니다. 사용자가 입력하지 않더라도 null 값을 가질 수 있습니다.
+    이름에 null이 들어온 경우 default(generateRandomName())이 자동으로 들어갑니다.
+    이름은 20자 이하로 입력해야 합니다.
     """
     name: String
     """
@@ -23,6 +25,7 @@ export const memberTypeDefs = gql`
     address: String
     """
     사용자의 주문 목록입니다. 사용자가 주문한 내역이 있을 경우, 그 정보가 포함됩니다.
+    100자 이하의 주소로 입력해야 합니다.
     """
     orders: [Order]
     """

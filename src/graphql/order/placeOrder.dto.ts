@@ -2,11 +2,11 @@ import { OrderItemDto } from "../orderItem/orderItem.dto";
 
 export class PlaceOrderDto {
     
-    email!: string;
+    readonly email!: string;
     
-    address!: string;
+    readonly address!: string;
 
-    orderItems!: OrderItemDto[];
+    readonly orderItems!: OrderItemDto[];
 
     constructor(email: string, address: string, orderItems: OrderItemDto[]){
         this.email = email;
