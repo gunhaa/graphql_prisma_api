@@ -8,5 +8,5 @@ module.exports = {
   testMatch: [
     "**/__tests__/**/*.ts",
   ],
-  setupFilesAfterEnv: ['<rootDir>/prisma/prismaMock.ts'],
+  setupFilesAfterEnv: ['<rootDir>/prisma/mocks/prismaMock.ts'],
 };

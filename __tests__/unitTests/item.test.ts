@@ -1,5 +1,5 @@
 import { Item } from "@prisma/client";
-import { prismaMock } from "../../prisma/prismaMock";
+import { prismaMock } from "../../prisma/mocks/prismaMock";
 import itemService from "../../src/graphql/item/service";
 import { RegisterItemDto } from "../../src/graphql/item/dto";
 

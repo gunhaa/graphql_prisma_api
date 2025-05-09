@@ -1,16 +1,8 @@
-import {
-  Delivery,
-  DeliveryStatus,
-  Item,
-  Member,
-  Order,
-  OrderItem,
-} from "@prisma/client";
-import { prismaMock } from "../../prisma/prismaMock";
+import { Order } from "@prisma/client";
+import { prismaMock } from "../../prisma/mocks/prismaMock";
 import orderService from "../../src/graphql/order/service";
 import { PlaceOrderDto } from "../../src/graphql/order/placeOrder.dto";
-import { OrderResult } from "../../src/graphql/order/result.type";
-import { OrderItemDto } from "../../src/graphql/orderItem/dto";
+import { mockDelivery, mockItem1, mockItem2, mockMember, mockOrder, mockOrderItems, mockOrderItemsDto, mockOrderResult, mockResultItem1, mockResultItem2 } from "../../prisma/mocks/testMockData";
 
 describe("order schema test", () => {
   it("getOrders()는 모든 Order를 반환해야 한다", async () => {
@@ -33,100 +25,7 @@ describe("order schema test", () => {
     expect(result.length).toBe(10);
   });
 
-  it("placeOrder는 생성된 Order를 반환하고, 문제 없이 생성되어야 한다", async () => {
-    const exampleEmail = "example1@example1.com";
-    const deliveryAddress = "address: 쟤네집";
-
-    const mockMember: Member = {
-      id: 1,
-      email: exampleEmail,
-      address: "address: 1",
-      name: "name1",
-      password: "password1",
-      createdAt: new Date("2100-10-10"),
-    };
-
-    const mockItem1: Item = {
-      id: 1,
-      name: "item1",
-      price: 10000,
-      stockQuantity: 100,
-      category: "category1",
-      createdAt: new Date("2100-10-10"),
-    };
-
-    const mockItem2: Item = {
-      id: 2,
-      name: "item2",
-      price: 20000,
-      stockQuantity: 100,
-      category: "category2",
-      createdAt: new Date("2100-10-10"),
-    };
-
-    const mockResultItem1: Item = {
-      id: 1,
-      name: "item1",
-      price: 10000,
-      stockQuantity: 95,
-      category: "category1",
-      createdAt: new Date("2100-10-10"),
-    };
-
-    const mockResultItem2: Item = {
-      id: 2,
-      name: "item2",
-      price: 20000,
-      stockQuantity: 95,
-      category: "category2",
-      createdAt: new Date("2100-10-10"),
-    };
-
-    const mockOrderItems: OrderItem[] = [
-      {
-        id: 1,
-        count: 5,
-        itemId: 1,
-        orderId: 1,
-        orderPrice: 50000,
-        createdAt: new Date("2100-10-10"),
-      },
-      {
-        id: 2,
-        count: 5,
-        itemId: 2,
-        orderId: 1,
-        orderPrice: 100000,
-        createdAt: new Date("2100-10-10"),
-      },
-    ];
-
-    const mockOrderItemsDto: OrderItemDto[] = [
-      new OrderItemDto("1", 5),
-      new OrderItemDto("2", 5),
-    ];
-
-    const mockDelivery: Delivery = {
-      id: 1,
-      address: deliveryAddress,
-      deliveryStatus: DeliveryStatus.PENDING,
-      orderId: 1,
-      createdAt: new Date("2100-10-10"),
-    };
-
-    const mockOrder: Order = {
-      id: 1,
-      buyerId: 1,
-      createdAt: new Date("2100-10-10"),
-    };
-
-    const mockOrderResult: OrderResult = {
-      ...mockOrder,
-      buyer: mockMember,
-      delivery: mockDelivery,
-      orderItems: mockOrderItems,
-    };
-
+  it("placeOrder는 생성된 Order를 반환하고, 내부 쿼리가 예측 가능하게 생성되어야 한다", async () => {
     prismaMock.member.findUnique.mockResolvedValue(mockMember);
 
     const tx = {
@@ -159,7 +58,7 @@ describe("order schema test", () => {
     });
 
     const createOrder = await orderService.placeOrder(
-      new PlaceOrderDto(exampleEmail, deliveryAddress, mockOrderItemsDto)
+      new PlaceOrderDto(mockMember.email, mockDelivery.address, mockOrderItemsDto)
     );
 
     expect(tx.item.findUnique).toHaveBeenNthCalledWith(
