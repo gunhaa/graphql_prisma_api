@@ -42,10 +42,11 @@
     - ~~N+1 문제 해결(DataLoader)~~
 4. ~~서비스 레이어로 분리~~
     - ~~폴더 구조 js스럽게 변경하기~~
-5. 테스트 생성
+5. ~~테스트 생성~~
     - ~~seed.ts 생성~~
     - dev, test db 분리
-        - unit test는 mock 사용, integration test는 test db(docker container) 사용
+        - ~~unit test는 mock 사용~~, integration test는 test db(docker container) 사용
 6. input 값을 validation 하는 ~~validator 클래스 구현~~ 라이브러리 사용
-7. order transaction, lock 을 이용한 critical section mutex로 구현
-    - stockQuantity의 조건을 이용한 방식으로 변경예정
+7. order transaction, lock 을 이용한 critical section 설정
+    - stockQuantity의 조건을 이용한 방향으로 구현
+8. jwt를 사용하는 인증 관련 API 추가
