@@ -1,12 +1,12 @@
-import memberService from "../../src/graphql/member/service";
-import { createLoaders } from "../../src/context/loaders";
-import { prismaMock } from "../../prisma/mocks/prismaMock";
-import { Member, Order } from "@prisma/client";
-import { JoinMemberDto } from "../../src/graphql/member/joinMember.dto";
-import { GraphQLError } from "graphql";
+import memberService from '../../src/graphql/member/service';
+import { createLoaders } from '../../src/context/loaders';
+import { prismaMock } from '../../prisma/mocks/prismaMock';
+import { Member, Order } from '@prisma/client';
+import { JoinMemberDto } from '../../src/graphql/member/joinMember.dto';
+import { GraphQLError } from 'graphql';
 
-describe("member schema test", () => {
-  it("getMembers()는 모든 Member를 반환해야 한다", async () => {
+describe('member schema test', () => {
+  it('getMembers()는 모든 Member를 반환해야 한다', async () => {
     const mockMembers: Member[] = [];
 
     for (let i = 0; i < 10; i++) {
@@ -16,7 +16,7 @@ describe("member schema test", () => {
         address: `address: example${i}`,
         name: `name${i}`,
         password: `password${i}`,
-        createdAt: new Date("2100-10-10"),
+        createdAt: new Date('2100-10-10'),
       };
       mockMembers.push(mockMember);
     }
@@ -29,11 +29,11 @@ describe("member schema test", () => {
     expect(result.length).toBe(10);
   });
 
-  it("해당 테스트는 memberResolver.Member.orders의 내부동작을 재현한다. DataLoader를 사용해 멤버별 주문을 배치 조회해야 하며, load는 두번, 쿼리는 한번 나가야 한다", async () => {
+  it('해당 테스트는 memberResolver.Member.orders의 내부동작을 재현한다. DataLoader를 사용해 멤버별 주문을 배치 조회해야 하며, load는 두번, 쿼리는 한번 나가야 한다', async () => {
     const mockOrders: Order[] = [
-      { id: 1, buyerId: 1, createdAt: new Date("2100-10-10") },
-      { id: 2, buyerId: 1, createdAt: new Date("2100-10-10") },
-      { id: 3, buyerId: 2, createdAt: new Date("2100-10-10") },
+      { id: 1, buyerId: 1, createdAt: new Date('2100-10-10') },
+      { id: 2, buyerId: 1, createdAt: new Date('2100-10-10') },
+      { id: 3, buyerId: 2, createdAt: new Date('2100-10-10') },
     ];
 
     prismaMock.order.findMany.mockResolvedValue(mockOrders);
@@ -60,14 +60,14 @@ describe("member schema test", () => {
     expect(result2).toEqual([{ ...mockOrders[2] }]);
   });
 
-  it("joinMember는 생성된 Member를 반환하고, 문제 없이 생성되어야 한다", async () => {
+  it('joinMember는 생성된 Member를 반환하고, 문제 없이 생성되어야 한다', async () => {
     const mockMember: Member = {
       id: 1,
-      email: "example1@example.com",
-      address: "address: 1",
-      name: "example name1",
-      password: "password1",
-      createdAt: new Date("2100-10-10"),
+      email: 'example1@example.com',
+      address: 'address: 1',
+      name: 'example name1',
+      password: 'password1',
+      createdAt: new Date('2100-10-10'),
     };
 
     prismaMock.member.create.mockResolvedValue(mockMember);
@@ -83,19 +83,19 @@ describe("member schema test", () => {
 
     expect(createMember).toEqual({
       ...mockMember,
-      createdAt: new Date("2100-10-10"),
+      createdAt: new Date('2100-10-10'),
     });
   });
 
-  it("joinMember.validator의 검증으로 올바르지 않은 이메일은 에러가 발생해야 한다.", async () => {
-    const validEmail = "wh8299@gmail.com";
+  it('joinMember.validator의 검증으로 올바르지 않은 이메일은 에러가 발생해야 한다.', async () => {
+    const validEmail = 'wh8299@gmail.com';
     const validEmailMember: Member = {
       id: 1,
       email: validEmail,
-      address: "address: 1",
-      name: "name1",
-      password: "password1",
-      createdAt: new Date("2100-10-10"),
+      address: 'address: 1',
+      name: 'name1',
+      password: 'password1',
+      createdAt: new Date('2100-10-10'),
     };
 
     prismaMock.member.create.mockResolvedValue(validEmailMember);
@@ -111,14 +111,14 @@ describe("member schema test", () => {
 
     expect(createMember).toEqual(validEmailMember);
 
-    const unvalidEmail = "aaa";
+    const unvalidEmail = 'aaa';
     const unvalidEmailMember: Member = {
       id: 1,
       email: unvalidEmail,
-      address: "address: 1",
-      name: "name1",
-      password: "password1",
-      createdAt: new Date("2100-10-10"),
+      address: 'address: 1',
+      name: 'name1',
+      password: 'password1',
+      createdAt: new Date('2100-10-10'),
     };
 
     await memberService
@@ -133,21 +133,21 @@ describe("member schema test", () => {
       .catch((e) => {
         expect(e).toBeInstanceOf(GraphQLError);
         expect(e.message).toBe(
-          "이메일 형식이 올바르지 않습니다. '@'를 포함한 유효한 이메일을 입력해주세요."
+          '이메일 형식이 올바르지 않습니다. \'@\'를 포함한 유효한 이메일을 입력해주세요.'
         );
-        expect(e.extensions.code).toBe("INVALID_EMAIL_FORMAT");
+        expect(e.extensions.code).toBe('INVALID_EMAIL_FORMAT');
       });
   });
 
-  it("joinMember.validator의 검증으로 8~20자의 영문자와 숫자를 포함하지 않은 비밀번호는 에러가 발생해야 한다.", async () => {
-    const validPassword = "asdfqwer1234";
+  it('joinMember.validator의 검증으로 8~20자의 영문자와 숫자를 포함하지 않은 비밀번호는 에러가 발생해야 한다.', async () => {
+    const validPassword = 'asdfqwer1234';
     const validPasswordMember: Member = {
       id: 1,
-      email: "example1@example1.com",
-      address: "address: 1",
-      name: "name1",
+      email: 'example1@example1.com',
+      address: 'address: 1',
+      name: 'name1',
       password: validPassword,
-      createdAt: new Date("2100-10-10"),
+      createdAt: new Date('2100-10-10'),
     };
 
     prismaMock.member.create.mockResolvedValue(validPasswordMember);
@@ -163,14 +163,14 @@ describe("member schema test", () => {
 
     expect(createMember).toEqual(validPasswordMember);
 
-    const unvalidPassword = "aa";
+    const unvalidPassword = 'aa';
     const unvalidPasswordMember: Member = {
       id: 1,
-      email: "example1@example1.com",
-      address: "address: 1",
-      name: "name1",
+      email: 'example1@example1.com',
+      address: 'address: 1',
+      name: 'name1',
       password: unvalidPassword,
-      createdAt: new Date("2100-10-10"),
+      createdAt: new Date('2100-10-10'),
     };
 
     await memberService
@@ -185,21 +185,21 @@ describe("member schema test", () => {
       .catch((e) => {
         expect(e).toBeInstanceOf(GraphQLError);
         expect(e.message).toBe(
-          "비밀번호 형식이 올바르지 않습니다. 8~20자의 영문자와 숫자를 포함해야 합니다."
+          '비밀번호 형식이 올바르지 않습니다. 8~20자의 영문자와 숫자를 포함해야 합니다.'
         );
-        expect(e.extensions.code).toBe("INVALID_PASSWORD_FORMAT");
+        expect(e.extensions.code).toBe('INVALID_PASSWORD_FORMAT');
       });
   });
 
-  it("joinMember.validator의 검증으로 20글자를 초과하는 이름은 에러가 발생해야 한다.", async () => {
-    const validName = "my_name_is_example";
+  it('joinMember.validator의 검증으로 20글자를 초과하는 이름은 에러가 발생해야 한다.', async () => {
+    const validName = 'my_name_is_example';
     const validNameMember: Member = {
       id: 1,
-      email: "example1@example1.com",
-      address: "address: 1",
+      email: 'example1@example1.com',
+      address: 'address: 1',
       name: validName,
-      password: "password1",
-      createdAt: new Date("2100-10-10"),
+      password: 'password1',
+      createdAt: new Date('2100-10-10'),
     };
 
     prismaMock.member.create.mockResolvedValue(validNameMember);
@@ -220,11 +220,11 @@ describe("member schema test", () => {
 
     const invalidNameMember: Member = {
       id: 1,
-      email: "example1@example1.com",
-      address: "address: 1",
-      name: "name1",
-      password: "password1",
-      createdAt: new Date("2100-10-10"),
+      email: 'example1@example1.com',
+      address: 'address: 1',
+      name: invalidName,
+      password: 'password1',
+      createdAt: new Date('2100-10-10'),
     };
 
     await memberService
@@ -239,21 +239,21 @@ describe("member schema test", () => {
       .catch((e) => {
         expect(e).toBeInstanceOf(GraphQLError);
         expect(e.message).toBe(
-          "이름의 길이가 올바르지 않습니다. 20자 이하의 이름으로 입력해주세요."
+          '이름의 길이가 올바르지 않습니다. 20자 이하의 이름을(를) 입력해주세요.'
         );
-        expect(e.extensions.code).toBe("INVALID_NAME_LENGTH");
+        expect(e.extensions.code).toBe('INVALID_NAME_LENGTH');
       });
   });
 
-  it("joinMember.validator의 검증으로 100글자 이상의 주소는 에러가 발생해야 한다.", async () => {
-    const validAddress = "address: 1";
+  it('joinMember.validator의 검증으로 100글자 이상의 주소는 에러가 발생해야 한다.', async () => {
+    const validAddress = 'address: 1';
     const validAddressMember: Member = {
       id: 1,
-      email: "example1@example1.com",
+      email: 'example1@example1.com',
       address: validAddress,
-      name: "name1",
-      password: "password1",
-      createdAt: new Date("2100-10-10"),
+      name: 'name1',
+      password: 'password1',
+      createdAt: new Date('2100-10-10'),
     };
 
     prismaMock.member.create.mockResolvedValue(validAddressMember);
@@ -274,11 +274,11 @@ describe("member schema test", () => {
 
     const invalidAddressMember: Member = {
       id: 1,
-      email: "example1@example1.com",
+      email: 'example1@example1.com',
       address: invalidAddress,
-      name: "name1",
-      password: "password1",
-      createdAt: new Date("2100-10-10"),
+      name: 'name1',
+      password: 'password1',
+      createdAt: new Date('2100-10-10'),
     };
 
     await memberService
@@ -293,9 +293,9 @@ describe("member schema test", () => {
       .catch((e) => {
         expect(e).toBeInstanceOf(GraphQLError);
         expect(e.message).toBe(
-          "주소의 길이가 올바르지 않습니다. 100자 이하의 주소를 입력해주세요."
+          '주소의 길이가 올바르지 않습니다. 100자 이하의 주소을(를) 입력해주세요.'
         );
-        expect(e.extensions.code).toBe("INVALID_ADDRESS_LENGTH");
+        expect(e.extensions.code).toBe('INVALID_ADDRESS_LENGTH');
       });
   });
 });

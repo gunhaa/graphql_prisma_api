@@ -28,15 +28,15 @@ class OrderService {
   }
 
   async placeOrder(input: PlaceOrderDto): Promise<Order> {
-    const placeOrderDto = new PlaceOrderDto(
-      input.email,
-      input.address,
-      input.orderItems
-    );
+    // const placeOrderDto = new PlaceOrderDto(
+    //   input.email,
+    //   input.address,
+    //   input.orderItems
+    // );
 
     const findMember = await prismaClient.member.findUnique({
       where: {
-        email: placeOrderDto.email,
+        email: input.email,
       },
     });
 
@@ -67,7 +67,7 @@ class OrderService {
           order: {
             connect: { id: createOrder.id },
           },
-          address: placeOrderDto.address,
+          address: input.address,
           deliveryStatus: DeliveryStatus.PENDING,
           createdAt: new Date(),
         },
@@ -76,7 +76,7 @@ class OrderService {
 
       const createdOrderItems: OrderItem[] = [];
 
-      for (const orderItemDto of placeOrderDto.orderItems) {
+      for (const orderItemDto of input.orderItems) {
         if (typeof orderItemDto.orderQuantity !== "number") {
           throw new GraphQLError("숫자가 아닙니다.", {
             extensions: { code: "BAD_TYPE_INPUT" },
