@@ -1,6 +1,7 @@
 import { Member, Order } from "@prisma/client";
 import prismaClient from "../../../prisma/prismaClient";
-import { JoinMemberDto } from "./dto";
+import { JoinMemberDto } from "./joinMember.dto";
+import { validateJoinMemberDto } from "../../validator/member/joinMember.validator";
 
 class MemberService {
 
@@ -30,6 +31,8 @@ class MemberService {
       input.password,
       input.address
     );
+
+    validateJoinMemberDto(joinMemberDto);
 
     return prismaClient.member.create({
       data: {

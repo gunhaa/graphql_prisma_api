@@ -1,5 +1,5 @@
 import { Item } from "@prisma/client";
-import { RegisterItemDto } from "./dto";
+import { RegisterItemDto } from "./registerItem.dto";
 import itemService from "./service";
 
 export const itemResolver = {

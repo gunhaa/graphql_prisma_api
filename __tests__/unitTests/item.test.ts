@@ -1,7 +1,7 @@
 import { Item } from "@prisma/client";
 import { prismaMock } from "../../prisma/mocks/prismaMock";
 import itemService from "../../src/graphql/item/service";
-import { RegisterItemDto } from "../../src/graphql/item/dto";
+import { RegisterItemDto } from "../../src/graphql/item/registerItem.dto";
 import { mockItem1 } from "../../prisma/mocks/testMockData";
 
 describe('item schema test', () => {

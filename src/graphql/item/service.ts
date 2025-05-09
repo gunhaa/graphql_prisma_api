@@ -1,6 +1,6 @@
 import { Item } from "@prisma/client";
 import prismaClient from "../../../prisma/prismaClient";
-import { RegisterItemDto } from "./dto";
+import { RegisterItemDto } from "./registerItem.dto";
 
 class ItemService {
   async getItems(): Promise<Item[]> {

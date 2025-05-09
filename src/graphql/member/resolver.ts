@@ -1,5 +1,5 @@
 import { Member, Order } from "@prisma/client";
-import { JoinMemberDto } from "./dto";
+import { JoinMemberDto } from "./joinMember.dto";
 import memberService from "./service";
 
 export const memberResolver = {

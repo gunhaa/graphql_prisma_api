@@ -113,7 +113,7 @@ describe('order schema test', () => {
       .catch((e) => {
         expect(e).toBeInstanceOf(GraphQLError);
         expect(e.message).toBe('존재하지 않는 이메일 입니다');
-        expect(e.extensions.code).toBe('UNVALID_EMAIL_INPUT');
+        expect(e.extensions.code).toBe('INVALID_EMAIL_INPUT');
       });
   });
 });
