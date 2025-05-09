@@ -18,7 +18,7 @@ describe('member schema test', () => {
         createdAt: new Date("2100-10-10"),
       };
       mockMembers.push(mockMember);
-    }
+    };
 
     prismaMock.member.findMany.mockResolvedValue(mockMembers);
 
