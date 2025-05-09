@@ -2,6 +2,7 @@ import { Delivery, DeliveryStatus, Member, Order, OrderItem } from "@prisma/clie
 import prismaClient from "../../../prisma/prismaClient";
 import { GraphQLError } from "graphql";
 import { PlaceOrderDto } from "./placeOrder.dto";
+import { OrderResult } from "./result.type";
 
 class OrderService {
   async getOrders(): Promise<Order[]> {
@@ -116,7 +117,7 @@ class OrderService {
         createdOrderItems.push(createOrderItem);
       }
 
-      const result = {
+      const result: OrderResult = {
         ...createOrder,
         buyer: findMember,
         delivery: createDelivery,

@@ -60,7 +60,7 @@ describe('member schema test', () => {
     expect(result2).toEqual([{ ...mockOrders[2] }]);
   });
 
-  it('joinMember는 생성된 member를 반환하고, 문제 없이 생성되어야 한다', async () => {
+  it('joinMember는 생성된 Member를 반환하고, 문제 없이 생성되어야 한다', async () => {
     const mockMember: Member = {
       id: 1, 
       email: 'example1@example.com',
