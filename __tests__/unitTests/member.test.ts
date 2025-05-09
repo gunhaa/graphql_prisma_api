@@ -1,12 +1,11 @@
 import memberService from "../../src/graphql/member/service";
-import { memberResolver } from "../../src/graphql/member/resolver";
 import { createLoaders } from "../../src/context/loaders";
 import { prismaMock } from "../../prisma/prismaMock";
 import { Member, Order } from "@prisma/client";
 import { JoinMemberDto } from "../../src/graphql/member/dto";
 
-describe("MemberService의 메서드 테스트", () => {
-  it("getMembers()는 모든 멤버를 반환해야 한다", async () => {
+describe('member schema 관련 테스트', () => {
+  it('getMembers()는 모든 멤버를 반환해야 한다', async () => {
     const mockMembers: Member[] = [];
 
     for (let i = 0; i < 10; i++) {

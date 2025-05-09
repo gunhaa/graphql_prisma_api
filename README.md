@@ -4,7 +4,7 @@
 - Node.js 환경에서 동작하는 주문 처리 API
 - Prisma ORM, GraphQL, TypeScript를 중심으로 구성
 - GitHub Issue 탭을 활용한 이슈 관리
-- trunk-based branching 전략 적용
+- trunk-based branch 전략 적용
 
 
 ## ERD 기획
@@ -17,17 +17,20 @@
 - prisma-erd-generator 사용
 
 ![model2](prisma/erd/ERD.svg)
-
-- Query
-    - getMembers()
-    - getOrders()
-    - getOrderItems()
-    - getItems()
-- Mutation
-    - joinMember(input: JoinMemberInput)
-    - placeOrder(input: PlaceOrderInput)
-    - registerItem(input: RegisterItemInput)
-
+- 인증이 필요없는 API
+    - Query
+        - ~~getMembers()~~
+        - ~~getOrders()~~
+        - ~~getOrderItems()~~
+        - ~~getItems()~~
+    - Mutation
+        - ~~joinMember(input: JoinMemberInput)~~
+        - ~~placeOrder(input: PlaceOrderInput)~~
+        - ~~registerItem(input: RegisterItemInput)~~
+- 인증이 필요한 API(+인증 관리)
+    - login(input: LoginMemberInput)
+    - getMyOrdersByMember()
+    - registerItemByAdmin()
 
 
 # Todo
@@ -42,6 +45,7 @@
 5. 테스트 생성
     - ~~seed.ts 생성~~
     - dev, test db 분리
-    - 테스트 생성
-6. input 값을 validation 하는 validator 클래스 구현
-7. order transaction, lock 을 이용한 critical section mutex로 구현하기
+        - unit test는 mock 사용, integration test는 test db(docker container) 사용
+6. input 값을 validation 하는 ~~validator 클래스 구현~~ 라이브러리 사용
+7. order transaction, lock 을 이용한 critical section mutex로 구현
+    - stockQuantity의 조건을 이용한 방식으로 변경예정
