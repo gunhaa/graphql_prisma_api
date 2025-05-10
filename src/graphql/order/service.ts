@@ -5,7 +5,7 @@ import { PlaceOrderDto } from "./placeOrder.dto";
 import { OrderResult } from "./result.type";
 
 class OrderService {
-  async getOrders(): Promise<Order[]> {
+  async getAllOrders(): Promise<Order[]> {
     return await prismaClient.order.findMany();
   }
 

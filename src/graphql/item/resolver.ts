@@ -4,8 +4,8 @@ import itemService from "./service";
 
 export const itemResolver = {
   Query: {
-    getItems: (): Promise<Item[]> => {
-      return itemService.getItems();
+    getAllItems: (): Promise<Item[]> => {
+      return itemService.getAllItems();
     },
   },
 

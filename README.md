@@ -19,21 +19,23 @@
 ![model2](prisma/erd/ERD.svg)
 - 인증이 필요없는 API
     - Query
-        - ~~getMembers()~~
-        - ~~getOrders()~~
-        - ~~getOrderItems()~~
-        - ~~getItems()~~
+        - ~~getAllMembers()~~
+        - ~~getAllOrders()~~
+        - ~~getAllOrderItems()~~
+        - ~~getAllItems()~~
     - Mutation
         - ~~joinMember(input: JoinMemberInput)~~
         - ~~placeOrder(input: PlaceOrderInput)~~
         - ~~registerItem(input: RegisterItemInput)~~
 - 인증이 필요한 API(jwt 인증 관리)
     - Query
-        - loginMember(input: LoginMemberInput)
-        - getMyOrdersWithAuthroize(input: LoginMemberInput)
+        - login()
+            - jwt 얻어오기
+        - getMyOrder()
+            - jwt 토큰을 이용한 나의 주문 정보 얻어오기
     - Mutation    
-        - registerItemWithAuthroize()
-
+        - registerItemSecurely(input: RegisterItemInput)
+            - jwt 토큰을 이용해 인증 후 등록하기
 
 # Todo
 
@@ -50,7 +52,9 @@
     - integration test는 test db(docker container) 사용하여 구현
         - 생략, integration test는 dev 환경의 playground로 대체 가능
 6. ~~input 값을 validation 하는 validator 클래스 구현~~
-    - member
+    - ~~joinMember~~
 7. order transaction, lock 을 이용한 critical section 설정
-    - stockQuantity의 조건을 이용한 방향으로 구현
+    - 비관적 락 사용
 8. jwt를 사용하는 인증 관련 API 추가
+    - 빠른 개발을 위해 복잡한 로직 제거(refresh, blacklist, db 저장 제거)
+    - access token 발급(1h), 인증 구현

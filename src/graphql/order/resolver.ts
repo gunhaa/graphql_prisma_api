@@ -4,8 +4,8 @@ import orderService from "./service";
 
 export const orderResolver = {
   Query: {
-    getOrders: (): Promise<Order[]> => {
-      return orderService.getOrders();
+    getAllOrders: (): Promise<Order[]> => {
+      return orderService.getAllOrders();
     },
   },
 

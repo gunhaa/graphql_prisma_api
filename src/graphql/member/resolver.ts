@@ -4,8 +4,8 @@ import memberService from "./service";
 
 export const memberResolver = {
   Query: {
-    getMembers: (): Promise<Member[]> => {
-      return memberService.getMembers();
+    getAllMembers: (): Promise<Member[]> => {
+      return memberService.getAllMembers();
     },
   },
 

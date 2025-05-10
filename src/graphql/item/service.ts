@@ -3,7 +3,7 @@ import prismaClient from "../../../prisma/prismaClient";
 import { RegisterItemDto } from "./registerItem.dto";
 
 class ItemService {
-  async getItems(): Promise<Item[]> {
+  async getAllItems(): Promise<Item[]> {
     return prismaClient.item.findMany();
   }
 

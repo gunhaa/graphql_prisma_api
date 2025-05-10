@@ -1,11 +1,11 @@
-import { Member, Order } from "@prisma/client";
-import prismaClient from "../../../prisma/prismaClient";
-import { JoinMemberDto } from "./joinMember.dto";
-import { validateJoinMember } from "../../validator/member/joinMember.validator";
-import { GraphQLError } from "graphql";
+import { Member, Order } from '@prisma/client';
+import prismaClient from '../../../prisma/prismaClient';
+import { JoinMemberDto } from './joinMember.dto';
+import { validateJoinMember } from '../../validator/member/joinMember.validator';
+import { GraphQLError } from 'graphql';
 
 class MemberService {
-  async getMembers(): Promise<Member[]> {
+  async getAllMembers(): Promise<Member[]> {
     return prismaClient.member.findMany();
   }
 
@@ -15,16 +15,16 @@ class MemberService {
   }
 
   async joinMember(input: JoinMemberDto): Promise<Member> {
-    const generateInput = {
+    const finalInput  = {
       ...input,
       name: input.name ?? this.generateRandomName(),
     };
 
     validateJoinMember(
-      generateInput.email,
-      generateInput.name,
-      generateInput.password,
-      generateInput.address
+      finalInput.email,
+      finalInput.name,
+      finalInput.password,
+      finalInput.address
     );
 
     const findMember = await prismaClient.member.findUnique({
@@ -34,16 +34,16 @@ class MemberService {
     });
 
     if (findMember) {
-      throw new GraphQLError("중복된 이메일 입니다", {
+      throw new GraphQLError('중복된 이메일 입니다', {
         extensions: {
-          code: "EMAIL_ALREADY_EXISTS",
+          code: 'EMAIL_ALREADY_EXISTS',
         },
       });
-    };
+    }
 
     return prismaClient.member.create({
       data: {
-        ...generateInput,
+        ...finalInput,
         createdAt: new Date(),
       },
     });
@@ -51,28 +51,28 @@ class MemberService {
 
   private generateRandomName(): string {
     const prefix = [
-      "음악하는",
-      "요리하는",
-      "밥하는",
-      "그림그리는",
-      "책읽는",
-      "운동하는",
-      "게임하는",
-      "춤추는",
-      "노래하는",
-      "책쓰는",
+      '음악하는',
+      '요리하는',
+      '밥하는',
+      '그림그리는',
+      '책읽는',
+      '운동하는',
+      '게임하는',
+      '춤추는',
+      '노래하는',
+      '책쓰는',
     ];
     const suffix = [
-      "사람",
-      "도깨비",
-      "인간",
-      "고양이",
-      "강아지",
-      "요정",
-      "슬라임",
-      "마법사",
-      "엘프",
-      "이방인",
+      '사람',
+      '도깨비',
+      '인간',
+      '고양이',
+      '강아지',
+      '요정',
+      '슬라임',
+      '마법사',
+      '엘프',
+      '이방인',
     ];
     const maxNumber = 10000;
     const activity = prefix[Math.floor(Math.random() * prefix.length)];

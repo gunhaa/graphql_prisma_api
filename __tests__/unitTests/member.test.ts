@@ -23,7 +23,7 @@ describe('member schema test', () => {
 
     prismaMock.member.findMany.mockResolvedValue(mockMembers);
 
-    const result = await memberService.getMembers();
+    const result = await memberService.getAllMembers();
     expect(result).toEqual(mockMembers);
     expect(prismaMock.member.findMany).toHaveBeenCalled();
     expect(result.length).toBe(10);

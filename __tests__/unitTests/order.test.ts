@@ -20,7 +20,7 @@ describe('order schema test', () => {
 
     prismaMock.order.findMany.mockResolvedValue(mockOrders);
 
-    const result = await orderService.getOrders();
+    const result = await orderService.getAllOrders();
     expect(result).toEqual(mockOrders);
     expect(prismaMock.order.findMany).toHaveBeenCalled();
     expect(result.length).toBe(10);

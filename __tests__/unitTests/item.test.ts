@@ -21,7 +21,7 @@ describe('item schema test', () => {
 
     prismaMock.item.findMany.mockResolvedValue(mockItems);
 
-    const result = await itemService.getItems();
+    const result = await itemService.getAllItems();
     expect(result).toEqual(mockItems);
     expect(prismaMock.item.findMany).toHaveBeenCalled();
     expect(result.length).toBe(10);
