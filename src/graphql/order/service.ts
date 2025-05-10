@@ -15,7 +15,12 @@ import { validatePlaceOrder } from '../../validator/order/placeOrder.validator';
 
 class OrderService {
   async getAllOrders(): Promise<Order[]> {
-    return await prismaClient.order.findMany();
+    return await prismaClient.order.findMany({
+      include: {
+        buyer: true,
+        delivery: true,
+      }
+    });
   }
 
   async getMyOrders(memberStatus: memberStatus): Promise<Order[]> {

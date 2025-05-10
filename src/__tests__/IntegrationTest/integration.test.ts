@@ -1,5 +1,7 @@
 import { Item, Member, PrismaClient } from '@prisma/client';
 import { createApolloServer } from '../../context/server';
+import memberService from '../../graphql/member/service';
+import itemService from '../../graphql/item/service';
 
 // import prismaClient from '../../../prisma/prismaClient';
 // **prismaClient를 불러서 가져오면 문제가 생긴다, seed 데이터 없는 상태로 가져옴, 테스트 용으로 비워서주는 이상한 로직이 있는거같음**
@@ -16,7 +18,7 @@ describe('docker-compose를 이용해 test용 db를 띄운 후 로직을 테스�
   });
 
   it('seed로 생성된 회원 테스트', async () => {
-    const members: Member[] = await prismaClient.member.findMany();
+    const members: Member[] = await memberService.getAllMembers();
     for (const member of members) {
       const findMember = await prismaClient.member.findUnique({
         where: {
@@ -34,7 +36,7 @@ describe('docker-compose를 이용해 test용 db를 띄운 후 로직을 테스�
   });
 
   it('seed로 생성된 아이템 테스트', async () => {
-    const items: Item[] = await prismaClient.item.findMany();
+    const items: Item[] = await itemService.getAllItems();
     for (const item of items) {
       const findItem = await prismaClient.item.findUnique({
         where: {
@@ -52,7 +54,9 @@ describe('docker-compose를 이용해 test용 db를 띄운 후 로직을 테스�
     };
   });
 
-  it('seed로 생성된 주문 테스트', async () => { });
+  it('seed로 생성된 주문 테스트', async () => {
+
+   });
 
   it('로그인 요청', async () => { });
 
