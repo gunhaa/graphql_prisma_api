@@ -1,4 +1,4 @@
-import { GraphQLError } from "graphql";
+import { GraphQLError } from 'graphql';
 
 class Validator {
   private emailRegex;
@@ -12,10 +12,10 @@ class Validator {
   validateEmail(email: string): void {
     if (!this.emailRegex.test(email)) {
       throw new GraphQLError(
-        "이메일 형식이 올바르지 않습니다. '@'를 포함한 유효한 이메일을 입력해주세요.",
+        '이메일 형식이 올바르지 않습니다. \'@\'를 포함한 유효한 이메일을 입력해주세요.',
         {
           extensions: {
-            code: "INVALID_EMAIL_FORMAT",
+            code: 'INVALID_EMAIL_FORMAT',
           },
         }
       );
@@ -25,10 +25,10 @@ class Validator {
   validatePassword(password: string): void {
     if (!this.passwordRegex.test(password)) {
       throw new GraphQLError(
-        "비밀번호 형식이 올바르지 않습니다. 8~20자의 영문자와 숫자를 포함해야 합니다.",
+        '비밀번호 형식이 올바르지 않습니다. 8~20자의 영문자와 숫자를 포함해야 합니다.',
         {
           extensions: {
-            code: "INVALID_PASSWORD_FORMAT",
+            code: 'INVALID_PASSWORD_FORMAT',
           },
         }
       );
@@ -53,6 +53,25 @@ class Validator {
           },
         }
       );
+    }
+  }
+
+  validateId(value: string) {
+    const num = Number(value);
+    if (!Number.isInteger(num)) {
+      throw new GraphQLError('ID는 정수여야 합니다.', {
+        extensions: {
+          code: 'INVALID_ID_FORMAT',
+        },
+      });
+    }
+
+    if (num <= 0) {
+      throw new GraphQLError('ID는 0보다 큰 값이어야 합니다.', {
+        extensions: {
+          code: 'INVALID_ID_VALUE',
+        },
+      });
     }
   }
 

@@ -10,6 +10,8 @@ import { PlaceOrderDto } from './placeOrder.dto';
 import { OrderResult } from './orderResult.type';
 import { memberStatus } from '../jwt/memberStatus.type';
 import authValidator from '../../validator/authValidator';
+import { validatePlaceOrder } from '../../validator/order/placeOrder.validator';
+
 
 class OrderService {
   async getAllOrders(): Promise<Order[]> {
@@ -53,6 +55,9 @@ class OrderService {
   }
 
   async placeOrder(input: PlaceOrderDto): Promise<Order> {
+
+    validatePlaceOrder(input.email, input.address, input.orderItems);
+
     const findMember = await prismaClient.member.findUnique({
       where: {
         email: input.email,
@@ -106,7 +111,9 @@ class OrderService {
         });
 
         if (!findItem) {
-          throw new GraphQLError('Item not found');
+          throw new GraphQLError('등록되지 않은 아이템 입니다', {
+            extensions: { code: 'INVALID_ITEMID_INPUT' },
+          });
         }
 
         if (findItem.stockQuantity - orderItemDto.orderQuantity < 0) {
