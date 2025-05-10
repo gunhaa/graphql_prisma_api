@@ -1,10 +1,15 @@
-import { Delivery, DeliveryStatus, Member, Order, OrderItem } from "@prisma/client";
-import prismaClient from "../../../prisma/prismaClient";
-import { GraphQLError } from "graphql";
-import { PlaceOrderDto } from "./placeOrder.dto";
-import { OrderResult } from "./orderResult.type";
-import { memberStatus } from "../jwt/memberStatus.type";
-import Validator from "../../validator/validator";
+import {
+  Delivery,
+  DeliveryStatus,
+  Order,
+  OrderItem,
+} from '@prisma/client';
+import prismaClient from '../../../prisma/prismaClient';
+import { GraphQLError } from 'graphql';
+import { PlaceOrderDto } from './placeOrder.dto';
+import { OrderResult } from './orderResult.type';
+import { memberStatus } from '../jwt/memberStatus.type';
+import authValidator from '../../validator/authValidator';
 
 class OrderService {
   async getAllOrders(): Promise<Order[]> {
@@ -13,46 +18,41 @@ class OrderService {
 
   async getMyOrders(memberStatus: memberStatus): Promise<Order[]> {
     
-    const isAuthorized = Validator.validateAuthorized(memberStatus);
-
-    if(!isAuthorized){
-      throw new GraphQLError('인증에 실패 하였습니다.', {
-        extensions: { code: 'JWT_AUTHORIZE_ERROR' },
-      });
-    }
-
-    // 로직실행..
+    authValidator.validateAuthorized(memberStatus);
 
     const findMember = await prismaClient.member.findUnique({
       where: {
         email: memberStatus.email as string,
-      }
+      },
     });
 
-    if(!findMember){
-      throw new GraphQLError('정상적인 JWT로 요청하였으나, 이메일 정보가 일치하지 않습니다. 발급되지 않은 JWT일 수 있습니다.', {
-        extensions: { code: 'JWT_INVALID_EMAIL_ERROR' },
-      })
+    if (!findMember) {
+      throw new GraphQLError(
+        '정상적인 JWT로 요청하였으나, 이메일 정보가 일치하지 않습니다. 발급되지 않은 JWT일 수 있습니다.',
+        {
+          extensions: { code: 'JWT_INVALID_EMAIL_ERROR' },
+        }
+      );
     }
 
     const orders: Order[] = await prismaClient.order.findMany({
       where: {
         buyerId: findMember.id,
-      }
-    })
+      },
+      include: {
+        buyer: true,
+        delivery: true,
+      },
+    });
     return orders;
   }
 
-  async getOrderItems(
-    parent: Order,
-    context: any
-  ): Promise<OrderItem[]> {
+  async getOrderItems(parent: Order, context: any): Promise<OrderItem[]> {
     // parent가 없다면 리졸버가 실행되지 않는다
     return context.loaders.orderItemsLoader.load(parent.id);
   }
 
   async placeOrder(input: PlaceOrderDto): Promise<Order> {
-
     const findMember = await prismaClient.member.findUnique({
       where: {
         email: input.email,
@@ -60,9 +60,9 @@ class OrderService {
     });
 
     if (!findMember) {
-      throw new GraphQLError("가입되지 않은 이메일 입니다", {
+      throw new GraphQLError('가입되지 않은 이메일 입니다', {
         extensions: {
-          code: "INVALID_EMAIL_INPUT",
+          code: 'INVALID_EMAIL_INPUT',
         },
       });
     }
@@ -71,7 +71,6 @@ class OrderService {
     // 주문을 만들어내야 이후 동작이 가능하다
     // 하나의 트랜잭션으로 묶어서 동작해야 한다
     const result = await prismaClient.$transaction(async (tx) => {
-
       const createOrder: Order = await tx.order.create({
         data: {
           buyer: {
@@ -92,13 +91,12 @@ class OrderService {
         },
       });
 
-
       const createdOrderItems: OrderItem[] = [];
 
       for (const orderItemDto of input.orderItems) {
-        if (typeof orderItemDto.orderQuantity !== "number") {
-          throw new GraphQLError("숫자가 아닙니다.", {
-            extensions: { code: "BAD_TYPE_INPUT" },
+        if (typeof orderItemDto.orderQuantity !== 'number') {
+          throw new GraphQLError('숫자가 아닙니다.', {
+            extensions: { code: 'BAD_TYPE_INPUT' },
           });
         }
 
@@ -108,12 +106,12 @@ class OrderService {
         });
 
         if (!findItem) {
-          throw new GraphQLError("Item not found");
+          throw new GraphQLError('Item not found');
         }
 
         if (findItem.stockQuantity - orderItemDto.orderQuantity < 0) {
-          throw new GraphQLError("재고보다 많은 주문 요청 입니다.", {
-            extensions: { code: "OVER_ORDER_INPUT" },
+          throw new GraphQLError('재고보다 많은 주문 요청 입니다.', {
+            extensions: { code: 'OVER_ORDER_INPUT' },
           });
         }
 

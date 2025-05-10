@@ -56,22 +56,11 @@ class Validator {
     }
   }
 
-  /**
-   * object에 null이 있으면 true를 반환합니다
-   * @param object - 검증할 객체 
-   * @returns 객체에 null 값이 있으면 false, 없으면 true
-   */
-  validateAuthorized(object: Record<string, any>) {
-    for (const key in object) {
-      if (object[key] === null) {
-        return false;
-      }
-    }
-    return true;
-  }
+  validateSqlInjection(value: string) {}
 }
 
 const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex: RegExp = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/;
+const sqlInjectionRegex: RegExp = /asd/;
 
 export default new Validator(emailRegex, passwordRegex);

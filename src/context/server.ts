@@ -13,7 +13,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { GraphQLFormattedError } from "graphql";
 import { createLoaders } from "./loaders";
-import { JwtUtil } from "src/graphql/jwt/jwtUtil";
+import { JwtUtil } from "../graphql/jwt/jwtUtil";
 
 dotenv.config();
 
