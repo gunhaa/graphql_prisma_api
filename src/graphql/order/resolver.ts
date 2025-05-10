@@ -7,6 +7,9 @@ export const orderResolver = {
     getAllOrders: (): Promise<Order[]> => {
       return orderService.getAllOrders();
     },
+    getMyOrders: (_: any, __: any, context: any): Promise<Order[]>=> {
+      return orderService.getMyOrders(context.member);
+    }
   },
 
   Order: {

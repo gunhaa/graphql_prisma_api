@@ -28,14 +28,10 @@
         - ~~placeOrder(input: PlaceOrderInput)~~
         - ~~registerItem(input: RegisterItemInput)~~
 - 인증이 필요한 API(jwt 인증 관리)
-    - Query
-        - login()
-            - jwt 얻어오기
-        - getMyOrder()
-            - jwt 토큰을 이용한 나의 주문 정보 얻어오기
-    - Mutation    
-        - registerItemSecurely(input: RegisterItemInput)
-            - jwt 토큰을 이용해 인증 후 등록하기
+    - ~~login()~~
+        - jwt 얻어오기
+    - ~~getMyOrders()~~
+        - jwt 토큰을 이용한 나의 주문 정보 얻어오기
 
 # Todo
 
@@ -56,9 +52,8 @@
 7. order transaction, lock 을 이용한 critical section 설정
     - 비관적 락 사용
 8. jwt를 사용하는 인증 관련 API 추가
-    - access token 발급(1h), 인증 구현
-    - 빠른 개발을 위해 로직 제거(refresh, blacklist, db 저장 제거)
-    - 인증 완료시 프론트 측에서 header에 'Authorization': `Bearer ${accessToken}` 넣는다 가정
-
+    - ~~access token 발급(1h), 인증 구현~~
+        - 빠른 개발을 위해 로직 제거(refresh, blacklist, db 저장 제거)
+        - 인증 완료시 프론트 측에서 header에 'Authorization': `Bearer ${accessToken}` 넣는다 가정
 9. password 암호화
     - library 이용하므로 우선 생략

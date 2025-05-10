@@ -13,6 +13,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { GraphQLFormattedError } from "graphql";
 import { createLoaders } from "./loaders";
+import { JwtUtil } from "src/graphql/jwt/jwtUtil";
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
   const httpServer = http.createServer(app);
   // env
   const projectType = process.env.NODE_ENV;
-  const JWT_SECRET = process.env.JWT_SECRET;
+  const JWT_SECRET = process.env.JWT_SECRET || 'default_secret_1q2w3e4r';
 
   const graphqlErrorHandling = (err: GraphQLFormattedError) => {
     console.error(err);
@@ -53,12 +54,13 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     // npm install express@4.17.3
     // npm install -D @types/express@4.17.13
     expressMiddleware(apolloServer, {
-      context: async ({ req }) => ({
+      context: async ({ req , res }) => ({
         loaders: createLoaders(),
         jwtContext: {
-          JWT_SECRET: JWT_SECRET || 'default_secret_1q2w3e4r',
+          JWT_SECRET: JWT_SECRET,
           JWT_EXPIRATION: '1h',
-        }
+        }, 
+        member: JwtUtil.verifyHeader(req.headers.authorization, JWT_SECRET),
       }),
     })
   );

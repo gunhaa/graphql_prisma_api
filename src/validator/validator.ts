@@ -35,7 +35,12 @@ class Validator {
     }
   }
 
-  validateMaxLength(value: string | null, max: number, engField: string, korField: string): void {
+  validateMaxLength(
+    value: string | null,
+    max: number,
+    engField: string,
+    korField: string
+  ): void {
     if (value === null) {
       return;
     }
@@ -49,6 +54,20 @@ class Validator {
         }
       );
     }
+  }
+
+  /**
+   * object에 null이 있으면 true를 반환합니다
+   * @param object - 검증할 객체 
+   * @returns 객체에 null 값이 있으면 false, 없으면 true
+   */
+  validateAuthorized(object: Record<string, any>) {
+    for (const key in object) {
+      if (object[key] === null) {
+        return false;
+      }
+    }
+    return true;
   }
 }
 

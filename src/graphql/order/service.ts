@@ -3,10 +3,44 @@ import prismaClient from "../../../prisma/prismaClient";
 import { GraphQLError } from "graphql";
 import { PlaceOrderDto } from "./placeOrder.dto";
 import { OrderResult } from "./orderResult.type";
+import { memberStatus } from "../jwt/memberStatus.type";
+import Validator from "../../validator/validator";
 
 class OrderService {
   async getAllOrders(): Promise<Order[]> {
     return await prismaClient.order.findMany();
+  }
+
+  async getMyOrders(memberStatus: memberStatus): Promise<Order[]> {
+    
+    const isAuthorized = Validator.validateAuthorized(memberStatus);
+
+    if(!isAuthorized){
+      throw new GraphQLError('인증에 실패 하였습니다.', {
+        extensions: { code: 'JWT_AUTHORIZE_ERROR' },
+      });
+    }
+
+    // 로직실행..
+
+    const findMember = await prismaClient.member.findUnique({
+      where: {
+        email: memberStatus.email as string,
+      }
+    });
+
+    if(!findMember){
+      throw new GraphQLError('정상적인 JWT로 요청하였으나, 이메일 정보가 일치하지 않습니다. 발급되지 않은 JWT일 수 있습니다.', {
+        extensions: { code: 'JWT_INVALID_EMAIL_ERROR' },
+      })
+    }
+
+    const orders: Order[] = await prismaClient.order.findMany({
+      where: {
+        buyerId: findMember.id,
+      }
+    })
+    return orders;
   }
 
   async getOrderItems(
