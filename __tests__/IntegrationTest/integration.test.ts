@@ -1,7 +1,5 @@
-import request from "supertest";
 import { createApolloServer } from "../../src/context/server";
-import jwt from "jsonwebtoken";
-import prismaClient from "../../prisma/prismaClient";
+import prismaTestClient from "./prismaTestClient";
 
 let app: any;
 
@@ -22,13 +20,11 @@ describe("docker-compose를 이용해 test용 db를 띄운 후 로직을 테스�
 
   afterAll(async () => {
 
-    // DB 초기화: 모든 테이블 truncate
-    await prismaClient.orderItem.deleteMany({});
-    await prismaClient.order.deleteMany({});
-    await prismaClient.item.deleteMany({});
-    await prismaClient.member.deleteMany({});
+    await prismaTestClient.orderItem.deleteMany({});
+    await prismaTestClient.order.deleteMany({});
+    await prismaTestClient.item.deleteMany({});
+    await prismaTestClient.member.deleteMany({});
 
-    // Prisma 연결 해제
-    await prismaClient.$disconnect();
+    await prismaTestClient.$disconnect();
   });
 });

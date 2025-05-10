@@ -33,7 +33,7 @@
     - ~~getMyOrders()~~
         - jwt 토큰을 이용한 나의 주문 정보 얻어오기
 
-# Todo
+## Todo
 
 1. ~~schema.prirma 엔티티 생성, prisma client 생성~~
 2. ~~graphql schema 생성~~
@@ -55,5 +55,5 @@
     - ~~access token 발급(1h), 인증 구현~~
         - 빠른 개발을 위해 로직 제거(refresh, blacklist, db 저장 제거)
         - 인증 완료시 프론트 측에서 header에 'Authorization': `Bearer ${accessToken}` 넣는다 가정
-9. password 암호화
-    - library 이용하므로 우선 생략
+
+## 실행

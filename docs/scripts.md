@@ -25,3 +25,12 @@ cd "C:\Program Files\MySQL\MySQL Server 8.0\bin"
 mysql -u root -p
 pw: 1234
 ```
+
+
+## 실행
+1. `npm run docker:up`
+2. `npx prisma migrate dev --name dev`
+3. `npm run dev`
+
+## 테스트
+

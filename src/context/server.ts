@@ -14,7 +14,7 @@ import { createLoaders } from "./loaders";
 import { JwtUtil } from "../graphql/jwt/jwtUtil";
 import { resolvers } from "../schema/resolvers";
 import { typeDefs } from "../schema/typeDefs";
-import { config } from "src/config";
+import { config } from "../config";
 
 
 
