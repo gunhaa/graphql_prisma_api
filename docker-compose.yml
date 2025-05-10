@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: j-mysql-container
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
+    ports:
+      - "3306:3306"
+    networks:
+      - jexpress-mysql-net
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always
+
+networks:
+  jexpress-mysql-net:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local

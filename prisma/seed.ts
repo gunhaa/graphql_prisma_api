@@ -1,11 +1,11 @@
 import { Item, Member, PrismaClient } from "@prisma/client";
 import memberService from "../src/graphql/member/service";
-import { JoinMemberDto } from "../src/graphql/member/dto";
+import { JoinMemberDto } from "../src/graphql/member/joinMember.dto";
 import itemService from "../src/graphql/item/service";
-import { RegisterItemDto } from "../src/graphql/item/dto";
+import { RegisterItemDto } from "../src/graphql/item/registerItem.dto";
 import orderService from "../src/graphql/order/service";
 import { PlaceOrderDto } from "../src/graphql/order/placeOrder.dto";
-import { OrderItemDto } from "../src/graphql/orderItem/dto";
+import { OrderItemDto } from "../src/graphql/orderItem/orderItem.dto";
 
 const prismaClient = new PrismaClient();
 

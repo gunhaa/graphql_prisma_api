@@ -6,7 +6,11 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node ./src/index.ts",
-    "test": "jest"
+    "test": "jest",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "prisma:migrate:local": "dotenv -e ./.env.test -- npm exec prisma migrate dev",
+    "test:local": "npm docker:up && npm prisma:migrate:local && dotenv -e ./.env.test -- jest --passWithNoTests && npm docker:down"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
