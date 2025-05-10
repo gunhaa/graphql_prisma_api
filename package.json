@@ -8,9 +8,11 @@
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node ./src/index.ts",
     "test": "jest",
     "docker:up": "docker-compose up -d",
-    "docker:down": "docker-compose down",
-    "prisma:migrate:local": "dotenv -e ./.env.test -- npm exec prisma migrate dev",
-    "test:local": "npm docker:up && npm prisma:migrate:local && dotenv -e ./.env.test -- jest --passWithNoTests && npm docker:down"
+    "test:dockerUp": "docker-compose --env-file .env.test up -d",
+    "test:migrate": "npx dotenv-cli --e .env.test -- prisma migrate dev --name test",
+    "test:seed": "npx dotenv-cli --e .env.test prisma db seed",
+    "test:jest": "npx dotenv-cli --e .env.test -- jest",
+    "docker:down": "docker-compose down --volumes"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

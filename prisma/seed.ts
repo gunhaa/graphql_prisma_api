@@ -33,13 +33,14 @@ async function main() {
     items.push(registerItem);
   }
 
-  const randomItem = (): number => Math.floor(Math.random() * 10) + 1;
-  const randomQuantity = (): number => Math.floor(Math.random() * 20) + 1;
+  // const randomItem = (): number => Math.floor(Math.random() * 10) + 1;
+  // const randomQuantity = (): number => Math.floor(Math.random() * 20) + 1;
 
   for (const member of members) {
     const orderItems: OrderItemDto[] = [];
     for (let i = 0; i < 2; i++) {
-      const orderItem = new OrderItemDto(String(randomItem()), randomQuantity());
+      // const orderItem = new OrderItemDto(String(randomItem()), randomQuantity());
+      const orderItem = new OrderItemDto(String(member.id), member.id);
       orderItems.push(orderItem);
     }
   

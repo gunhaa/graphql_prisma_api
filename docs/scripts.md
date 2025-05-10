@@ -33,4 +33,11 @@ pw: 1234
 3. `npm run dev`
 
 ## 테스트
+1. `npm run docker:testUp`
+2. `npx dotenv-cli --e .env.test -- prisma migrate dev --name test`
+3. `npx dotenv-cli --e .env.test prisma db seed`
+4. `npx dotenv-cli --e .env.test -- jest`
+5. `npm run docker:down`
 
+### 테스트 불가능으로 임시 제거
+- script : "test:local:mac": "npm run docker:testUp && npm run prisma:migrate:local && dotenv --env ./.env.test -- jest --passWithNoTests && npm docker:down",

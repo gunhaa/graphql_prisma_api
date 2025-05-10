@@ -8,7 +8,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_ID}
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
     ports:
-      - "3306:3306"
+      - "${EXPOSE_DB_PORT}:3306"
     networks:
       - prisma-mysql-net
     volumes:
