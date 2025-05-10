@@ -1,5 +1,5 @@
-query Query {
-  getMembers {
+query FullQuery {
+  getAllMembers {
     id
     name
     email
@@ -20,6 +20,7 @@ query Query {
       }
       delivery {
         address
+        deliveryStatus
       }
       createdAt
     }
@@ -27,65 +28,103 @@ query Query {
   }
 }
 
+query Login {
 
+  login (
+    input: {
+       email: "example10@email.com"
+       password: "password10"
+    }
+  ){
+    accessToken
+  }
+}
 
-query Query {
-  getItems {
+query GetMyOrders{
+  getMyOrders {
     id
-    name
-    price
-    stockQuantity
-    category
+    orderItems {
+      id
+      count
+      orderPrice
+      createdAt
+      item {
+        name
+        category
+      }
+    }
+    buyer {
+      email
+      name
+    }
+    delivery {
+      address
+      deliveryStatus
+    }
     createdAt
   }
 }
 
-mutation Mutation {
-  joinMember (
-    input:  {
-      email: "example1@example.com"
-      name: "example1"
-      password: "example1"
-      address: "example1 Address"
-    }
-  ){
-   email
-   name
-   password
-   address 0
-  }
-}
-
-mutation Mutation {
-  registerItem (
-    input:  {
-      name: "item3"
-      price: 30000
-      category: "category3"
-    }
-  ){
-    name
-    price
-    category
-  }
-}
 
 mutation PlaceOrder {
   placeOrder (
     input:  {
-      address: "배송지4"
-      email: "example1@example.com"
+      address: "배송지14"
+      email: "example1@email.com"
       orderItems:  [
-        { itemId: 1, stockQuantity: 10 },
-        { itemId: 2, stockQuantity: 10 }
+        { itemId: 1, orderQuantity: 1 },
+        { itemId: 3, orderQuantity: 1 }
       ]
     }
   ){
     buyer {
       name
+      address
+      email
+      password
     }
     delivery {
       address
+      deliveryStatus
     }
+  }
+}
+
+query GetItems {
+  getAllItems {
+    id
+    name
+    price
+    stockQuantity
+    category
+  }
+}
+
+mutation JoinMember {
+  joinMember (
+    input:  {
+      email: "example6@example.com"
+      password: "example6"
+      address: "example6 Address"
+    }
+  ){
+   email
+   password
+   address
+  }
+}
+
+
+mutation RegisterItem {
+  registerItem (
+    input:  {
+      name: "item4"
+      price: 40000
+      category: "category4"
+    }
+  ){
+    name
+    price
+    category
   }
 }
