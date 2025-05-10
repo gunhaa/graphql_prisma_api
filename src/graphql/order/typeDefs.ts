@@ -12,7 +12,7 @@ export const orderTypeDefs = gql`
   }
 
   type Query {
-    getOrders: [Order]
+    getAllOrders: [Order]
     orderItems: [OrderItem]
   }
 

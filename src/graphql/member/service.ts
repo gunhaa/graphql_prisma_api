@@ -4,8 +4,9 @@ import { JoinMemberDto } from "./joinMember.dto";
 import { validateJoinMember } from "../../validator/member/joinMember.validator";
 import { GraphQLError } from "graphql";
 import { MemberLoginDto } from "./memberLogin.dto";
-import { JwtCookie } from "../jwt/jwtCookie";
-import jwt from 'jsonwebtoken';
+import { JwtCookie } from "../jwt/jwtCookie.type";
+import { jwtContext } from "../jwt/jwtContext.type";
+import { JwtUtil } from "../jwt/jwtUtil";
 
 class MemberService {
   async getAllMembers(): Promise<Member[]> {
@@ -85,7 +86,7 @@ class MemberService {
     return `${activity} ${entity}${number}`;
   }
 
-  async login(input: MemberLoginDto, JWT_SECRET: any): Promise<JwtCookie> {
+  async login(input: MemberLoginDto, jwtContext: jwtContext): Promise<JwtCookie> {
     const findMember = await prismaClient.member.findUnique({
       where: {
         email: input.email,
@@ -108,15 +109,7 @@ class MemberService {
       });
     }
 
-    const accessToken = jwt.sign(
-      { email: findMember.email },
-      JWT_SECRET,
-      { expiresIn: '1h' }
-    );
-
-    const createJwtCookie: JwtCookie = {
-      accessToken: accessToken,
-    }
+    const createJwtCookie = JwtUtil.generateToken(findMember.email, jwtContext);
     return createJwtCookie;
   }
 }

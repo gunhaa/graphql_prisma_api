@@ -35,7 +35,7 @@ export const memberTypeDefs = gql`
   }
 
   type Query {
-    getMembers: [Member]
+    getAllMembers: [Member]
     orders: [Order]
   }
 

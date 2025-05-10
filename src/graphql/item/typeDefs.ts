@@ -14,7 +14,7 @@ export const itemTypeDefs = gql`
   }
 
   type Query {
-    getItems: [Item]
+    getAllItems: [Item]
   }
 
   type Mutation {

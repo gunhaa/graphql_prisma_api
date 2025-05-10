@@ -49,13 +49,16 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     "/graphql",
     cors<cors.CorsRequest>(),
     express.json({ limit: "50mb" }),
-    // 안정화 버전을 설치하자..
+    // 안정화 버전을 설치
     // npm install express@4.17.3
     // npm install -D @types/express@4.17.13
     expressMiddleware(apolloServer, {
       context: async ({ req }) => ({
         loaders: createLoaders(),
-        jwtSecret: JWT_SECRET,
+        jwtContext: {
+          JWT_SECRET: JWT_SECRET || 'default_secret_1q2w3e4r',
+          JWT_EXPIRATION: '1h',
+        }
       }),
     })
   );
