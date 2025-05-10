@@ -103,7 +103,7 @@ describe('order schema test', () => {
     expect(mockOrderResult).toEqual(createOrder);
   });
 
-  it('존재하지 않는 이메일은 에러가 발생해야 한다.', async () => {
+  it('가입되지 않은 이메일은 에러가 발생해야 한다.', async () => {
     prismaMock.member.findUnique.mockResolvedValue(null);
   
     await orderService
@@ -112,7 +112,7 @@ describe('order schema test', () => {
       )
       .catch((e) => {
         expect(e).toBeInstanceOf(GraphQLError);
-        expect(e.message).toBe('존재하지 않는 이메일 입니다');
+        expect(e.message).toBe('가입되지 않은 이메일 입니다');
         expect(e.extensions.code).toBe('INVALID_EMAIL_INPUT');
       });
   });

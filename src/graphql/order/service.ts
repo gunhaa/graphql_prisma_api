@@ -2,7 +2,7 @@ import { Delivery, DeliveryStatus, Member, Order, OrderItem } from "@prisma/clie
 import prismaClient from "../../../prisma/prismaClient";
 import { GraphQLError } from "graphql";
 import { PlaceOrderDto } from "./placeOrder.dto";
-import { OrderResult } from "./result.type";
+import { OrderResult } from "./orderResult.type";
 
 class OrderService {
   async getAllOrders(): Promise<Order[]> {
@@ -14,25 +14,10 @@ class OrderService {
     context: any
   ): Promise<OrderItem[]> {
     // parent가 없다면 리졸버가 실행되지 않는다
-    // if (!parent) {
-    //   throw new GraphQLError(
-    //     "orderItems 명령은 Order의 하위 필드로 조회 할 수 있습니다.",
-    //     {
-    //       extensions: {
-    //         code: "FIELD_RESOLUTION_ERROR",
-    //       },
-    //     }
-    //   );
-    // }
     return context.loaders.orderItemsLoader.load(parent.id);
   }
 
   async placeOrder(input: PlaceOrderDto): Promise<Order> {
-    // const placeOrderDto = new PlaceOrderDto(
-    //   input.email,
-    //   input.address,
-    //   input.orderItems
-    // );
 
     const findMember = await prismaClient.member.findUnique({
       where: {
@@ -41,7 +26,7 @@ class OrderService {
     });
 
     if (!findMember) {
-      throw new GraphQLError("존재하지 않는 회원 입니다", {
+      throw new GraphQLError("가입되지 않은 이메일 입니다", {
         extensions: {
           code: "INVALID_EMAIL_INPUT",
         },

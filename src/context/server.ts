@@ -1,28 +1,27 @@
-import http from 'http';
-import express, { Request, Response } from 'express';
-import { DocumentNode } from 'graphql';
-import depthLimit from 'graphql-depth-limit';
-import { ApolloServer } from '@apollo/server';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import http from "http";
+import express, { Request, Response } from "express";
+import { DocumentNode } from "graphql";
+import depthLimit from "graphql-depth-limit";
+import { ApolloServer } from "@apollo/server";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import {
-    ApolloServerPluginLandingPageLocalDefault,
-    ApolloServerPluginLandingPageProductionDefault,
-} from '@apollo/server/plugin/landingPage/default';
-import { expressMiddleware } from '@apollo/server/express4';
-import cors from 'cors';
-import dotenv from 'dotenv';
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginLandingPageProductionDefault,
+} from "@apollo/server/plugin/landingPage/default";
+import { expressMiddleware } from "@apollo/server/express4";
+import cors from "cors";
+import dotenv from "dotenv";
 import { GraphQLFormattedError } from "graphql";
-import { createLoaders } from './loaders';
+import { createLoaders } from "./loaders";
 
 dotenv.config();
 
-
 const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
-
   const app = express();
   const httpServer = http.createServer(app);
-  // env 주입
+  // env
   const projectType = process.env.NODE_ENV;
+  const JWT_SECRET = process.env.JWT_SECRET;
 
   const graphqlErrorHandling = (err: GraphQLFormattedError) => {
     console.error(err);
@@ -35,7 +34,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     csrfPrevention: true,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      projectType === 'production' 
+      projectType === "production"
         ? ApolloServerPluginLandingPageProductionDefault()
         : ApolloServerPluginLandingPageLocalDefault({ embed: false }),
     ],
@@ -47,21 +46,22 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
   await apolloServer.start();
 
   app.use(
-    '/graphql',
+    "/graphql",
     cors<cors.CorsRequest>(),
-    express.json({ limit: '50mb' }),
+    express.json({ limit: "50mb" }),
     // 안정화 버전을 설치하자..
     // npm install express@4.17.3
     // npm install -D @types/express@4.17.13
     expressMiddleware(apolloServer, {
       context: async ({ req }) => ({
         loaders: createLoaders(),
-      })
+        jwtSecret: JWT_SECRET,
+      }),
     })
   );
 
-  app.all('*', (_: Request, res: Response) => {
-    res.send('Welcome GraphQL, Use /graphql endpoint.');
+  app.all("*", (_: Request, res: Response) => {
+    res.send("Welcome GraphQL, Use /graphql endpoint.");
   });
 
   // docker 사용시 env 주입
@@ -69,6 +69,6 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
   app.listen(port, () => {
     console.log(`Server on! Port : http://localhost:${port}/graphql`);
   });
-}
+};
 
 export { startApolloServer };

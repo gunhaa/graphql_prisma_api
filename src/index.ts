@@ -9,6 +9,7 @@ import { itemTypeDefs } from "./graphql/item/typeDefs";
 import { orderItemTypeDefs } from "./graphql/orderItem/typeDefs";
 import { deliveryTypeDefs } from "./graphql/delivery/typeDefs";
 import { jwtTypeDefs } from "./graphql/jwt/typeDefs";
+import { jwtResolver } from "./graphql/jwt/resolver";
 
 
 const typeDefs = mergeTypeDefs([
@@ -24,6 +25,7 @@ const resolvers = mergeResolvers([
   memberResolver,
   orderResolver,
   itemResolver,
+  jwtResolver,
 ]);
 
 

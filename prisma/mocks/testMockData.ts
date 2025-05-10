@@ -1,5 +1,5 @@
 import { Delivery, DeliveryStatus, Item, Member, Order, OrderItem } from "@prisma/client";
-import { OrderResult } from "../../src/graphql/order/result.type";
+import { OrderResult } from "../../src/graphql/order/orderResult.type";
 import { OrderItemDto } from "../../src/graphql/orderItem/orderItem.dto";
 
 export const mockMember: Member = {
