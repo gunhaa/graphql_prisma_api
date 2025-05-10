@@ -1,6 +1,5 @@
 import http from "http";
-import express, { Request, Response } from "express";
-import { DocumentNode } from "graphql";
+import express, { Application, Request, Response } from "express";
 import depthLimit from "graphql-depth-limit";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
@@ -10,19 +9,18 @@ import {
 } from "@apollo/server/plugin/landingPage/default";
 import { expressMiddleware } from "@apollo/server/express4";
 import cors from "cors";
-import dotenv from "dotenv";
 import { GraphQLFormattedError } from "graphql";
 import { createLoaders } from "./loaders";
 import { JwtUtil } from "../graphql/jwt/jwtUtil";
+import { resolvers } from "../schema/resolvers";
+import { typeDefs } from "../schema/typeDefs";
+import { config } from "src/config";
 
-dotenv.config();
 
-const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
-  const app = express();
+
+const createApolloServer = async (): Promise<Application> => {
+  const app= express();
   const httpServer = http.createServer(app);
-  // env
-  const projectType = process.env.NODE_ENV;
-  const JWT_SECRET = process.env.JWT_SECRET || 'default_secret_1q2w3e4r';
 
   const graphqlErrorHandling = (err: GraphQLFormattedError) => {
     console.error(err);
@@ -35,7 +33,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     csrfPrevention: true,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      projectType === "production"
+      config.PROJECT_TYPE === "production"
         ? ApolloServerPluginLandingPageProductionDefault()
         : ApolloServerPluginLandingPageLocalDefault({ embed: false }),
     ],
@@ -50,17 +48,16 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     "/graphql",
     cors<cors.CorsRequest>(),
     express.json({ limit: "50mb" }),
-    // 안정화 버전을 설치
     // npm install express@4.17.3
     // npm install -D @types/express@4.17.13
     expressMiddleware(apolloServer, {
       context: async ({ req , res }) => ({
         loaders: createLoaders(),
         jwtContext: {
-          JWT_SECRET: JWT_SECRET,
+          JWT_SECRET: config.JWT_SECRET,
           JWT_EXPIRATION: '1h',
         }, 
-        member: JwtUtil.verifyHeader(req.headers.authorization, JWT_SECRET),
+        member: JwtUtil.verifyHeader(req.headers.authorization, config.JWT_SECRET),
       }),
     })
   );
@@ -69,11 +66,7 @@ const startApolloServer = async (typeDefs: DocumentNode, resolvers: any) => {
     res.send("Welcome GraphQL, Use /graphql endpoint.");
   });
 
-  // docker 사용시 env 주입
-  const port = 4000;
-  app.listen(port, () => {
-    console.log(`Server on! Port : http://localhost:${port}/graphql`);
-  });
+  return app;
 };
 
-export { startApolloServer };
+export { createApolloServer };

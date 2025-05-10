@@ -1,32 +1,14 @@
-import { startApolloServer } from "./context/server"
-import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
-import { memberResolver } from "./graphql/member/resolver";
-import { memberTypeDefs } from "./graphql/member/typeDefs";
-import { orderTypeDefs } from "./graphql/order/typeDefs";
-import { orderResolver } from "./graphql/order/resolver";
-import { itemResolver } from "./graphql/item/resolver";
-import { itemTypeDefs } from "./graphql/item/typeDefs";
-import { orderItemTypeDefs } from "./graphql/orderItem/typeDefs";
-import { deliveryTypeDefs } from "./graphql/delivery/typeDefs";
-import { jwtTypeDefs } from "./graphql/jwt/typeDefs";
-import { jwtResolver } from "./graphql/jwt/resolver";
+import dotenv from "dotenv";
+import { createApolloServer } from "./context/server";
+import { config } from "./config";
 
+dotenv.config();
+async function startApolloServer() {
+  const app = await createApolloServer();
+  const port = config.PORT;
+  app.listen(port, () => {
+    console.log(`Server on! Port : http://localhost:${port}/graphql`);
+  });
+}
 
-const typeDefs = mergeTypeDefs([
-  memberTypeDefs,
-  orderTypeDefs,
-  itemTypeDefs,
-  orderItemTypeDefs,
-  deliveryTypeDefs,
-  jwtTypeDefs,
-]);
-
-const resolvers = mergeResolvers([
-  memberResolver,
-  orderResolver,
-  itemResolver,
-  jwtResolver,
-]);
-
-
-startApolloServer(typeDefs, resolvers);
+startApolloServer();
