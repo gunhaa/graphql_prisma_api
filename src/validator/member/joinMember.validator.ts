@@ -1,9 +1,8 @@
-import { GraphQLError } from "graphql";
 import Validator from "../validator";
 
 export const validateJoinMember = (
   email: string,
-  name: string | null,
+  name: string,
   password: string,
   address: string
 ) => {

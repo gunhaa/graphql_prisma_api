@@ -2,9 +2,9 @@
 ## GraphQL - Prisma - TypeScript 기반 주문 API
 
 - Node.js 환경에서 동작하는 주문 처리 API
-- Prisma ORM, GraphQL, TypeScript를 중심으로 구성
-- GitHub Issue 탭을 활용한 이슈 관리
-- trunk-based branch 전략 적용
+- Prisma ORM, GraphQL, TypeScript사용
+- 이슈 발생시 GitHub Issue 탭을 활용
+- trunk-based branch 전략 사용
 
 
 ## ERD 기획
@@ -28,9 +28,11 @@
         - ~~placeOrder(input: PlaceOrderInput)~~
         - ~~registerItem(input: RegisterItemInput)~~
 - 인증이 필요한 API(jwt 인증 관리)
-    - login(input: LoginMemberInput)
-    - getMyOrdersByMember()
-    - registerItemByAdmin()
+    - Query
+        - loginMember(input: LoginMemberInput)
+        - getMyOrdersWithAuthroize(input: LoginMemberInput)
+    - Mutation    
+        - registerItemWithAuthroize()
 
 
 # Todo
@@ -46,8 +48,9 @@
     - ~~seed.ts 생성~~
     - ~~unit test는 mock 사용하여 구현~~
     - integration test는 test db(docker container) 사용하여 구현
-        - 우선은 생략, integration test는 dev 환경의 playground로 대체 가능
-6. input 값을 validation 하는 validator 클래스 구현
+        - 생략, integration test는 dev 환경의 playground로 대체 가능
+6. ~~input 값을 validation 하는 validator 클래스 구현~~
+    - member
 7. order transaction, lock 을 이용한 critical section 설정
     - stockQuantity의 조건을 이용한 방향으로 구현
 8. jwt를 사용하는 인증 관련 API 추가

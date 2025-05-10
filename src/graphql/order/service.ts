@@ -41,7 +41,7 @@ class OrderService {
     });
 
     if (!findMember) {
-      throw new GraphQLError("존재하지 않는 이메일 입니다", {
+      throw new GraphQLError("존재하지 않는 회원 입니다", {
         extensions: {
           code: "INVALID_EMAIL_INPUT",
         },

@@ -2,6 +2,7 @@ import { Member, Order } from "@prisma/client";
 import prismaClient from "../../../prisma/prismaClient";
 import { JoinMemberDto } from "./joinMember.dto";
 import { validateJoinMember } from "../../validator/member/joinMember.validator";
+import { GraphQLError } from "graphql";
 
 class MemberService {
   async getMembers(): Promise<Member[]> {
@@ -9,41 +10,46 @@ class MemberService {
   }
 
   async getOrders(parent: Member, context: any): Promise<Order[]> {
-    // console.log('parent: '+ parent);
-    // if (!parent) {
-    //   throw new GraphQLError(
-    //     "orders 필드는 Member 타입의 하위 필드로 조회할 수 있습니다.",
-    //     {
-    //       extensions: {
-    //         code: "FIELD_RESOLUTION_ERROR",
-    //       },
-    //     }
-    //   );
-    // }
+    // parent가 없다면 호출이 불가하다
     return context.loaders.ordersLoader.load(parent.id);
   }
 
   async joinMember(input: JoinMemberDto): Promise<Member> {
+    const generateInput = {
+      ...input,
+      name: input.name ?? this.generateRandomName(),
+    };
 
     validateJoinMember(
-      input.email,
-      input.name,
-      input.password,
-      input.address
+      generateInput.email,
+      generateInput.name,
+      generateInput.password,
+      generateInput.address
     );
+
+    const findMember = await prismaClient.member.findUnique({
+      where: {
+        email: input.email,
+      },
+    });
+
+    if (findMember) {
+      throw new GraphQLError("중복된 이메일 입니다", {
+        extensions: {
+          code: "EMAIL_ALREADY_EXISTS",
+        },
+      });
+    };
 
     return prismaClient.member.create({
       data: {
-        email: input.email,
-        name: input.name,
-        password: input.password,
-        address: input.address,
+        ...generateInput,
         createdAt: new Date(),
       },
     });
   }
 
-  generateRandomName(): string {
+  private generateRandomName(): string {
     const prefix = [
       "음악하는",
       "요리하는",
