@@ -4,16 +4,16 @@
   "description": "prisma api",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "start": "node ./dist/src/index.js",
+    "build": "npx prisma generate deploy && npx tsc",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node ./src/index.ts",
-    "test:unit": "jest --config=jest-unit.config.js",
-    "test:e2e": "jest --config=jest-e2e.config.js",
+    "prod:dockerUp": "docker-compose -f docker-compose.yml -f docker-compose.override.prod.yml up -d",
     "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down --volumes",
+    "test:unit": "jest --config=jest-unit.config.js",
+    "test:e2e": "npx dotenv-cli --e .env.test -- jest --config=jest-e2e.config.js",
     "test:dockerUp": "docker-compose --env-file .env.test up -d",
-    "test:migrate": "npx dotenv-cli --e .env.test -- prisma migrate dev --name test",
-    "test:seed": "npx dotenv-cli --e .env.test prisma db seed",
-    "test:jest": "npx dotenv-cli --e .env.test -- jest -i",
-    "docker:down": "docker-compose down --volumes"
+    "test:migrate": "npx dotenv-cli --e .env.test -- prisma migrate dev --name test"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -33,8 +33,6 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.3",
     "@types/supertest": "^6.0.3",
-    "class-validator": "^0.14.2",
-    "concurrently": "^9.1.2",
     "cors": "^2.8.5",
     "graphql-scalars": "^1.24.2",
     "graphql-tag": "^2.12.6",
@@ -42,7 +40,6 @@
     "jest-mock-extended": "^4.0.0-beta1",
     "nodemon": "^3.1.10",
     "prisma": "^6.7.0",
-    "prisma-erd-generator": "^2.0.4",
     "supertest": "^7.1.0",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",

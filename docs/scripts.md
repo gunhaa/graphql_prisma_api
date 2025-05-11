@@ -31,7 +31,7 @@ generator erd {
 
 ## 테스트
 1. `npm run docker:testUp`
-2. `npx dotenv-cli --e .env.test -- prisma migrate dev --name test`
+2. `npx dotenv-cli --e .env.test -- prisma migrate test --name test`
 3. `npx dotenv-cli --e .env.test prisma db seed`
 4. `npx dotenv-cli --e .env.test -- jest`
 5. `npm run docker:down`

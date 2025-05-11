@@ -1,0 +1,24 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: graphql-api-prod
+    env_file: .env.prod
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - db
+    networks:
+      - prisma-mysql-net
+    restart: always
+  db:
+    container_name: prisma-mysql-prod
+    env_file: .env.prod
+    networks:
+      - prisma-mysql-net
+    restart: always
+
+networks:
+  prisma-mysql-net:
+    driver: bridge
