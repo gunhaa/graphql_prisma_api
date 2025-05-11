@@ -319,10 +319,14 @@ import insideDirectory from './insideDirectory'; // camelCase export/import/dire
 // ^ supports both insideDirectory.js and insideDirectory/index.js
 ```
 
-## 변수
+## 변수명
 
 - 변수의 이름은 lowerCamelCase로 표기한다. 단, export되는 파일 내의 상수는 예외.
 - 변수의 이름은 알파벳으로 시작해야한다
+- 최대한 다음의 규칙을 따른다
+  - 1. 변수 이름에는 동사를 넣지 않는다
+  - 2. 변수의 단수형에는 관사를 넣지 않는다.
+  - 3. 전치사는 최대한 생략한다
 
 ## 클래스
 
