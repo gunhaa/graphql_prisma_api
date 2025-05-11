@@ -42,15 +42,15 @@ export class JwtUtil {
       }
     } catch (e) {
       if (e instanceof JsonWebTokenError) {
-        throw new GraphQLError("JWT 관련 오류", {
+        throw new GraphQLError("JWT 오류", {
           extensions: { code: "JSON_WEB_TOKEN_ERROR" },
         });
       } else if (e instanceof TokenExpiredError) {
-        throw new GraphQLError("토큰 만료 오류", {
+        throw new GraphQLError("JWT 토큰 만료 오류", {
           extensions: { code: "TOKEN_EXPIRED_ERROR" },
         });
       } else if (e instanceof NotBeforeError) {
-        throw new GraphQLError("발급 시간 오류", {
+        throw new GraphQLError("JWT 토큰 발급 시간 오류", {
           extensions: { code: "NOT_BEFORE_ERROR" },
         });
       } else {

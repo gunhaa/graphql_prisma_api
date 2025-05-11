@@ -29,7 +29,6 @@ query FullQuery {
 }
 
 query Login {
-
   login (
     input: {
        email: "example10@email.com"
@@ -47,6 +46,7 @@ query GetMyOrders{
       id
       count
       orderPrice
+      stockQuantity
       createdAt
       item {
         name

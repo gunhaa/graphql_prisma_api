@@ -19,7 +19,7 @@ async function main() {
         `example${i}@email.com`,
         `name${i}`,
         `password${i}`,
-        `addreess: ${i}`
+        `address: ${i}`
       )
     );
     members.push(joinMember);

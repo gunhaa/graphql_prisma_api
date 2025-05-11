@@ -76,7 +76,7 @@ describe('docker-compose를 이용해 test용 db를 띄운 후 로직을 테스�
     .post('/graphql')
     .send({
       query: `
-        query Login {
+        query {
           login (
             input: {
               email: "example1@email.com"
@@ -101,7 +101,7 @@ describe('docker-compose를 이용해 test용 db를 띄운 후 로직을 테스�
     .post('/graphql')
     .send({
       query: `
-        query Login {
+        query {
           login (
             input: {
               email: "example1@email.com"
@@ -120,9 +120,109 @@ describe('docker-compose를 이용해 test용 db를 띄운 후 로직을 테스�
     expect(res.body.data.login).toBeNull();
   });
 
-  it('seed를 이용해 로그인 후 jwt 토큰을 headers에 넣은 후 나의 주문 목록을 요청한다', async () => { });
+  it('seed를 이용해 로그인 후 jwt 토큰을 headers에 넣은 후 나의 주문 목록을 요청한다 - N+1 검증은 unit test에서 검증되어 생략한다', async () => {
+
+  const res = await request(app)
+  .post('/graphql')
+  .set('Authorization', `Bearer ${jwtToken}`)
+  .send({
+    query: `
+      query {
+        getMyOrders {
+          id
+          orderItems {
+            id
+            count
+            orderPrice
+            createdAt
+            item {
+              name
+              stockQuantity
+              category
+            }
+          }
+          buyer {
+            email
+            name
+          }
+          delivery {
+            address
+            deliveryStatus
+          }
+          createdAt
+        }
+      }
+    `
+  });
+
+  expect(res.statusCode).toBe(200);
+  expect(res.body.data.getMyOrders).toBeDefined();
+  expect(Array.isArray(res.body.data.getMyOrders)).toBe(true);
+  
+  const order = res.body.data.getMyOrders[0];
+  expect(order.orderItems.length).toBeGreaterThan(0);
+
+  // seed 된 데이터와 일치하는지 검증한다
+
+  // orderItem
+  expect(order.orderItems[0].orderPrice).toBe(1000);
+  expect(order.orderItems[0].item.name).toBe('item1');
+  expect(order.orderItems[0].item.stockQuantity).toBe(98);
+  expect(order.orderItems[0].item.category).toBe('category1');
+
+  // buyer
+  expect(order.buyer.email).toBe('example1@email.com');
+  expect(order.buyer.name).toBe('name1');
+
+  // delivery
+  expect(order.delivery).toHaveProperty('address');
+  expect(order.delivery.deliveryStatus).toBe('PENDING');
+  });
 
 
+  it('seed를 이용해 로그인 후 jwt 토큰을 headers에 넣은 후 나의 주문 목록을 요청한다 - 유효 하지 않은 토큰(에러)', async () => {
+
+    const invalidToken = 'invalidToken';
+    const res = await request(app)
+    .post('/graphql')
+    .set('Authorization', `Bearer ${invalidToken}`)
+    .send({
+      query: `
+        query {
+          getMyOrders {
+            id
+            orderItems {
+              id
+              count
+              orderPrice
+              createdAt
+              item {
+                name
+                stockQuantity
+                category
+              }
+            }
+            buyer {
+              email
+              name
+            }
+            delivery {
+              address
+              deliveryStatus
+            }
+            createdAt
+          }
+        }
+      `
+    });
+    console.log(res);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.errors).toBeDefined();
+    expect(res.body.errors[0].message).toContain('JWT');
+    expect(res.body.data.getMyOrders).toBeNull();
+
+    });
+  
   afterAll(async () => {
     await prismaClient.member.delete({
       where : {
