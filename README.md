@@ -6,6 +6,12 @@
 - 이슈 발생시 GitHub Issue 탭을 활용
 - trunk-based branch 전략 사용
 
+## 문서
+
+[Coding Standard](docs/JSCodingStandard.md)
+[Prisma Schema Standard](docs/PrismaSchemaStandard.md)
+[테스트 완료 쿼리](docs/testCompleteQuery.md)
+
 
 ## ERD 기획
 - 해당 모델 Graphql 로 api 생성
@@ -45,12 +51,12 @@
 5. ~~테스트 생성~~
     - ~~seed.ts 생성~~
     - ~~unit test는 mock 사용하여 구현~~
-    - integration test는 test db(docker container) 사용하여 구현
-        - 생략, integration test는 dev 환경의 playground로 대체 가능
+    - ~~integration test는 test db(docker container) 사용하여 구현~~
 6. ~~input 값을 validation 하는 validator 클래스 구현~~
     - ~~joinMember~~
-7. order transaction, lock 을 이용한 critical section 설정
-    - 비관적 락 사용
+7. ~~order transaction, lock 을 이용한 critical section 설정~~
+    - 검색 아이템을 한번 더 검증하는 로직으로 방어
+    - 실제 결제 로직이라면 성능을 많이 희생하는 비관적 락, mutex 사용하는게 나을듯
 8. ~~jwt를 사용하는 인증 관련 API 추가~~
     - ~~access token 발급(1h), 인증 구현~~
         - 빠른 개발을 위해 로직 제거(refresh, blacklist, db 저장 제거)

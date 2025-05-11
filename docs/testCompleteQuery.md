@@ -1,3 +1,4 @@
+```shell
 query FullQuery {
   getAllMembers {
     id
@@ -27,7 +28,9 @@ query FullQuery {
     createdAt
   }
 }
+```
 
+```shell
 query Login {
   login (
     input: {
@@ -38,7 +41,9 @@ query Login {
     accessToken
   }
 }
+```
 
+```shell
 query GetMyOrders{
   getMyOrders {
     id
@@ -64,8 +69,9 @@ query GetMyOrders{
     createdAt
   }
 }
+```
 
-
+```shell
 mutation PlaceOrder {
   placeOrder (
     input:  {
@@ -89,7 +95,9 @@ mutation PlaceOrder {
     }
   }
 }
+```
 
+```shell
 query GetItems {
   getAllItems {
     id
@@ -99,7 +107,9 @@ query GetItems {
     category
   }
 }
+```
 
+```shell
 mutation JoinMember {
   joinMember (
     input:  {
@@ -113,8 +123,9 @@ mutation JoinMember {
    address
   }
 }
+```
 
-
+```shell
 mutation RegisterItem {
   registerItem (
     input:  {
@@ -128,3 +139,4 @@ mutation RegisterItem {
     category
   }
 }
+```
