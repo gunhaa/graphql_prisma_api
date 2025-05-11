@@ -65,36 +65,43 @@
 ## 설정
 
 - NODE_ENV=development
-    - 브라우저에서 바로 GraphQL 요청을 테스트할 수 있도록 플레이그라운드를 자동으로 켭니다.
+    - 브라우저에서 바로 GraphQL 요청을 테스트할 수 있도록 플레이그라운드로 실행
     - ApolloServerPluginLandingPageLocalDefault({ embed: false }) 사용
 
 - NODE_ENV=production
-    - 운영 환경에서는 보안을 위해 플레이그라운드가 비활성화되고, Apollo 기본 랜딩페이지가 뜹니다.
+    - 운영 환경에서는 보안을 위해 플레이그라운드가 비활성화되고, Apollo 기본 랜딩페이지가 실행
     - ApolloServerPluginLandingPageProductionDefault() 사용
 
-- 기본값은 development로 설정되어 있지만, Docker-compose NODE_ENV 값을 읽어 실행 시점에 동적으로 분기되므로 .env 파일에서 NODE_ENV=production으로 바꾸기만 하면 운영 모드로 자동 전환됩니다.
-- 기본포트
+- 기본값은 development로 설정되어 있지만, Docker-compose NODE_ENV 값을 읽어 실행 시점에 동적으로 분기되므로 .env 파일에서 NODE_ENV=production으로 바꾸기만 하면 운영 모드로 전환
+
+
 ## 실행
 ### production
 - prod환경은 docker-compose로 app, db 모두 컨테이너화
     - 실행
         - npm run prod:dockerUp
-        - docker-compose exec app npx prisma migrate deploy
+        - sleep 15
+        - npm run prod:migrate
     - 종료
-        - npm run docker:down
+        - npm run prod:dockerDown
 ### development
 - dev환경은 로컬/docker db 사용
-    - npm install
-    - npm run docker:up
-    - npx prisma migrate dev --name dev
-    - npm run dev
-    - npm run docker:down
+    - 실행
+        - npm install
+        - npm run docker:up
+        - npx prisma migrate dev --name dev
+        - npm run dev
+    - 종료
+        - npm run docker:down
 ### test
 - test 환경은 로컬/docker db 사용
-    - npm install
-    - npm run test:dockerUp
-    - npm run test:migrate
-    - 유닛 테스트 실행
-        - npm run test:unit
-    - 통합 테스트 실행
-        - npm run test:e2e
+    - 실행
+        - npm install
+        - npm run test:dockerUp
+        - npm run test:migrate
+        - 유닛 테스트 실행
+            - npm run test:unit
+        - 통합 테스트 실행
+            - npm run test:e2e
+    - 종료
+        - npm run docker:down
