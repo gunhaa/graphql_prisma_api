@@ -1,5 +1,5 @@
 import DataLoader from "dataloader";
-import prismaClient from "../../prisma/prismaClient";
+import prismaClient from "../../../prisma/prismaClient";
 import { OrderItem } from "@prisma/client";
 
 const batchLoadFn = async (

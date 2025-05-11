@@ -1,17 +1,13 @@
-import { Item, Member, Order, PrismaClient } from '@prisma/client';
 import { createApolloServer } from '../../context/server';
-import memberService from '../../graphql/member/service';
-import itemService from '../../graphql/item/service';
-import orderService from '../../graphql/order/service';
-import prismaClient from '../../prisma/prismaClient';
-import { JoinMemberDto } from '../../graphql/member/joinMember.dto';
+import prismaClient from '../../../prisma/prismaClient';
+import request from 'supertest';
 import dotenv from 'dotenv';
 
 // import prismaClient from '../../../prisma/prismaClient';
 // **jest 시 prismaClient를 사용 못하는 문제 발생, seed 데이터 없는 상태로 가져옴, 테스트 용으로 비워서주는 이상한 로직이 있는거같음**
 
 let app: any;
-dotenv.config(); 
+let jwtToken: any;
 
 describe('docker-compose를 이용해 test용 db를 띄운 후 로직을 테스트한다. 회원가입, 아이템 등록, 주문 등록 후, 로그인 하여 jwt 토큰을 부여 받은 뒤 나의 주문을 요청 보낸 후 받는 것을 검증한다', () => {
   beforeAll(async () => {
@@ -19,50 +15,61 @@ describe('docker-compose를 이용해 test용 db를 띄운 후 로직을 테스�
     app = await createApolloServer();
   });
 
-  it('회원 생성', async () => {
-
-    const result = await prismaClient.$queryRaw`SELECT COUNT(*) FROM Member`;
-    console.log('rawQuery Result : ' + result);
-
-    const joinMember: Member = await memberService.joinMember(
-      new JoinMemberDto(
-        'example@example.com',
-        'name',
-        'password123',
-        'addreess: address',
-      )
-    );
-
-    // const joinMember: Member = await prismaTestClient.member.create({
-    //   data: {
-    //     email: 'example@example.com',
-    //     name: 'name',
-    //     password: 'password123',
-    //     address: 'addreess: address',
-    //     createdAt: new Date(),
-    //   }
-    // });
-
-    console.log(`joinMember: ${joinMember}`);
-
-    const findMember : Member = await prismaClient.member.findUnique({
-      where : {
-        email: joinMember.email,
-      }
-    }) as Member;
-    expect(joinMember).toMatchObject({
-        id: findMember.id,
-        email: findMember.email,
-        name: findMember.name,
-        address: findMember.address,
-        password: findMember.password,
-        createdAt: findMember.createdAt,
-    });
+  it('회원 생성을 검증한다 - 생성', async () => {
+    return request(app)
+    .post('/graphql')
+    .send({
+      query: 
+      `mutation {
+        joinMember (
+          input:  {
+            email: "example11@example.com"
+            password: "example11"
+            address: "address11"
+          }
+        ){
+        email
+        password
+        address
+        }
+      }`
+    })
+    .expect(200)
+    .expect( res => {
+      expect(res.body.data.joinMember.email).toBe('example11@example.com');
+      expect(res.body.data.joinMember.password).toBe('example11');
+      expect(res.body.data.joinMember.address).toBe('address11');
+    })
   });
 
-  it('로그인 요청', async () => { });
+  it('회원 생성을 검증한다 - 중복된 이메일(실패)', async () => { 
+    return request(app)
+    .post('/graphql')
+    .send({
+      query: 
+      `mutation {
+        joinMember (
+          input:  {
+            email: "example11@example.com"
+            password: "example11"
+            address: "address11"
+          }
+        ){
+        email
+        password
+        address
+        }
+      }`
+    })
+    .expect(200)
+    .expect( res => {
+      expect(res.body.errors).toBeDefined();
+      expect(res.body.errors[0].message).toContain('중복된 이메일 입니다');
+      expect(res.body.data.joinMember).toBeNull();
+    })
+  });
 
-  it('나의 주문 요청', async () => { });
+  it('seed를 이용해 로그인 후 jwt 토큰을 이용해 나의 주문을 요청한다', async () => { });
 
   afterAll(async () => {
     await prismaClient.$disconnect();

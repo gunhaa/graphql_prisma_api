@@ -51,7 +51,7 @@
     - ~~joinMember~~
 7. order transaction, lock 을 이용한 critical section 설정
     - 비관적 락 사용
-8. jwt를 사용하는 인증 관련 API 추가
+8. ~~jwt를 사용하는 인증 관련 API 추가~~
     - ~~access token 발급(1h), 인증 구현~~
         - 빠른 개발을 위해 로직 제거(refresh, blacklist, db 저장 제거)
         - 인증 완료시 프론트 측에서 header에 'Authorization': `Bearer ${accessToken}` 넣는다 가정

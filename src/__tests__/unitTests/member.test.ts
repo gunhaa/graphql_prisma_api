@@ -1,6 +1,6 @@
 import memberService from '../../graphql/member/service';
 import { createLoaders } from '../../context/loaders';
-import { prismaMock } from '../../prisma/mocks/prismaMock';
+import { prismaMock } from '../../../prisma/mocks/prismaMock';
 import { Member, Order } from '@prisma/client';
 import { JoinMemberDto } from '../../graphql/member/joinMember.dto';
 import { GraphQLError } from 'graphql';

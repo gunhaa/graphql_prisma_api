@@ -1,5 +1,5 @@
 import { Member, Order } from "@prisma/client";
-import prismaClient from "../../prisma/prismaClient";
+import prismaClient from "../../../prisma/prismaClient";
 import { JoinMemberDto } from "./joinMember.dto";
 import { validateJoinMember } from "../../validator/member/joinMember.validator";
 import { GraphQLError } from "graphql";
@@ -44,7 +44,7 @@ class MemberService {
         },
       });
     };
-    
+
     return prismaClient.member.create({
       data: {
         ...finalInput,

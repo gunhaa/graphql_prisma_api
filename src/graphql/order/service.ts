@@ -4,7 +4,7 @@ import {
   Order,
   OrderItem,
 } from '@prisma/client';
-import prismaClient from '../../prisma/prismaClient';
+import prismaClient from '../../../prisma/prismaClient';
 import { GraphQLError } from 'graphql';
 import { PlaceOrderDto } from './placeOrder.dto';
 import { OrderResult } from './orderResult.type';

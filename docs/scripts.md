@@ -15,7 +15,9 @@ generator erd {
   theme = "forest"
 }
 ```
-- 초기화 `rm -rf prisma/migrations && npx prisma migrate reset`
+- 초기화 
+    - `rm -rf prisma/migrations && npx prisma migrate reset`
+    - npx prisma migrate reset은 데이터베이스(drop table) 삭제 후, prisma/migrations 폴더에 있는 마이그레이션들을 순서대로 다시 적용, seed가 있다면 seed를 진행한다
 - seed 생성
     - npx prisma db seed
 
