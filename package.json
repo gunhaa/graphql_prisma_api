@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node ./src/index.ts",
-    "test": "jest -i",
+    "test:unit": "jest --config=jest-unit.config.js",
+    "test:e2e": "jest --config=jest-e2e.config.js",
     "docker:up": "docker-compose up -d",
     "test:dockerUp": "docker-compose --env-file .env.test up -d",
     "test:migrate": "npx dotenv-cli --e .env.test -- prisma migrate dev --name test",
@@ -31,6 +32,7 @@
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.3",
+    "@types/supertest": "^6.0.3",
     "class-validator": "^0.14.2",
     "concurrently": "^9.1.2",
     "cors": "^2.8.5",

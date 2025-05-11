@@ -31,10 +31,6 @@ class MemberService {
       finalInput.address
     );
 
-    // MySQL에서 연결된 데이터베이스 이름을 확인
-    const databaseInfo = await prismaClient.$queryRaw`SELECT DATABASE();`;
-    console.log("Connected to database:", databaseInfo);
-
     const findMember = await prismaClient.member.findUnique({
       where: {
         email: input.email,
@@ -47,9 +43,8 @@ class MemberService {
           code: "EMAIL_ALREADY_EXISTS",
         },
       });
-    }
-    console.log(finalInput);
-    console.log(`this findMember: ${findMember}`)
+    };
+    
     return prismaClient.member.create({
       data: {
         ...finalInput,

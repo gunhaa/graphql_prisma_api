@@ -1,8 +1,8 @@
-import memberService from '../../../src/graphql/member/service';
-import { createLoaders } from '../../../src/context/loaders';
-import { prismaMock } from '../../../prisma/mocks/prismaMock';
+import memberService from '../../graphql/member/service';
+import { createLoaders } from '../../context/loaders';
+import { prismaMock } from '../../prisma/mocks/prismaMock';
 import { Member, Order } from '@prisma/client';
-import { JoinMemberDto } from '../../../src/graphql/member/joinMember.dto';
+import { JoinMemberDto } from '../../graphql/member/joinMember.dto';
 import { GraphQLError } from 'graphql';
 
 describe('member schema test', () => {

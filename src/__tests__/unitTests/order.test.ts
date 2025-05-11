@@ -1,8 +1,8 @@
 import { Order } from "@prisma/client";
-import { prismaMock } from "../../../prisma/mocks/prismaMock";
-import orderService from "../../../src/graphql/order/service";
-import { PlaceOrderDto } from "../../../src/graphql/order/placeOrder.dto";
-import { mockDelivery, mockItem1, mockItem2, mockMember, mockOrder, mockOrderItems, mockOrderItemsDto, mockOrderResult, mockResultItem1, mockResultItem2 } from "../../../prisma/mocks/testMockData";
+import { prismaMock } from "../../prisma/mocks/prismaMock";
+import orderService from "../../graphql/order/service";
+import { PlaceOrderDto } from "../../graphql/order/placeOrder.dto";
+import { mockDelivery, mockItem1, mockItem2, mockMember, mockOrder, mockOrderItems, mockOrderItemsDto, mockOrderResult, mockResultItem1, mockResultItem2 } from "../../prisma/mocks/testMockData";
 import { GraphQLError } from "graphql";
 
 describe('order schema test', () => {

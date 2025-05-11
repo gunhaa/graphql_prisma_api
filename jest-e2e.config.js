@@ -5,8 +5,6 @@ module.exports = {
   transform: {
     "^.+\\.ts$": "ts-jest",
   },
-  testMatch: [
-    "**/__tests__/**/*.ts",
-  ],
-  setupFilesAfterEnv: ['<rootDir>/src/prisma/mocks/prismaMock.ts'],
+  testMatch: ['**/__tests__/integrationTests/**/*.test.ts'],
+  moduleFileExtensions: ["ts", "tsx", "js", "json"]
 };
