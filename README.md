@@ -76,32 +76,36 @@
 
 
 ## 실행
+
+- windows와 macOS/Linux 간의 스크립트 호환성 문제로, PowerShell 대신 명시적 순차 실행 방식을 사용합니다.
+
 ### production
 - prod환경은 docker-compose로 app, db 모두 컨테이너화
     - 실행
-        - npm run prod:dockerUp
+        - `npm run prod:dockerUp`
         - sleep 15
-        - npm run prod:migrate
+        - `npm run prod:migrate`
     - 종료
-        - npm run prod:dockerDown
+        - `npm run prod:dockerDown`
 ### development
 - dev환경은 로컬/docker db 사용
     - 실행
-        - npm install
-        - npm run docker:up
-        - npx prisma migrate dev --name dev
-        - npm run dev
+        - `npm install`
+        - `npm run docker:up`
+        - `npm run dev:migrate`
+        - `npm run dev`
     - 종료
-        - npm run docker:down
+        - `npm run docker:down`
 ### test
 - test 환경은 로컬/docker db 사용
     - 실행
-        - npm install
-        - npm run test:dockerUp
-        - npm run test:migrate
+        - `npm install`
+        - `npm run test:dockerUp`
+        - sleep 15
+        - `npm run test:migrate`
         - 유닛 테스트 실행
-            - npm run test:unit
+            - `npm run test:unit`
         - 통합 테스트 실행
-            - npm run test:e2e
+            - `npm run test:e2e`
     - 종료
-        - npm run docker:down
+        - `npm run docker:down`
