@@ -1,9 +1,4 @@
-import {
-  Delivery,
-  DeliveryStatus,
-  Order,
-  OrderItem,
-} from '@prisma/client';
+import { Delivery, DeliveryStatus, Order, OrderItem } from '@prisma/client';
 import prismaClient from '../../../prisma/prismaClient';
 import { GraphQLError } from 'graphql';
 import { PlaceOrderDto } from './placeOrder.dto';
@@ -12,19 +7,17 @@ import { memberStatus } from '../jwt/memberStatus.type';
 import authValidator from '../../validator/authValidator';
 import { validatePlaceOrder } from '../../validator/order/placeOrder.validator';
 
-
 class OrderService {
   async getAllOrders(): Promise<Order[]> {
     return await prismaClient.order.findMany({
       include: {
         buyer: true,
         delivery: true,
-      }
+      },
     });
   }
 
   async getMyOrders(memberStatus: memberStatus): Promise<Order[]> {
-    
     authValidator.validateAuthorized(memberStatus);
 
     const findMember = await prismaClient.member.findUnique({
@@ -60,7 +53,6 @@ class OrderService {
   }
 
   async placeOrder(input: PlaceOrderDto): Promise<Order> {
-
     validatePlaceOrder(input.email, input.address, input.orderItems);
 
     const findMember = await prismaClient.member.findUnique({

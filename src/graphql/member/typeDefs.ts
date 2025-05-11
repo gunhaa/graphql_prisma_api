@@ -1,4 +1,4 @@
-import { gql } from "graphql-tag";
+import { gql } from 'graphql-tag';
 
 export const memberTypeDefs = gql`
   scalar DateTime
@@ -49,4 +49,4 @@ export const memberTypeDefs = gql`
     password: String!
     address: String
   }
-`
+`;

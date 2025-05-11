@@ -1,9 +1,20 @@
-import { Order } from "@prisma/client";
-import { prismaMock } from "../../../prisma/mocks/prismaMock";
-import orderService from "../../graphql/order/service";
-import { PlaceOrderDto } from "../../graphql/order/placeOrder.dto";
-import { mockDelivery, mockItem1, mockItem2, mockMember, mockOrder, mockOrderItems, mockOrderItemsDto, mockOrderResult, mockResultItem1, mockResultItem2 } from "../../../prisma/mocks/testMockData";
-import { GraphQLError } from "graphql";
+import { Order } from '@prisma/client';
+import { prismaMock } from '../../../prisma/mocks/prismaMock';
+import orderService from '../../graphql/order/service';
+import { PlaceOrderDto } from '../../graphql/order/placeOrder.dto';
+import {
+  mockDelivery,
+  mockItem1,
+  mockItem2,
+  mockMember,
+  mockOrder,
+  mockOrderItems,
+  mockOrderItemsDto,
+  mockOrderResult,
+  mockResultItem1,
+  mockResultItem2,
+} from '../../../prisma/mocks/testMockData';
+import { GraphQLError } from 'graphql';
 
 describe('order schema test', () => {
   it('getOrders()는 모든 Order를 반환해야 한다', async () => {
@@ -13,7 +24,7 @@ describe('order schema test', () => {
       const mockOrder: Order = {
         id: i,
         buyerId: 1,
-        createdAt: new Date("2100-10-10"),
+        createdAt: new Date('2100-10-10'),
       };
       mockOrders.push(mockOrder);
     }
@@ -59,7 +70,11 @@ describe('order schema test', () => {
     });
 
     const createOrder = await orderService.placeOrder(
-      new PlaceOrderDto(mockMember.email, mockDelivery.address, mockOrderItemsDto)
+      new PlaceOrderDto(
+        mockMember.email,
+        mockDelivery.address,
+        mockOrderItemsDto
+      )
     );
 
     expect(tx.item.findUnique).toHaveBeenNthCalledWith(
@@ -105,10 +120,14 @@ describe('order schema test', () => {
 
   it('가입되지 않은 이메일은 에러가 발생해야 한다.', async () => {
     prismaMock.member.findUnique.mockResolvedValue(null);
-  
+
     await orderService
       .placeOrder(
-        new PlaceOrderDto(mockMember.email, mockDelivery.address, mockOrderItemsDto)
+        new PlaceOrderDto(
+          mockMember.email,
+          mockDelivery.address,
+          mockOrderItemsDto
+        )
       )
       .catch((e) => {
         expect(e).toBeInstanceOf(GraphQLError);

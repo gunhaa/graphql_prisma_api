@@ -1,7 +1,7 @@
-import { Delivery, Member, Order, OrderItem } from "@prisma/client";
+import { Delivery, Member, Order, OrderItem } from '@prisma/client';
 
 export type OrderResult = Order & {
-    buyer: Member;
-    delivery: Delivery;
-    orderItems: OrderItem[];
-}
+  buyer: Member;
+  delivery: Delivery;
+  orderItems: OrderItem[];
+};

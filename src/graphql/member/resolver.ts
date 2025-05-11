@@ -1,6 +1,6 @@
-import { Member, Order } from "@prisma/client";
-import { JoinMemberDto } from "./joinMember.dto";
-import memberService from "./service";
+import { Member, Order } from '@prisma/client';
+import { JoinMemberDto } from './joinMember.dto';
+import memberService from './service';
 
 export const memberResolver = {
   Query: {
@@ -10,11 +10,7 @@ export const memberResolver = {
   },
 
   Member: {
-    orders: (
-      parent: Member,
-      _: any,
-      context: any
-    ): Promise<Order[]> => {
+    orders: (parent: Member, _: any, context: any): Promise<Order[]> => {
       return memberService.getOrders(parent, context);
     },
   },

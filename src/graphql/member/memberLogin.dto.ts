@@ -1,11 +1,10 @@
-
 export class MemberLoginDto {
-    readonly email!: string;
+  readonly email!: string;
 
-    readonly password!: string;
+  readonly password!: string;
 
-    constructor(email: string, password: string){
-        this.email = email;
-        this.password = password;
-    }
+  constructor(email: string, password: string) {
+    this.email = email;
+    this.password = password;
+  }
 }

@@ -1,6 +1,6 @@
-import { Item } from "@prisma/client";
-import { RegisterItemDto } from "./registerItem.dto";
-import itemService from "./service";
+import { Item } from '@prisma/client';
+import { RegisterItemDto } from './registerItem.dto';
+import itemService from './service';
 
 export const itemResolver = {
   Query: {
@@ -10,7 +10,10 @@ export const itemResolver = {
   },
 
   Mutation: {
-    registerItem: (_: void, args: { input: RegisterItemDto }): Promise<Item> => {
+    registerItem: (
+      _: void,
+      args: { input: RegisterItemDto }
+    ): Promise<Item> => {
       return itemService.registerItem(args.input);
     },
   },

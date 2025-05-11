@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 dotenv.config();
 const DEFAULT_PORT = 4567;
@@ -10,4 +10,4 @@ export const config = {
   JWT_SECRET: process.env.JWT_SECRET || 'default_secret_1q2w3e4r',
   PROJECT_TYPE: process.env.NODE_ENV,
   DATABASE_URL: process.env.DATABASE_URL,
-}
+};

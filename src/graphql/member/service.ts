@@ -1,12 +1,12 @@
-import { Member, Order } from "@prisma/client";
-import prismaClient from "../../../prisma/prismaClient";
-import { JoinMemberDto } from "./joinMember.dto";
-import { validateJoinMember } from "../../validator/member/joinMember.validator";
-import { GraphQLError } from "graphql";
-import { MemberLoginDto } from "./memberLogin.dto";
-import { JwtCookie } from "../jwt/jwtCookie.type";
-import { jwtContext } from "../jwt/jwtContext.type";
-import { JwtUtil } from "../jwt/jwtUtil";
+import { Member, Order } from '@prisma/client';
+import prismaClient from '../../../prisma/prismaClient';
+import { JoinMemberDto } from './joinMember.dto';
+import { validateJoinMember } from '../../validator/member/joinMember.validator';
+import { GraphQLError } from 'graphql';
+import { MemberLoginDto } from './memberLogin.dto';
+import { JwtCookie } from '../jwt/jwtCookie.type';
+import { jwtContext } from '../jwt/jwtContext.type';
+import { JwtUtil } from '../jwt/jwtUtil';
 
 class MemberService {
   async getAllMembers(): Promise<Member[]> {
@@ -38,12 +38,12 @@ class MemberService {
     });
 
     if (findMember) {
-      throw new GraphQLError("중복된 이메일 입니다", {
+      throw new GraphQLError('중복된 이메일 입니다', {
         extensions: {
-          code: "EMAIL_ALREADY_EXISTS",
+          code: 'EMAIL_ALREADY_EXISTS',
         },
       });
-    };
+    }
 
     return prismaClient.member.create({
       data: {
@@ -55,28 +55,28 @@ class MemberService {
 
   private generateRandomName(): string {
     const prefix = [
-      "음악하는",
-      "요리하는",
-      "밥하는",
-      "그림그리는",
-      "책읽는",
-      "운동하는",
-      "게임하는",
-      "춤추는",
-      "노래하는",
-      "책쓰는",
+      '음악하는',
+      '요리하는',
+      '밥하는',
+      '그림그리는',
+      '책읽는',
+      '운동하는',
+      '게임하는',
+      '춤추는',
+      '노래하는',
+      '책쓰는',
     ];
     const suffix = [
-      "사람",
-      "도깨비",
-      "인간",
-      "고양이",
-      "강아지",
-      "요정",
-      "슬라임",
-      "마법사",
-      "엘프",
-      "이방인",
+      '사람',
+      '도깨비',
+      '인간',
+      '고양이',
+      '강아지',
+      '요정',
+      '슬라임',
+      '마법사',
+      '엘프',
+      '이방인',
     ];
     const maxNumber = 10000;
     const activity = prefix[Math.floor(Math.random() * prefix.length)];
@@ -86,7 +86,10 @@ class MemberService {
     return `${activity} ${entity}${number}`;
   }
 
-  async login(input: MemberLoginDto, jwtContext: jwtContext): Promise<JwtCookie> {
+  async login(
+    input: MemberLoginDto,
+    jwtContext: jwtContext
+  ): Promise<JwtCookie> {
     const findMember = await prismaClient.member.findUnique({
       where: {
         email: input.email,
@@ -101,11 +104,11 @@ class MemberService {
       });
     }
 
-    if(findMember.password !== input.password){
+    if (findMember.password !== input.password) {
       throw new GraphQLError('올바르지 않은 비밀번호 입니다.', {
         extensions: {
           code: 'INVALID_PASSWORD_ERROR',
-        }
+        },
       });
     }
 

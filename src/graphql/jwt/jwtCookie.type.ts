@@ -1,5 +1,3 @@
-
-
 export type JwtCookie = {
-    accessToken: string;
-}
+  accessToken: string;
+};

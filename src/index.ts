@@ -1,6 +1,6 @@
-import dotenv from "dotenv";
-import { createApolloServer } from "./context/server";
-import { config } from "./config";
+import dotenv from 'dotenv';
+import { createApolloServer } from './context/server';
+import { config } from './config';
 
 dotenv.config();
 async function startApolloServer() {

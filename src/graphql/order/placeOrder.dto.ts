@@ -1,16 +1,15 @@
-import { OrderItemDto } from "../orderItem/orderItem.dto";
+import { OrderItemDto } from '../orderItem/orderItem.dto';
 
 export class PlaceOrderDto {
-    
-    readonly email!: string;
-    
-    readonly address!: string;
+  readonly email!: string;
 
-    readonly orderItems!: OrderItemDto[];
+  readonly address!: string;
 
-    constructor(email: string, address: string, orderItems: OrderItemDto[]){
-        this.email = email;
-        this.address = address;
-        this.orderItems = orderItems;
-    }
+  readonly orderItems!: OrderItemDto[];
+
+  constructor(email: string, address: string, orderItems: OrderItemDto[]) {
+    this.email = email;
+    this.address = address;
+    this.orderItems = orderItems;
+  }
 }

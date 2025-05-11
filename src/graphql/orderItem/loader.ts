@@ -1,6 +1,6 @@
-import DataLoader from "dataloader";
-import prismaClient from "../../../prisma/prismaClient";
-import { OrderItem } from "@prisma/client";
+import DataLoader from 'dataloader';
+import prismaClient from '../../../prisma/prismaClient';
+import { OrderItem } from '@prisma/client';
 
 const batchLoadFn = async (
   orderIds: readonly number[]
@@ -13,8 +13,9 @@ const batchLoadFn = async (
       item: true,
     },
   });
-  return orderIds.map((orderId) => orderItems.filter((orderItem) => orderItem.orderId === orderId));
+  return orderIds.map((orderId) =>
+    orderItems.filter((orderItem) => orderItem.orderId === orderId)
+  );
 };
 
-
-export const orderItemsLoader = () => new DataLoader(batchLoadFn)
+export const orderItemsLoader = () => new DataLoader(batchLoadFn);
