@@ -8,9 +8,9 @@
 
 ## 문서
 
-[Coding Standard](docs/JSCodingStandard.md)
-[Prisma Schema Standard](docs/PrismaSchemaStandard.md)
-[테스트 완료 쿼리](docs/testCompleteQuery.md)
+- [Coding Standard](docs/JSCodingStandard.md)
+- [Prisma Schema Standard](docs/PrismaSchemaStandard.md)
+- [테스트 완료 쿼리](docs/testCompleteQuery.md)
 
 
 ## ERD 기획
