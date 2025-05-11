@@ -6,7 +6,8 @@
 - 관계형 필드는 가독성이 있는 이름이 있다면 그것을 필드명으로 사용한다
     - 가독성 좋은 이름이 없는 경우, 연관되는 model 명을 필드명으로 삼는다
 - 필드명은 lowerCamelCase로 작성하며, table의 필드의 경우 @map 어노테이션을 활용하여 snake case로 재작성 한다
-- 예시
+
+## 예시
 ```shell
 model Member {
   id         Int  @default(autoincrement())  @id  @map("member_id")

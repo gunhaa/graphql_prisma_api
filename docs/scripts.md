@@ -1,3 +1,4 @@
+## 스크립트 정리
 - npx prisma migrate dev --name dev
     - generated, migration 만들어냄
     - schema.prisma를 통해 생성
@@ -21,12 +22,6 @@ generator erd {
 - seed 생성
     - npx prisma db seed
 
-- db
-```shell
-cd "C:\Program Files\MySQL\MySQL Server 8.0\bin"
-mysql -u root -p
-pw: 1234
-```
 
 
 ## 실행
