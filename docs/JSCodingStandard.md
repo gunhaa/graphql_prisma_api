@@ -14,6 +14,9 @@
 
 ## 형식
 
+- Prettier를 사용한 설정을 기본으로 사용한다
+  - .prettierrc를 통해 singleQuote: true를 추가한 형식을 사용한다
+
 ### 중괄호
 
 - 중괄호는 하나의 구문만을 포함하고 있더라도 모든 제어문(i.e. if, else, for, do, while..)에 사용되어야 한다.
@@ -52,106 +55,6 @@ class InnerClass {
     }
   }
 }
-```
-
-### 들여쓰기
-
-- 새로운 블록이 나타날 때 마다 두 칸의 공백(스페이스바)를 통해 들여쓴다.
-- 배열, 객체는 블록과 동일하게 들여쓴다.
-- 클래스
-  - 클래스 리터럴은 블록과 동일하게 들여쓴다.
-  - 클래스의 각 메소드와 닫는 중괄호 다음에는 세미콜론을 사용하지 않는다.
-  - 클래스의 상속 키워드로 @extends가 아닌 extends를 사용한다.
-- 함수 표현식을 작성할 대에는 함수를 이전 레벨보다 2칸 들여써 작성한다.
-- 점( . )을 이용하여 긴 메소드 체인을 작성할 때는 각 메소드마다 들여쓴다.
-
-```javascript
-// bad
-$("#items").find(".selected").highlight().end().find(".open").updateCount();
-
-// bad
-$("#items").find(".selected").highlight().end().find(".open").updateCount();
-
-// good
-$("#items").find(".selected").highlight().end().find(".open").updateCount();
-
-// bad
-const leds = stage
-  .selectAll(".led")
-  .data(data)
-  .enter()
-  .append("svg:svg")
-  .classed("led", true)
-  .attr("width", (radius + margin) * 2)
-  .append("svg:g")
-  .attr("transform", `translate(${radius + margin},${radius + margin})`)
-  .call(tron.led);
-
-// good
-const leds = stage
-  .selectAll(".led")
-  .data(data)
-  .enter()
-  .append("svg:svg")
-  .classed("led", true)
-  .attr("width", (radius + margin) * 2)
-  .append("svg:g")
-  .attr("transform", `translate(${radius + margin},${radius + margin})`)
-  .call(tron.led);
-
-// good
-const leds = stage.selectAll(".led").data(data);
-```
-
-### 공백
-
-- 한 줄이 80자를 넘기지 않도록 한다.
-- 줄 공백 (Vertical Whitespace)
-  - 줄 공백은 아래의 사항에서 나타날 수 있다.
-    - 각 구문 사이
-    - 클래스나 객체 리터럴 내의 연속적으로 작성된 메소드 사이
-    - 오브젝트 리터럴 내의 연속적으로 작성된 속성 사이에서는 선택적으로 빈 줄을 사용할 수 있다. 이는, 논리적 그룹을 만드는데 사용된다.
-    - 클래스나 객체 리터럴 내의 첫 메소드 전이나 마지막 메소드 다음에 빈 줄을 선택적으로 사용할 수 있다.
-- 줄 공백으로 2줄 이상 연속으로 사용하지 않는다.
-
-```javascript
-// bad
-if (foo) {
-  return bar;
-}
-return baz;
-
-// good
-if (foo) {
-  return bar;
-}
-
-return baz;
-
-// bad
-const obj = {
-  foo() {},
-  bar() {},
-};
-return obj;
-
-// good
-const obj = {
-  foo() {},
-
-  bar() {},
-};
-
-return obj;
-
-// bad
-const arr = [function foo() {}, function bar() {}];
-return arr;
-
-// good
-const arr = [function foo() {}, function bar() {}];
-
-return arr;
 ```
 
 ## 변수
