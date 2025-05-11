@@ -35,9 +35,9 @@ const createApolloServer = async (): Promise<Application> => {
         ? ApolloServerPluginLandingPageProductionDefault()
         : ApolloServerPluginLandingPageLocalDefault({ embed: false }),
     ],
-    introspection: true,
+    introspection: config.PROJECT_TYPE === 'production' ? false : true,
     formatError: graphqlErrorHandling,
-    validationRules: [depthLimit(7)],
+    validationRules: [depthLimit(20)],
   });
 
   await apolloServer.start();
@@ -46,8 +46,6 @@ const createApolloServer = async (): Promise<Application> => {
     '/graphql',
     cors<cors.CorsRequest>(),
     express.json({ limit: '50mb' }),
-    // npm install express@4.17.3
-    // npm install -D @types/express@4.17.13
     expressMiddleware(apolloServer, {
       context: async ({ req, res }) => ({
         loaders: createLoaders(),

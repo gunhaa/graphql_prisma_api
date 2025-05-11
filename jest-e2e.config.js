@@ -5,6 +5,6 @@ module.exports = {
   transform: {
     "^.+\\.ts$": "ts-jest",
   },
-  testMatch: ['**/__tests__/integrationTests/**/*.test.ts'],
+  testMatch: ['**/__tests__/e2eTests/**/*.test.ts'],
   moduleFileExtensions: ["ts", "tsx", "js", "json"]
 };
