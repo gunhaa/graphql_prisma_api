@@ -215,7 +215,7 @@ describe('docker-compose를 이용해 test용 db를 띄운 후 로직을 테스�
         }
       `
     });
-    console.log(res);
+    console.log(res.body.errors);
     expect(res.statusCode).toBe(200);
     expect(res.body.errors).toBeDefined();
     expect(res.body.errors[0].message).toContain('JWT');
