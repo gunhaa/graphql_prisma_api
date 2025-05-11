@@ -17,9 +17,8 @@ import { typeDefs } from "../schema/typeDefs";
 import { config } from "../config";
 
 
-
 const createApolloServer = async (): Promise<Application> => {
-  const app= express();
+  const app = express();
   const httpServer = http.createServer(app);
 
   const graphqlErrorHandling = (err: GraphQLFormattedError) => {

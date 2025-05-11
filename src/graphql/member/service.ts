@@ -1,5 +1,5 @@
 import { Member, Order } from "@prisma/client";
-import prismaClient from "../../../prisma/prismaClient";
+import prismaClient from "../../prisma/prismaClient";
 import { JoinMemberDto } from "./joinMember.dto";
 import { validateJoinMember } from "../../validator/member/joinMember.validator";
 import { GraphQLError } from "graphql";
@@ -31,6 +31,10 @@ class MemberService {
       finalInput.address
     );
 
+    // MySQL에서 연결된 데이터베이스 이름을 확인
+    const databaseInfo = await prismaClient.$queryRaw`SELECT DATABASE();`;
+    console.log("Connected to database:", databaseInfo);
+
     const findMember = await prismaClient.member.findUnique({
       where: {
         email: input.email,
@@ -44,7 +48,8 @@ class MemberService {
         },
       });
     }
-
+    console.log(finalInput);
+    console.log(`this findMember: ${findMember}`)
     return prismaClient.member.create({
       data: {
         ...finalInput,
