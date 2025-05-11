@@ -55,5 +55,17 @@
     - ~~access token 발급(1h), 인증 구현~~
         - 빠른 개발을 위해 로직 제거(refresh, blacklist, db 저장 제거)
         - 인증 완료시 프론트 측에서 header에 'Authorization': `Bearer ${accessToken}` 넣는다 가정
+9. ~~integration test 구현~~
+## 설정
+
+- NODE_ENV=development
+    - 브라우저에서 바로 GraphQL 요청을 테스트할 수 있도록 플레이그라운드를 자동으로 켭니다.
+    - ApolloServerPluginLandingPageLocalDefault({ embed: false }) 사용
+
+- NODE_ENV=production
+    - 운영 환경에서는 보안을 위해 플레이그라운드가 비활성화되고, Apollo 기본 랜딩페이지가 뜹니다.
+    - ApolloServerPluginLandingPageProductionDefault() 사용
+
+- 기본값은 development로 설정되어 있지만, 코드 내에서 NODE_ENV 값을 읽어 실행 시점에 동적으로 분기되므로 .env 파일에서 NODE_ENV=production으로 바꾸기만 하면 운영 모드로 자동 전환됩니다.
 
 ## 실행
