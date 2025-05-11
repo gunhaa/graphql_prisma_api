@@ -1,4 +1,4 @@
-# Javascirpt 코드 컨벤션
+# project Coding Standard
 
 > https://github.com/airbnb/javascript?tab=readme-ov-file 참고
 
