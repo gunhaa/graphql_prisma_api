@@ -2,9 +2,11 @@
 ## GraphQL - Prisma - TypeScript 기반 주문 API
 
 - Node.js 환경에서 동작하는 주문 처리 API
+    - Dataloader를 이용한 N+1 문제 해결
 - Prisma ORM, GraphQL, TypeScript사용
 - 이슈 발생시 GitHub Issue 탭을 활용
 - trunk-based branch 전략 사용
+
 
 ## 문서
 
