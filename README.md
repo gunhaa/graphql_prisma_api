@@ -6,7 +6,7 @@
 - Prisma ORM, GraphQL, TypeScript사용
 - 이슈 발생시 GitHub Issue 탭을 활용
 - trunk-based branch 전략 사용
-
+- 본 프로젝트는 GraphQL과 Prisma에 익숙해지기 위한 학습용으로 제작되었으며, 일부 구현은 빠르게 진행되거나 생략된 부분이 있어 실무 수준과는 차이가 있을 수 있습니다.
 
 ## 문서
 
